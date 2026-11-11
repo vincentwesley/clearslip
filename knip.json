@@ -1,1 +1,1 @@
-{ "entry": ["src/background.ts", "src/sidepanel.ts", "scripts/*.mjs"], "project": ["src/**", "scripts/**", "tests/**"] }
+﻿{ "entry": ["src/background.ts", "src/sidepanel.ts", "src/popup.ts", "scripts/*.mjs", "tests/e2e/*.spec.ts"], "project": ["src/**", "scripts/**", "tests/**"] }

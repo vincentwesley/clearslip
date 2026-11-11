@@ -1,16 +1,39 @@
-import { build } from "esbuild";
-import { cpSync, rmSync } from "node:fs";
+﻿import { build } from "esbuild";
+import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 
 rmSync("dist", { recursive: true, force: true });
 await build({
-  entryPoints: ["src/background.ts", "src/sidepanel.ts", "src/sidepanel.css"],
+  entryPoints: ["src/background.ts", "src/sidepanel.ts", "src/sidepanel.css", "src/popup.ts", "src/popup.css"],
   outdir: "dist",
   bundle: true,
   format: "esm",
-  target: "chrome114",
+  target: "chrome121",
   minify: true,
   loader: { ".woff2": "file", ".webp": "file" },
   assetNames: "assets/[name]-[hash]",
 });
-cpSync("static", "dist", { recursive: true });
+cpSync("static", "dist", { recursive: true }); // static/ has no rulesets/, so compile output is untouched
+
+if (existsSync("scripts/compile.ts")) {
+  const r = spawnSync(process.execPath, ["scripts/compile.ts"], { stdio: "inherit" });
+  if (r.status !== 0) {
+    console.error("build failed: scripts/compile.ts exited with", r.status);
+    process.exit(1);
+  }
+} else {
+  console.warn("WARNING: scripts/compile.ts not found; writing EMPTY rulesets. The build loads but blocks nothing.");
+  mkdirSync("dist/rulesets", { recursive: true });
+  const ids = ["compact", "detail-easylist", "detail-easyprivacy"];
+  const rulesets = {};
+  for (const id of ids) {
+    writeFileSync(`dist/rulesets/${id}.json`, "[]");
+    writeFileSync(`dist/rulesets/map-${id}.json`, "[null]");
+    rulesets[id] = { rules: 0, regexRules: 0 };
+  }
+  writeFileSync(
+    "dist/rulesets/report.json",
+    JSON.stringify({ generatedAt: new Date().toISOString(), sources: [], perList: {}, rulesets, compactCut: 0 }),
+  );
+}
 console.log("built dist/");

@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hush</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <p class="hs-eyebrow">Hush</p>
+    <h1 id="host" class="mono">&nbsp;</h1>
+  </header>
+  <main>
+    <p id="unsupported" hidden>Hush can't run on this page.</p>
+    <div id="controls" hidden>
+      <button id="toggle" class="switch" type="button" role="switch" aria-checked="true" aria-labelledby="toggle-label">
+        <span class="track" aria-hidden="true"><span class="thumb"></span></span>
+        <span id="toggle-label">Hush is on for this site</span>
+      </button>
+      <p id="reload" class="hint" role="status" hidden>Reload the page to apply.</p>
+      <section class="hs-card" aria-labelledby="h-blocked">
+        <h2 id="h-blocked">Blocked on this page: <output id="total" class="mono">0</output></h2>
+        <p id="empty" class="hint">Nothing blocked on this page yet.</p>
+        <ul id="groups" class="groups"></ul>
+      </section>
+    </div>
+  </main>
+  <footer>
+    <p class="hint">Filter rules: The EasyList authors (CC BY-SA 3.0)</p>
+    <button id="about" class="hs-btn" type="button">Credits and about</button>
+  </footer>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

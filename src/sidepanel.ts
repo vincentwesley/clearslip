@@ -1,6 +1,5 @@
-import "./credits/credits.js";
+﻿import "./credits/credits.js";
 import { nextTheme, type Theme } from "./theme";
-import { countWords } from "./words";
 
 const root = document.documentElement;
 const btn = document.querySelector<HTMLButtonElement>("#theme")!;
@@ -27,10 +26,4 @@ btn.addEventListener("click", () => {
     /* not persisted */
   }
   show(t);
-});
-
-const text = document.querySelector<HTMLTextAreaElement>("#text")!;
-const words = document.querySelector<HTMLOutputElement>("#words")!;
-text.addEventListener("input", () => {
-  words.value = String(countWords(text.value));
 });
