@@ -16,10 +16,16 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",
+    "check": "npm run typecheck && npm run lint && npm test",
+    "compile": "node scripts/compile.ts",
+    "lists:update": "node scripts/lists-update.ts",
+    "test:e2e": "npm run build && playwright test",
     "knip": "knip"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@ghostery/adblocker": "2.20.3",
+    "@playwright/test": "1.65.0",
     "@types/chrome": "^0.3.5",
     "@types/node": "^24.19.2",
     "esbuild": "^0.28.2",
@@ -31,4 +37,3 @@
     "vitest": "^5.0.5"
   }
 }
-
