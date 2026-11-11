@@ -1,0 +1,2210 @@
+[
+ {
+  "url": "https://ad.doubleclick.net/ddm/ad/x",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "doubleclick"
+ },
+ {
+  "url": "https://ad.doubleclick.net/ddm/ad/x",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "doubleclick"
+ },
+ {
+  "url": "https://googleads.g.doubleclick.net/pagead/id",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "doubleclick"
+ },
+ {
+  "url": "https://googleads.g.doubleclick.net/pagead/id",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "doubleclick"
+ },
+ {
+  "url": "https://static.parsely.com/",
+  "type": "image",
+  "initiator": "https://spiegel.de",
+  "kind": "domain"
+ },
+ {
+  "url": "https://static.parsely.com/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://ntm.pstatic.net/scripts/ntm_",
+  "type": "script",
+  "initiator": "https://naver.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://ntm.pstatic.net/scripts/ntm_",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://run.app/events",
+  "type": "script",
+  "initiator": "https://imgur.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://run.app/events",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/frontend_loader.js",
+  "type": "ping",
+  "initiator": "https://eveknows.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/frontend_loader.js",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://uselessjunk.com/",
+  "type": "xmlhttprequest",
+  "initiator": "https://yoloselfie.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://uselessjunk.com/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://digitaloceanspaces.com/advertise/",
+  "type": "xmlhttprequest",
+  "initiator": "https://unb.com.bd",
+  "kind": "domain"
+ },
+ {
+  "url": "https://digitaloceanspaces.com/advertise/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/resolver/api/resolve/v3/config/?exptype=appconfig&expinstance=default&apptype=weather&",
+  "type": "stylesheet",
+  "initiator": "https://msn.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/resolver/api/resolve/v3/config/?exptype=appconfig&expinstance=default&apptype=weather&",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://gannett-player.ex.co/",
+  "type": "image",
+  "initiator": "https://play.usatoday.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://gannett-player.ex.co/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn77.org/",
+  "type": "ping",
+  "initiator": "https://pricebefore.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn77.org/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://i-tm.com.tw/api/itm-tracker.js",
+  "type": "ping",
+  "initiator": "https://pixnet.net",
+  "kind": "domain"
+ },
+ {
+  "url": "https://i-tm.com.tw/api/itm-tracker.js",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/://edge-client/",
+  "type": "ping",
+  "initiator": "https://barrons.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cdn.example.net/://edge-client/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://imageweb.ws/",
+  "type": "script",
+  "initiator": "https://tongabonga.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://imageweb.ws/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://xplosion.de/",
+  "type": "media",
+  "initiator": "https://spiegel.de",
+  "kind": "domain"
+ },
+ {
+  "url": "https://xplosion.de/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://fwpub1.com/",
+  "type": "stylesheet",
+  "initiator": "https://ndtv.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://fwpub1.com/",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://img.medscapestatic.com/medscape-core/ads/",
+  "type": "xmlhttprequest",
+  "initiator": "https://medscape.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://img.medscapestatic.com/medscape-core/ads/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cloudfront.net/transcode/storyteller/",
+  "type": "media",
+  "initiator": "https://amazon.ae",
+  "kind": "domain"
+ },
+ {
+  "url": "https://cloudfront.net/transcode/storyteller/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://storage.googleapis.com/cdn.newsfirst.lk/advertisements/",
+  "type": "font",
+  "initiator": "https://newsfirst.lk",
+  "kind": "domain"
+ },
+ {
+  "url": "https://storage.googleapis.com/cdn.newsfirst.lk/advertisements/",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://booking.com/flexiproduct.html?product=banner",
+  "type": "xmlhttprequest",
+  "initiator": "https://happywayfarer.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://booking.com/flexiproduct.html?product=banner",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "domain"
+ },
+ {
+  "url": "https://guce.advertising.com/collectidentifiers",
+  "type": "other",
+  "initiator": "https://guce.advertising.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://guce.advertising.com/collectidentifiers",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://taboola.com/libtrc/",
+  "type": "script",
+  "initiator": "https://bild.de",
+  "kind": "exception"
+ },
+ {
+  "url": "https://taboola.com/libtrc/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://lightning.bleacherreport.com/x/launch-",
+  "type": "xmlhttprequest",
+  "initiator": "https://lightning.bleacherreport.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://lightning.bleacherreport.com/x/launch-",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://ads.adthrive.com/sites/",
+  "type": "script",
+  "initiator": "https://adamtheautomator.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://ads.adthrive.com/sites/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://directg.jp/js/fingerprint2.js",
+  "type": "sub_frame",
+  "initiator": "https://directg.jp",
+  "kind": "exception"
+ },
+ {
+  "url": "https://directg.jp/js/fingerprint2.js",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://gdh.postcodeloterij.nl/gdltm.js",
+  "type": "script",
+  "initiator": "https://vriendenloterij.nl",
+  "kind": "exception"
+ },
+ {
+  "url": "https://gdh.postcodeloterij.nl/gdltm.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://bjjhq.com/httpcombiner.ashx?",
+  "type": "script",
+  "initiator": "https://bjjhq.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://bjjhq.com/httpcombiner.ashx?",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://plans.humana.com/assets/analytics-events-",
+  "type": "script",
+  "initiator": "https://plans.humana.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://plans.humana.com/assets/analytics-events-",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://worldgravity.com/",
+  "type": "script",
+  "initiator": "https://hotstar.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://worldgravity.com/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://blackcircles.ca/",
+  "type": "script",
+  "initiator": "https://blackcircles.ca",
+  "kind": "exception"
+ },
+ {
+  "url": "https://blackcircles.ca/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://pv.sohu.com/cityjson",
+  "type": "sub_frame",
+  "initiator": "https://ems.com.cn",
+  "kind": "exception"
+ },
+ {
+  "url": "https://pv.sohu.com/cityjson",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://ads.adthrive.com/sites/x/ads.min.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://laurelberninteriors.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://ads.adthrive.com/sites/x/ads.min.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://valuecommerce.com/",
+  "type": "image",
+  "initiator": "https://pointtown.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://valuecommerce.com/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://przegladpiaseczynski.pl/wp-content/uploads/x-300x250-",
+  "type": "image",
+  "initiator": "https://przegladpiaseczynski.pl",
+  "kind": "exception"
+ },
+ {
+  "url": "https://przegladpiaseczynski.pl/wp-content/uploads/x-300x250-",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://d.tailtarget.com/profiles.js",
+  "type": "ping",
+  "initiator": "https://superesportes.com.br",
+  "kind": "exception"
+ },
+ {
+  "url": "https://d.tailtarget.com/profiles.js",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://bikeportland.org/wp-content/plugins/advanced-ads/public/assets/js/advanced.min.js",
+  "type": "script",
+  "initiator": "https://bikeportland.org",
+  "kind": "exception"
+ },
+ {
+  "url": "https://bikeportland.org/wp-content/plugins/advanced-ads/public/assets/js/advanced.min.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://nextcloud.com/remote.php/",
+  "type": "xmlhttprequest",
+  "initiator": "https://nextcloud.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://nextcloud.com/remote.php/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://cookielaw.org/x/otautoblock.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://bancsabadell.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://cookielaw.org/x/otautoblock.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "exception"
+ },
+ {
+  "url": "https://virtuoussoftware.com/tracker/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://virtuoussoftware.com/tracker/",
+  "type": "ping",
+  "initiator": "https://virtuoussoftware.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://amazonaws.com/j.kissinsights.com/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://amazonaws.com/j.kissinsights.com/",
+  "type": "other",
+  "initiator": "https://amazonaws.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://proxy6.net/static/img/b/",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://proxy6.net/static/img/b/",
+  "type": "stylesheet",
+  "initiator": "https://proxy6.net",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://dropbox.com/prompt/log_impression?",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://dropbox.com/prompt/log_impression?",
+  "type": "image",
+  "initiator": "https://dropbox.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://httdev.it/e/c?",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://httdev.it/e/c?",
+  "type": "sub_frame",
+  "initiator": "https://httdev.it",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://wikipedia.de/tracking.js",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://wikipedia.de/tracking.js",
+  "type": "sub_frame",
+  "initiator": "https://wikipedia.de",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://amazonaws.com/v1/apps/x/events",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://amazonaws.com/v1/apps/x/events",
+  "type": "script",
+  "initiator": "https://amazonaws.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://vagrantup.com/api/auth/_log",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://vagrantup.com/api/auth/_log",
+  "type": "stylesheet",
+  "initiator": "https://vagrantup.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://kmib.co.kr/ref/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://kmib.co.kr/ref/",
+  "type": "sub_frame",
+  "initiator": "https://kmib.co.kr",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://criteo.com/delivery/retailmedia?",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://criteo.com/delivery/retailmedia?",
+  "type": "font",
+  "initiator": "https://criteo.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://consent.trustarc.com/analytics?",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://consent.trustarc.com/analytics?",
+  "type": "font",
+  "initiator": "https://consent.trustarc.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://porngamespass.com/iframes/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://porngamespass.com/iframes/",
+  "type": "script",
+  "initiator": "https://porngamespass.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://chat.groq.com/global_stats",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://chat.groq.com/global_stats",
+  "type": "font",
+  "initiator": "https://chat.groq.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://cfmediaview.com/api/mv_visit.ashx",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://cfmediaview.com/api/mv_visit.ashx",
+  "type": "stylesheet",
+  "initiator": "https://cfmediaview.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://europe1.fr/assets/europe1/estat.",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://europe1.fr/assets/europe1/estat.",
+  "type": "image",
+  "initiator": "https://europe1.fr",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://sst.carwow./",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://sst.carwow./",
+  "type": "script",
+  "initiator": "https://sst.carwow.",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://aiv-delivery.net/v1/reportevent",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://aiv-delivery.net/v1/reportevent",
+  "type": "ping",
+  "initiator": "https://aiv-delivery.net",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://space-blogs.net/include/counter/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://space-blogs.net/include/counter/",
+  "type": "sub_frame",
+  "initiator": "https://space-blogs.net",
+  "kind": "host-path"
+ },
+ {
+  "url": "https://clarity.ms/tag/",
+  "type": "script",
+  "initiator": "https://phileweb.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://clarity.ms/tag/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://googletagmanager.com/gtm.js",
+  "type": "ping",
+  "initiator": "https://mustar.meitetsu.co.jp",
+  "kind": "important"
+ },
+ {
+  "url": "https://googletagmanager.com/gtm.js",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://nakanohito.jp/x/bi.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://nexon.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://nakanohito.jp/x/bi.js",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://googletagmanager.com/gtm.js",
+  "type": "stylesheet",
+  "initiator": "https://nexon.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://googletagmanager.com/gtm.js",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "important"
+ },
+ {
+  "url": "https://data.thepointsguy.com/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://data.thepointsguy.com/",
+  "type": "sub_frame",
+  "initiator": "https://data.thepointsguy.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://magic.freetrade.io/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://magic.freetrade.io/",
+  "type": "script",
+  "initiator": "https://magic.freetrade.io",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://clergystickingprecedent.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://clergystickingprecedent.com/",
+  "type": "ping",
+  "initiator": "https://clergystickingprecedent.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://wapn1.flosports.tv/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://wapn1.flosports.tv/",
+  "type": "xmlhttprequest",
+  "initiator": "https://wapn1.flosports.tv",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://sysmon.kakaku.com/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://sysmon.kakaku.com/",
+  "type": "sub_frame",
+  "initiator": "https://sysmon.kakaku.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://osspalkiaom.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://osspalkiaom.com/",
+  "type": "ping",
+  "initiator": "https://osspalkiaom.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://92orb.com/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://92orb.com/",
+  "type": "xmlhttprequest",
+  "initiator": "https://92orb.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://voiply.actonservice.com/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://voiply.actonservice.com/",
+  "type": "sub_frame",
+  "initiator": "https://voiply.actonservice.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://afr4g5.de/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://afr4g5.de/",
+  "type": "media",
+  "initiator": "https://afr4g5.de",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://c.autozen.tv/",
+  "type": "sub_frame",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://c.autozen.tv/",
+  "type": "sub_frame",
+  "initiator": "https://c.autozen.tv",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://ahvxmwukrdlkk.website/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://ahvxmwukrdlkk.website/",
+  "type": "media",
+  "initiator": "https://ahvxmwukrdlkk.website",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://g572ccvb9y37oyvicov2pz.cfd/",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://g572ccvb9y37oyvicov2pz.cfd/",
+  "type": "stylesheet",
+  "initiator": "https://g572ccvb9y37oyvicov2pz.cfd",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://veozn3f.com/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://veozn3f.com/",
+  "type": "other",
+  "initiator": "https://veozn3f.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://ilkjcufgzpjwd.online/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://ilkjcufgzpjwd.online/",
+  "type": "other",
+  "initiator": "https://ilkjcufgzpjwd.online",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://tmcyvhvvvwmil.online/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://tmcyvhvvvwmil.online/",
+  "type": "media",
+  "initiator": "https://tmcyvhvvvwmil.online",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://sanalytics.radioerft.de/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://sanalytics.radioerft.de/",
+  "type": "image",
+  "initiator": "https://sanalytics.radioerft.de",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://cschyogh.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://cschyogh.com/",
+  "type": "ping",
+  "initiator": "https://cschyogh.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://connectedmedicaltechnologies.actonservice.com/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "https://connectedmedicaltechnologies.actonservice.com/",
+  "type": "other",
+  "initiator": "https://connectedmedicaltechnologies.actonservice.com",
+  "kind": "pure-host"
+ },
+ {
+  "url": "http://www.ebay-kleinanzeigen.de/aaaaaaaa-0000-",
+  "type": "script",
+  "initiator": "https://kleinanzeigen.de",
+  "kind": "regex"
+ },
+ {
+  "url": "http://www.ebay-kleinanzeigen.de/aaaaaaaa-0000-",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://www.kroger.com/content////////////////////",
+  "type": "script",
+  "initiator": "https://kroger.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://www.kroger.com/content////////////////////",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://tjmaxx.tjx.com/libraries/aaaaaaaaaaaaaaaaaaaa",
+  "type": "script",
+  "initiator": "https://tjx.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://tjmaxx.tjx.com/libraries/aaaaaaaaaaaaaaaaaaaa",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://www.00000000.com/0.js",
+  "type": "script",
+  "initiator": "https://dood.la",
+  "kind": "regex"
+ },
+ {
+  "url": "http://www.00000000.com/0.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://fdts.ebay-kleinanzeigen.de/aaaaaaaaaaaaa.js?",
+  "type": "script",
+  "initiator": "https://kleinanzeigen.de",
+  "kind": "regex"
+ },
+ {
+  "url": "http://fdts.ebay-kleinanzeigen.de/aaaaaaaaaaaaa.js?",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://tmx.td.com/aaaaaaaaaaaaaa.jsx",
+  "type": "script",
+  "initiator": "https://mbna.ca",
+  "kind": "regex"
+ },
+ {
+  "url": "http://tmx.td.com/aaaaaaaaaaaaaa.jsx",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "https://cdn.example.net/.gsmarena.com/0.a?Search=",
+  "type": "xmlhttprequest",
+  "initiator": "https://gsmarena.com",
+  "kind": "regex"
+ },
+ {
+  "url": "https://cdn.example.net/.gsmarena.com/0.a?Search=",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://pov.spectrum.net/aaaaaaaaaaaaaa.js",
+  "type": "script",
+  "initiator": "https://spectrum.net",
+  "kind": "regex"
+ },
+ {
+  "url": "http://pov.spectrum.net/aaaaaaaaaaaaaa.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://x/xsw0x",
+  "type": "script",
+  "initiator": "https://1vag.com",
+  "kind": "regex"
+ },
+ {
+  "url": "http://x/xsw0x",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "regex"
+ },
+ {
+  "url": "https://cdn.example.net/edata.js",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/edata.js",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/site_statistics.js",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/site_statistics.js",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/ipdvdc.min.js",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/ipdvdc.min.js",
+  "type": "stylesheet",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/hitv4.php",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/hitv4.php",
+  "type": "stylesheet",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/-980x60-",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/-980x60-",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/api/internal/pixel?",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/api/internal/pixel?",
+  "type": "other",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/tracking/views/x",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/tracking/views/x",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/ping?referrer=",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/ping?referrer=",
+  "type": "other",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/boost_stats.php",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/boost_stats.php",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/roi_tracker.js",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/roi_tracker.js",
+  "type": "media",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/glancecobrowseloader_",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/glancecobrowseloader_",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/scroll-analytics-",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/scroll-analytics-",
+  "type": "xmlhttprequest",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/clickctrl.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/clickctrl.js",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/beacon/event?",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/beacon/event?",
+  "type": "xmlhttprequest",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/.google-analytics.com/",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/.google-analytics.com/",
+  "type": "font",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/webtag.js",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/webtag.js",
+  "type": "media",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/busting/facebook-tracking/x",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/busting/facebook-tracking/x",
+  "type": "xmlhttprequest",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/keen.min.js",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "substring"
+ },
+ {
+  "url": "https://cdn.example.net/keen.min.js",
+  "type": "font",
+  "initiator": "https://cdn.example.net",
+  "kind": "substring"
+ },
+ {
+  "url": "https://xtendmedia.com/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://xtendmedia.com/",
+  "type": "image",
+  "initiator": "https://xtendmedia.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://aghtag.tech/",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://aghtag.tech/",
+  "type": "font",
+  "initiator": "https://aghtag.tech",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://cloud-exploration.com/",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://cloud-exploration.com/",
+  "type": "font",
+  "initiator": "https://cloud-exploration.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://outbid.io/",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://outbid.io/",
+  "type": "font",
+  "initiator": "https://outbid.io",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://sumologic.com/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://sumologic.com/",
+  "type": "image",
+  "initiator": "https://sumologic.net",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://yjtag.jp/",
+  "type": "media",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://yjtag.jp/",
+  "type": "media",
+  "initiator": "https://yjtag.jp",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://rejestr.org/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://rejestr.org/",
+  "type": "other",
+  "initiator": "https://rejestr.org",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://escalated.io/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://escalated.io/",
+  "type": "other",
+  "initiator": "https://escalated.io",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://ninjacat.io/",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://ninjacat.io/",
+  "type": "stylesheet",
+  "initiator": "https://ninjacat.io",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://hit100.ro/",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://hit100.ro/",
+  "type": "stylesheet",
+  "initiator": "https://hit100.ro",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://besucherzaehler.org/",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://besucherzaehler.org/",
+  "type": "script",
+  "initiator": "https://besucherzaehler.org",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://berg-6-82.com/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://berg-6-82.com/",
+  "type": "image",
+  "initiator": "https://berg-6-82.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://thank-you.io/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://thank-you.io/",
+  "type": "image",
+  "initiator": "https://thank-you.io",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://player.avplayer.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://player.avplayer.com/",
+  "type": "ping",
+  "initiator": "https://player.avplayer.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://phpstat.com/",
+  "type": "other",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://phpstat.com/",
+  "type": "other",
+  "initiator": "https://phpstat.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://sitecompass.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://sitecompass.com/",
+  "type": "ping",
+  "initiator": "https://sitecompass.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://adgebra.in/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://adgebra.in/",
+  "type": "image",
+  "initiator": "https://adgebra.in",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://2xclick.ru/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://2xclick.ru/",
+  "type": "xmlhttprequest",
+  "initiator": "https://2xclick.ru",
+  "kind": "third-party"
+ },
+ {
+  "url": "https://r.stripe.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://r.stripe.com/",
+  "type": "ping",
+  "initiator": "https://r.stripe.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://aplus.aliexpress.com/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://aplus.aliexpress.com/",
+  "type": "ping",
+  "initiator": "https://aplus.aliexpress.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/public/ad/x",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/public/ad/x",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/exonob/x",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/exonob/x",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://otto.de/",
+  "type": "ping",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://otto.de/",
+  "type": "ping",
+  "initiator": "https://otto.de",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/ad-scripts--",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/ad-scripts--",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://zendesk.com/frontendevents/",
+  "type": "xmlhttprequest",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://zendesk.com/frontendevents/",
+  "type": "xmlhttprequest",
+  "initiator": "https://zendesk.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/t.yesware.com/t/x",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/t.yesware.com/t/x",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://fastapi.tiangolo.com/img/sponsors/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://fastapi.tiangolo.com/img/sponsors/",
+  "type": "image",
+  "initiator": "https://fastapi.tiangolo.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/adsmanager.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/adsmanager.css",
+  "type": "stylesheet",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/ga.jsp?",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/ga.jsp?",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/banner_468.",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/banner_468.",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/video_ads.",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/video_ads.",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/gen_204?",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/gen_204?",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/banner-affiliate-",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/banner-affiliate-",
+  "type": "image",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://tracking.cds.dmm.co.jp/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://tracking.cds.dmm.co.jp/",
+  "type": "image",
+  "initiator": "https://tracking.cds.dmm.co.jp",
+  "kind": "typed"
+ },
+ {
+  "url": "https://slashdot.org/software/",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://slashdot.org/software/",
+  "type": "image",
+  "initiator": "https://slashdot.org",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/spc.php?",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "typed"
+ },
+ {
+  "url": "https://cdn.example.net/spc.php?",
+  "type": "script",
+  "initiator": "https://cdn.example.net",
+  "kind": "typed"
+ },
+ {
+  "url": "https://pipeline.balkstercourant.nl/",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://partner.video.syndication.msn.com/",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/banners/ads.",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/.fuse-cloud.com/",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/_468_60-",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/statcounter-",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/reklame/x",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/module/ads/x",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/ads/leaderboard-",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://cdn.example.net/://a869.",
+  "type": "main_frame",
+  "initiator": "https://example.com",
+  "kind": "not-type-main-frame"
+ },
+ {
+  "url": "https://example.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://en.wikipedia.org/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://github.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://developer.mozilla.org/app.js",
+  "type": "script",
+  "initiator": "https://developer.mozilla.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://news.ycombinator.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.bbc.co.uk/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://cdn.jsdelivr.net/app.js",
+  "type": "script",
+  "initiator": "https://cdn.jsdelivr.net",
+  "kind": "benign"
+ },
+ {
+  "url": "https://fonts.gstatic.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://stackoverflow.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.python.org/app.js",
+  "type": "script",
+  "initiator": "https://www.python.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://nodejs.org/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://docs.rs/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.nasa.gov/app.js",
+  "type": "script",
+  "initiator": "https://www.nasa.gov",
+  "kind": "benign"
+ },
+ {
+  "url": "https://archive.org/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://unpkg.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://static.example.org/app.js",
+  "type": "script",
+  "initiator": "https://static.example.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.gnu.org/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://api.example.com/app.js",
+  "type": "script",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://blog.example.net/app.js",
+  "type": "script",
+  "initiator": "https://blog.example.net",
+  "kind": "benign"
+ },
+ {
+  "url": "https://example.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://en.wikipedia.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://github.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://github.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://developer.mozilla.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://news.ycombinator.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.bbc.co.uk/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://www.bbc.co.uk",
+  "kind": "benign"
+ },
+ {
+  "url": "https://cdn.jsdelivr.net/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://fonts.gstatic.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://stackoverflow.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://stackoverflow.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.python.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://nodejs.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://docs.rs/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://docs.rs",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.nasa.gov/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://archive.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://unpkg.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://unpkg.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://static.example.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.gnu.org/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://api.example.com/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://api.example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://blog.example.net/static/style.css",
+  "type": "stylesheet",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://example.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://en.wikipedia.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://en.wikipedia.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://github.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://developer.mozilla.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://news.ycombinator.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://news.ycombinator.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.bbc.co.uk/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://cdn.jsdelivr.net/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://fonts.gstatic.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://fonts.gstatic.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://stackoverflow.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.python.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://nodejs.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://nodejs.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://docs.rs/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.nasa.gov/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://archive.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://archive.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://unpkg.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://static.example.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.gnu.org/images/logo.png",
+  "type": "image",
+  "initiator": "https://www.gnu.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://api.example.com/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://blog.example.net/images/logo.png",
+  "type": "image",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://example.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://en.wikipedia.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://github.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://developer.mozilla.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://developer.mozilla.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://news.ycombinator.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.bbc.co.uk/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://cdn.jsdelivr.net/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://cdn.jsdelivr.net",
+  "kind": "benign"
+ },
+ {
+  "url": "https://fonts.gstatic.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://stackoverflow.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.python.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://www.python.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://nodejs.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://docs.rs/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.nasa.gov/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://www.nasa.gov",
+  "kind": "benign"
+ },
+ {
+  "url": "https://archive.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://unpkg.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://static.example.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://static.example.org",
+  "kind": "benign"
+ },
+ {
+  "url": "https://www.gnu.org/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://api.example.com/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://example.com",
+  "kind": "benign"
+ },
+ {
+  "url": "https://blog.example.net/fonts/body.woff2",
+  "type": "font",
+  "initiator": "https://blog.example.net",
+  "kind": "benign"
+ }
+]

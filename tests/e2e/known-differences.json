@@ -1,0 +1,13 @@
+[
+  { "key": "script https://sst.carwow./ <- https://example.com", "reason": "Synthetic host ends in '.', oracle normalises the trailing dot away; Chrome matches the urlFilter text ||sst.carwow." },
+  { "key": "script https://sst.carwow./ <- https://sst.carwow.", "reason": "Same trailing-dot host as above (first-party variant)." },
+  { "key": "main_frame https://pipeline.balkstercourant.nl/ <- https://example.com", "reason": "Negated-type-only filter: oracle applies it to top-level documents; ours excludes main_frame like ABP's default type set (a block rule must not break navigation)." },
+  { "key": "main_frame https://cdn.example.net/banners/ads. <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/.fuse-cloud.com/ <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/_468_60- <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/statcounter- <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/reklame/x <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/module/ads/x <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/ads/leaderboard- <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." },
+  { "key": "main_frame https://cdn.example.net/://a869. <- https://example.com", "reason": "Negated-type-only filter applies to main_frame in the oracle only (see above)." }
+]

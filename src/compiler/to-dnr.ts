@@ -11,7 +11,8 @@ export function toRule(f: Filter): RuleBody {
   else {
     const inc = f.types.filter((t) => !f.notTypes.includes(t));
     if (inc.length) c.resourceTypes = [...new Set(inc)];
-    else if (f.notTypes.length) c.excludedResourceTypes = [...new Set(f.notTypes)];
+    // DNR: excludedResourceTypes alone also matches main_frame, so exclude it explicitly.
+    else if (f.notTypes.length) c.excludedResourceTypes = [...new Set([...f.notTypes, "main_frame"])];
   }
   if (f.thirdParty !== null) c.domainType = f.thirdParty ? "thirdParty" : "firstParty";
   if (f.domains.length) c.initiatorDomains = f.domains;

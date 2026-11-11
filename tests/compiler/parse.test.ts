@@ -56,7 +56,10 @@ describe("options", () => {
     expect(rule("||a.com^$script,image,subdocument,xmlhttprequest").condition.resourceTypes).toEqual([
       "script", "image", "sub_frame", "xmlhttprequest",
     ]);
-    expect(rule("||a.com^$~script").condition.excludedResourceTypes).toEqual(["script"]);
+    // DNR matches main_frame when only excludedResourceTypes is given, so it is excluded explicitly.
+    expect(rule("||a.com^$~script").condition.excludedResourceTypes).toEqual(["script", "main_frame"]);
+    expect(rule("||a.com^$~script,~document").condition.excludedResourceTypes).toEqual(["script", "main_frame"]);
+    expect(rule("||a.com^$~document").condition.excludedResourceTypes).toBeUndefined();
     for (const t of ["stylesheet", "font", "media", "websocket", "ping", "object", "other"]) {
       expect(rule(`||a.com^$${t}`).condition.resourceTypes).toEqual([t]);
     }
@@ -80,6 +83,24 @@ describe("options", () => {
   });
   it("blocks main_frame only when $document is explicit", () => {
     expect(rule("||a.com^$document").condition.resourceTypes).toEqual(["main_frame"]);
+    expect(rule("||a.com^$document").action.type).toBe("block");
+  });
+  it("skips regexes Chrome rejects as memoryLimitExceeded, keeps small ones", () => {
+    for (const bad of [
+      String.raw`/(https?:\/\/)104\.154\..{100,}/`,
+      String.raw`/(https?:\/\/)\w{30,}\.me\/\w{30,}\./`,
+      String.raw`/^https:\/\/cdn\.jsdelivr\.net\/npm\/[-a-z_]{4,22}@latest\/dist\/script\.min\.js$/`,
+      String.raw`/^https?:\/\/.*\.(club|news|live|online|store|tech|guru|cloud|bid|xyz|site|pro|info|online|icu|monster|buzz|fun)\/.*/`,
+    ]) {
+      expect(parseLine(bad, "easylist")).toEqual({ ok: false, reason: "regex-unsupported" });
+    }
+    for (const good of [
+      String.raw`/^https?:\/\/www\.[0-9a-z]{8,}\.com\/[0-9a-z]{1,4}\.js$/`,
+      String.raw`/^https?:\/\/pov\.spectrum\.net\/[a-zA-Z0-9]{14,}\.js/`,
+      String.raw`/\.gsmarena\.com\/[0-9]+\.[a-z]+\?s?Search=/`,
+    ]) {
+      expect(parseLine(good, "easylist")?.ok).toBe(true);
+    }
   });
   it("flags $badfilter", () => {
     const r = parseLine("||a.com^$badfilter", "easylist");

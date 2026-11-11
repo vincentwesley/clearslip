@@ -46,8 +46,33 @@ export function asciiHost(h: string): string | null {
   return HOST_RE.test(host) ? host : null;
 }
 
+const ESC_WEIGHT: Record<string, number> = { w: 4, W: 4, s: 2, S: 2, D: 4, d: 1 };
+const escWeight = (a: string): number => ESC_WEIGHT[a[1]] ?? 1;
+const atomWeight = (a: string): number => {
+  if (a.startsWith("\\")) return escWeight(a);
+  if (!a.startsWith("[")) return 1;
+  const items = a.slice(1, -1).replace(/^\^/, "").match(/\\.|[^\\]-[^\\]|[^\\]/g) ?? [];
+  return items.reduce((s, t) => s + (t.startsWith("\\") ? escWeight(t) : 1), 0);
+};
+
+/**
+ * Rough size of the compiled program: counted repetitions multiply the atom's weight, long alternations
+ * add up. Chrome rejects a regex rule over its ~2 KB RE2 memory limit (`memoryLimitExceeded`), which
+ * silently drops the rule. Calibrated against Chrome's isRegexSupported (see tests/e2e/differential.spec.ts).
+ */
+export function re2Cost(src: string): number {
+  let worst = 0;
+  for (const m of src.matchAll(/(\\.|\[(?:\\.|[^\]\\])*\]|[^\\])\{(\d+)(?:,(\d*))?\}/g)) {
+    worst = Math.max(worst, atomWeight(m[1]) * Number(m[3] || m[2]));
+  }
+  for (const m of src.matchAll(/\(([^()]*\|[^()]*)\)/g)) worst = Math.max(worst, m[1].length);
+  return worst;
+}
+export const RE2_COST_MAX = 60;
+
 // RE2 has no lookaround or backreferences; Chrome also caps regex size.
 function re2Safe(src: string): boolean {
+  if (re2Cost(src) >= RE2_COST_MAX) return false;
   if (src.length > 1024 || /[^\x20-\x7e]/.test(src)) return false;
   if (/\(\?<?[=!]/.test(src) || /\\[1-9]|\\k</.test(src)) return false;
   if (/\{\d{4,}|,\d{4,}\}/.test(src)) return false;
