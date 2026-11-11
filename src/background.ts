@@ -1,7 +1,9 @@
-﻿// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
+// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
 import { DETAIL_IDS, RULESET_IDS, type Report } from "./compiler/types.ts";
+import type { Specific } from "./compiler/cosmetic.ts";
+import { planCosmetic, siteIsOff } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
-import { isValidHost, siteRules, withSite } from "./lib/site";
+import { hostFromUrl, isValidHost, siteRules, withSite } from "./lib/site";
 
 const DETAIL: string[] = [...DETAIL_IDS];
 
@@ -73,7 +75,37 @@ async function init(): Promise<void> {
 chrome.runtime.onInstalled.addListener(() => void serial(init).catch(console.error));
 chrome.runtime.onStartup.addListener(() => void serial(init).catch(console.error));
 
+// Packaged files, read lazily (the worker may have slept) and cached for its lifetime.
+let cosmeticData: Promise<{ specific: Specific; generic: string[] }> | undefined;
+const loadCosmetic = () =>
+  (cosmeticData ??= Promise.all(["cosmetic-specific", "cosmetic-generic"].map(async (n) => (await fetch(chrome.runtime.getURL(`rulesets/${n}.json`))).json())).then(
+    ([specific, generic]) => ({ specific, generic }),
+    (e) => {
+      cosmeticData = undefined;
+      throw e;
+    },
+  ));
+
+async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<void> {
+  const tabId = sender.tab?.id;
+  const site = hostFromUrl(sender.tab?.url);
+  if (tabId === undefined || sender.frameId === undefined || !site) return;
+  const frame = hostFromUrl(sender.url) ?? site; // about:blank / srcdoc frames inherit the site
+  if (siteIsOff(await readOff(), site)) return;
+  const { specific, generic } = await loadCosmetic();
+  const plan = planCosmetic(site, frame, specific, generic);
+  if (!plan) return;
+  const target = { tabId, frameIds: [sender.frameId] };
+  if (plan.file) await chrome.scripting.insertCSS({ target, files: ["rulesets/cosmetic-generic.css"], origin: "USER" });
+  if (plan.css) await chrome.scripting.insertCSS({ target, css: plan.css, origin: "USER" });
+}
+
 chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
+  // The content script: trust only `sender`, never the message body.
+  if ((msg as { type?: unknown } | null)?.type === "cosmetic") {
+    if (sender.tab && sender.id === chrome.runtime.id) void injectCosmetic(sender).catch(() => undefined);
+    return false;
+  }
   // Only this extension's own pages (popup, side panel).
   if (sender.id !== chrome.runtime.id || !sender.url?.startsWith(chrome.runtime.getURL(""))) return false;
   const m = msg as { type?: unknown; host?: unknown; off?: unknown } | null;

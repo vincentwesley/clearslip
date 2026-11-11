@@ -5,7 +5,7 @@ import { RULESET_IDS } from "../src/compiler/types.ts";
 
 rmSync("dist", { recursive: true, force: true });
 await build({
-  entryPoints: ["src/background.ts", "src/sidepanel.ts", "src/sidepanel.css", "src/popup.ts", "src/popup.css"],
+  entryPoints: ["src/background.ts", "src/content.ts", "src/sidepanel.ts", "src/sidepanel.css", "src/popup.ts", "src/popup.css"],
   outdir: "dist",
   bundle: true,
   format: "esm",
@@ -31,6 +31,9 @@ if (existsSync("scripts/compile.ts")) {
     writeFileSync(`dist/rulesets/map-${id}.json`, "[null]");
     rulesets[id] = { rules: 0, regexRules: 0 };
   }
+  writeFileSync("dist/rulesets/cosmetic-generic.css", "");
+  writeFileSync("dist/rulesets/cosmetic-generic.json", "[]");
+  writeFileSync("dist/rulesets/cosmetic-specific.json", JSON.stringify({ hide: {}, unhide: {}, notHide: {}, noGeneric: [], noCosmetic: [] }));
   writeFileSync(
     "dist/rulesets/report.json",
     JSON.stringify({ generatedAt: new Date().toISOString(), sources: [], perList: {}, rulesets, compactCut: 0 }),

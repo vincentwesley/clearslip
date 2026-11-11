@@ -1,3 +1,5 @@
+import type { CosmeticResult } from "./cosmetic.ts";
+
 // Minimal DNR types, defined here so the compiler never depends on @types/chrome.
 // Single source for list and ruleset ids; the manifest, build and runtime all derive from these.
 export const LIST_IDS = ["easylist", "easyprivacy"] as const;
@@ -80,9 +82,11 @@ export interface Report {
   perList: Record<string, { parsed: number; converted: number; skipped: Record<string, number> }>;
   rulesets: Record<string, { rules: number; regexRules: number }>;
   compactCut: number;
+  cosmetic: { generic: number; specificHosts: number; specificRules: number; exceptions: number; noGeneric: number; noCosmetic: number; skipped: Record<string, number> };
 }
 
 export interface CompileResult {
+  cosmetic: CosmeticResult;
   rulesets: Record<RulesetId, DnrRule[]>;
   maps: Record<RulesetId, RuleMap>;
   report: Report;

@@ -12,7 +12,7 @@ Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no
 - The owner wants no check-ins: work through the milestones in `docs/PLAN.md`.
 
 ## Current state
-- Scaffolded from the mv3-extension starter. Milestone 1 (network blocking, popup, per-site off) in progress.
+- Milestones 1 (network blocking, popup, per-site off) and 2 (cosmetic filtering, see COMPILER-SPEC "Cosmetic filtering") are built locally, not pushed. Next: milestone 3 (privacy receipt).
 
 ## Known gaps
 1. Items marked unverified in `docs/RESEARCH.md` need re-checking before they are relied on.
