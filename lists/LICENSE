@@ -1,0 +1,17 @@
+The filter list data in this folder (easylist.txt, easyprivacy.txt) is
+copyright The EasyList authors (https://easylist.to/), used under the
+Creative Commons Attribution-ShareAlike 3.0 Unported licence
+(CC BY-SA 3.0): https://creativecommons.org/licenses/by-sa/3.0/
+
+Sources:
+  https://easylist.to/easylist/easylist.txt
+  https://easylist.to/easylist/easyprivacy.txt
+
+Snapshot dates and checksums are in SOURCES.json. The files are unmodified
+copies of the upstream lists.
+
+Compiled rulesets derived from this data (the generated files in
+rulesets/ and their maps) are adaptations and carry the same licence,
+CC BY-SA 3.0, with the same credit: "The EasyList authors
+(https://easylist.to/)". The Hush source code itself is MIT-licensed and is
+not covered by this notice.

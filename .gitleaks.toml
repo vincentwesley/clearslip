@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+# Upstream filter lists contain hex/token-like strings that are public URL patterns, not secrets.
+[allowlist]
+paths = ['''^lists/(easylist|easyprivacy)\.txt$''']

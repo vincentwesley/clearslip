@@ -1,0 +1,16 @@
+[
+  {
+    "id": "easylist",
+    "url": "https://easylist.to/easylist/easylist.txt",
+    "fetchedAt": "2026-11-11T13:22:06.939Z",
+    "sha256": "95d18fd7bb2bddcab3b7e748c8e3a2ed190e86d3549c8106383d7f49e09d0667",
+    "lines": 77129
+  },
+  {
+    "id": "easyprivacy",
+    "url": "https://easylist.to/easylist/easyprivacy.txt",
+    "fetchedAt": "2026-11-11T13:22:08.010Z",
+    "sha256": "02027c18c4fff5df070b5ce804c2e1fe74df06030e984c23cf9b99bb30c51210",
+    "lines": 57381
+  }
+]
