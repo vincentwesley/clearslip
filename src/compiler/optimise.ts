@@ -1,4 +1,4 @@
-import type { Filter, RuleBody, MapEntry, ListId } from "./types.ts";
+import type { Filter, RuleBody, ListId } from "./types.ts";
 
 /** A rule body plus the filters it came from. */
 export interface Item {
@@ -78,13 +78,13 @@ export function mergeHosts(items: Item[]): Item[] {
     const k = it.list + JSON.stringify(base);
     let g = groups.get(k);
     if (!g || g.hosts.length >= MERGE_CHUNK) {
-      g = { item: { list: it.list, rule: base, f: [] }, hosts: [] };
+      const hosts: string[] = [];
+      g = { item: { list: it.list, rule: { ...base, condition: { ...rest, requestDomains: hosts } }, f: [] }, hosts };
       groups.set(k, g);
       out.push(g.item);
     }
     g.hosts.push(host);
     g.item.f.push(...it.f);
-    g.item.rule.condition.requestDomains = g.hosts;
   }
   return out;
 }
@@ -106,5 +106,3 @@ export function capCompact(items: Item[], max: number) {
   const keep = ordered.slice(0, Math.max(max, allow.length));
   return { items: keep, cut: ordered.slice(keep.length) };
 }
-
-export const toEntry = (i: Item): MapEntry => ({ l: i.list, f: i.f });

@@ -33,11 +33,16 @@ const corpus = readJson<Tuple[]>(path.join(here, "corpus.json"), []);
 const known = readJson<{ key: string; reason: string }[]>(path.join(here, "known-differences.json"), []);
 const IDS = ["compact", "detail-easylist", "detail-easyprivacy"] as const;
 const rules = Object.fromEntries(IDS.map((id) => [id, readJson<Rule[]>(rs(`${id}.json`), [])]));
-const maps = Object.fromEntries(IDS.map((id) => [id, readJson<({ f: string[] } | null)[]>(rs(`map-${id}.json`), [])]));
+const maps = Object.fromEntries(IDS.map((id) => [id, readJson<(string | [number, number, string] | null)[]>(rs(`map-${id}.json`), [])]));
 const skip = corpus.length === 0 || rules.compact.length === 0;
 
 const key = (t: Tuple) => `${t.type} ${t.url} <- ${t.initiator}`;
 const DETAIL = ["detail-easylist", "detail-easyprivacy"];
+/** Filter text of a rule (compact: its first filter). */
+const filterOf = (rulesetId: string, ruleId: number): string => {
+  const e = maps[rulesetId][ruleId];
+  return (Array.isArray(e) ? e[2] : e) ?? "-";
+};
 
 let ctx: BrowserContext;
 let sw: Worker;
@@ -110,7 +115,7 @@ async function chrome_(enable: string[]): Promise<Result[]> {
 
 function oracle(): FiltersEngine {
   const lines = new Set<string>();
-  for (const id of DETAIL) for (const e of maps[id]) e?.f.forEach((l) => lines.add(l));
+  for (const id of DETAIL) for (const e of maps[id]) if (typeof e === "string") lines.add(e);
   return FiltersEngine.parse([...lines].join("\n"), { loadCosmeticFilters: false });
 }
 
@@ -143,14 +148,14 @@ test.describe("differential", () => {
       const theirs = engine.match(Request.fromRawDetails({ url: t.url, type: t.type as never, sourceUrl: t.initiator })).match;
       if (theirs === ours[i].blocked) return void agree++;
       const o = ours[i];
-      const f = o.ruleset ? maps[o.ruleset][o.ruleId!]?.f.join(" ; ") : "-";
-      const line = `[${t.kind}] ${key(t).slice(0, 160)}\n    ours=${o.blocked} oracle=${theirs} our filter: ${f?.slice(0, 160)}`;
+      const f = o.ruleset ? filterOf(o.ruleset, o.ruleId!) : "-";
+      const line = `[${t.kind}] ${key(t).slice(0, 160)}\n    ours=${o.blocked} oracle=${theirs} our filter: ${f.slice(0, 160)}`;
       bad.push(line);
       if (!known.some((k) => k.key === key(t))) unlisted.push(line);
     });
     const blockedByOracle = corpus.filter((t) => engine.match(Request.fromRawDetails({ url: t.url, type: t.type as never, sourceUrl: t.initiator })).match).length;
     console.log(`oracle blocks ${blockedByOracle}/${corpus.length} tuples`);
-    corpus.forEach((t, i) => t.kind === "doubleclick" && console.log(`doubleclick ${key(t)} ours=${ours[i].blocked} ${ours[i].ruleset ? maps[ours[i].ruleset!][ours[i].ruleId!]?.f.join(" ; ") : "-"}`));
+    corpus.forEach((t, i) => t.kind === "doubleclick" && console.log(`doubleclick ${key(t)} ours=${ours[i].blocked} ${ours[i].ruleset ? filterOf(ours[i].ruleset!, ours[i].ruleId!) : "-"}`));
     console.log(`agreement ${agree}/${corpus.length} (${((100 * agree) / corpus.length).toFixed(1)}%), ${bad.length} disagreements, ${unlisted.length} unlisted`);
     if (bad.length) console.log(bad.join("\n"));
     expect(unlisted, "disagreements not in known-differences.json").toEqual([]);

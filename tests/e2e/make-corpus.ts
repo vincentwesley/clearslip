@@ -1,8 +1,11 @@
 // Builds tests/e2e/corpus.json: request tuples derived from the pinned lists/ snapshots.
 // Deterministic (fixed seed). Run: node tests/e2e/make-corpus.ts
 import { readFileSync, writeFileSync } from "node:fs";
-import { parseLine } from "../../src/compiler/parse.ts";
-import type { Filter, ListId } from "../../src/compiler/types.ts";
+import { parseLists } from "../../src/compiler/emit.ts";
+import { pureHost } from "../../src/compiler/optimise.ts";
+import { TYPE_MAP } from "../../src/compiler/parse.ts";
+import { toRule } from "../../src/compiler/to-dnr.ts";
+import { LIST_IDS, type Filter } from "../../src/compiler/types.ts";
 
 export interface Tuple {
   url: string;
@@ -13,7 +16,8 @@ export interface Tuple {
 
 const PER_BUCKET = 18; // filters per bucket, two tuples each
 const BENIGN = 76;
-const DEFAULT_TYPES = ["script", "image", "stylesheet", "xmlhttprequest", "sub_frame", "font", "media", "ping", "other"];
+// Types a filter without $type matches by default (no main_frame); websocket/object are left out of the corpus.
+const DEFAULT_TYPES = [...new Set(Object.values(TYPE_MAP))].filter((t) => !["main_frame", "websocket", "object"].includes(t));
 const THIRD = "https://example.com";
 
 function rng(seed: number) {
@@ -42,7 +46,7 @@ function bucket(f: Filter): string {
   if (f.domains.length) return "domain";
   if (f.thirdParty !== null) return "third-party";
   if (f.types.length || f.notTypes.length) return "typed";
-  if (/^\|\|[a-z0-9.-]+\^$/.test(f.pattern)) return "pure-host";
+  if (pureHost(toRule(f))) return "pure-host";
   if (f.pattern.startsWith("||")) return "host-path";
   return "substring";
 }
@@ -152,15 +156,8 @@ function tuples(f: Filter, kind: string): Tuple[] | null {
   ];
 }
 
-const filters: Filter[] = [];
-for (const id of ["easylist", "easyprivacy"] as ListId[]) {
-  const text = readFileSync(new URL(`../../lists/${id}.txt`, import.meta.url), "utf8");
-  for (const line of text.split(/\r?\n/)) {
-    const r = parseLine(line, id);
-    if (r?.ok && !r.filter.badfilter && !r.filter.document) filters.push(r.filter);
-  }
-}
-
+const inputs = LIST_IDS.map((id) => ({ id, text: readFileSync(new URL(`../../lists/${id}.txt`, import.meta.url), "utf8") }));
+const filters: Filter[] = parseLists(inputs).filters.filter((f) => !f.badfilter && !f.document);
 const buckets = new Map<string, Filter[]>();
 for (const f of filters) {
   const b = bucket(f);

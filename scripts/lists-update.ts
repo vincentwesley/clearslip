@@ -2,15 +2,14 @@
 import { createHash } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const LISTS = [
-  { id: "easylist", url: "https://easylist.to/easylist/easylist.txt" },
-  { id: "easyprivacy", url: "https://easylist.to/easylist/easyprivacy.txt" },
-];
+import { LIST_IDS, LISTS } from "../src/compiler/types.ts";
+
 const dir = new URL("../lists/", import.meta.url);
 mkdirSync(dir, { recursive: true });
 
 const sources = [];
-for (const l of LISTS) {
+for (const id of LIST_IDS) {
+  const l = { id, url: LISTS[id].url };
   const res = await fetch(l.url, { headers: { "User-Agent": "list-updater/1.0" } });
   if (res.status !== 200) throw new Error(`${l.url}: HTTP ${res.status}`);
   const body = await res.text();

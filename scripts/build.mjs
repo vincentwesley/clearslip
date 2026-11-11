@@ -1,6 +1,7 @@
-﻿import { build } from "esbuild";
+import { build } from "esbuild";
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { RULESET_IDS } from "../src/compiler/types.ts";
 
 rmSync("dist", { recursive: true, force: true });
 await build({
@@ -24,9 +25,8 @@ if (existsSync("scripts/compile.ts")) {
 } else {
   console.warn("WARNING: scripts/compile.ts not found; writing EMPTY rulesets. The build loads but blocks nothing.");
   mkdirSync("dist/rulesets", { recursive: true });
-  const ids = ["compact", "detail-easylist", "detail-easyprivacy"];
   const rulesets = {};
-  for (const id of ids) {
+  for (const id of RULESET_IDS) {
     writeFileSync(`dist/rulesets/${id}.json`, "[]");
     writeFileSync(`dist/rulesets/map-${id}.json`, "[null]");
     rulesets[id] = { rules: 0, regexRules: 0 };

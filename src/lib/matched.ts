@@ -1,19 +1,17 @@
-﻿// Join getMatchedRules results with the build-time rule maps. Pure.
+// Join getMatchedRules results with the build-time rule maps. Pure.
 
-export interface MapEntry {
-  l: "easylist" | "easyprivacy";
-  f: string[];
-}
+import { LIST_IDS, type ListId, type RuleMap } from "../compiler/types.ts";
+
 export interface Match {
   rule: { ruleId: number; rulesetId: string };
 }
 export interface Group {
   key: string;
   label: string;
-  list: MapEntry["l"];
+  list: ListId;
   count: number;
 }
-export type Maps = Record<string, (MapEntry | null)[]>;
+export type Maps = Record<string, RuleMap>;
 
 /** Host of a filter pattern (`||host^`, `|https://host/`, `@@||host/...`), else null. */
 export function filterHost(filter: string): string | null {
@@ -29,18 +27,20 @@ export function groupMatches(matches: Match[], maps: Maps): { total: number; gro
   let total = 0;
   for (const { rule } of matches) {
     const entry = maps[rule.rulesetId]?.[rule.ruleId];
-    if (!entry || entry.f.length === 0 || entry.f[0].startsWith("@@")) continue;
+    if (!entry) continue;
+    // detail-*: the filter text (list implied by the ruleset id); compact: [listIndex, count, firstFilter].
+    const [list, n, first] =
+      typeof entry === "string" ? [rule.rulesetId.slice("detail-".length) as ListId, 1, entry] : [LIST_IDS[entry[0]], entry[1], entry[2]];
+    if (first.startsWith("@@")) continue;
     total++;
-    const merged = entry.f.length > 1;
-    const host = merged ? null : filterHost(entry.f[0]);
-    const key = merged ? `${rule.rulesetId}#${rule.ruleId}` : `${entry.l}:${host ?? "other"}`;
-    const label = merged ? `${entry.f.length} hosts and patterns (merged rule)` : (host ?? "Other patterns");
+    const merged = n > 1;
+    const host = merged ? null : filterHost(first);
+    const key = merged ? `${rule.rulesetId}#${rule.ruleId}` : `${list}:${host ?? "other"}`;
+    const label = merged ? `${n} hosts and patterns (merged rule)` : (host ?? "Other patterns");
     const g = groups.get(key);
     if (g) g.count++;
-    else groups.set(key, { key, label, list: entry.l, count: 1 });
+    else groups.set(key, { key, label, list, count: 1 });
   }
   return { total, groups: [...groups.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label)) };
 }
-
-export const LIST_NAME: Record<MapEntry["l"], string> = { easylist: "EasyList", easyprivacy: "EasyPrivacy" };
 

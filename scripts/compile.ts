@@ -1,20 +1,20 @@
 // Compiles lists/ into dist/rulesets/. Run by `npm run compile`.
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { compile } from "../src/compiler/emit.ts";
-import type { SourceInfo } from "../src/compiler/types.ts";
+import { LIST_IDS, RULESET_IDS, type SourceInfo } from "../src/compiler/types.ts";
 
 const lists = new URL("../lists/", import.meta.url);
 const out = new URL("../dist/rulesets/", import.meta.url);
 mkdirSync(out, { recursive: true });
 
 const sources: SourceInfo[] = JSON.parse(readFileSync(new URL("SOURCES.json", lists), "utf8"));
-const inputs = (["easylist", "easyprivacy"] as const).map((id) => ({
+const inputs = LIST_IDS.map((id) => ({
   id,
   text: readFileSync(new URL(`${id}.txt`, lists), "utf8"),
 }));
 const r = compile(inputs, { generatedAt: new Date().toISOString(), sources });
 
-for (const id of ["compact", "detail-easylist", "detail-easyprivacy"] as const) {
+for (const id of RULESET_IDS) {
   writeFileSync(new URL(`${id}.json`, out), JSON.stringify(r.rulesets[id]));
   writeFileSync(new URL(`map-${id}.json`, out), JSON.stringify(r.maps[id]));
 }

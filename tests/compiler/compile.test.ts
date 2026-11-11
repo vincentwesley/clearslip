@@ -76,11 +76,14 @@ describe("emitter", () => {
       expect(rules.map((x) => x.id)).toEqual(rules.map((_, i) => i + 1));
       expect(r.maps[id]).toHaveLength(rules.length + 1);
       expect(r.maps[id][0]).toBeNull();
-      r.maps[id].slice(1).forEach((e) => expect(e?.f.length).toBeGreaterThan(0));
+      r.maps[id].slice(1).forEach((e) => expect(e).toBeTruthy());
     }
   });
   it("detail has one filter per rule; compact merges hosts", () => {
-    expect(r.maps["detail-easylist"].slice(1).every((e) => e?.f.length === 1)).toBe(true);
+    expect(r.maps["detail-easylist"].slice(1).every((e) => typeof e === "string")).toBe(true);
+    expect(r.maps["detail-easylist"][1]).toBe("||a.com^");
+    const merged = (r.maps.compact as ([number, number, string] | null)[]).find((e) => e?.[2] === "||a.com^");
+    expect(merged).toEqual([0, 1, "||a.com^"]);
     const hosts = r.rulesets.compact.map((x) => x.condition.requestDomains?.join(",")).filter(Boolean);
     expect(hosts).toContain("a.com");
     expect(hosts).toContain("t.com");

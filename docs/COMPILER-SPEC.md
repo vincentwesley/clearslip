@@ -43,7 +43,7 @@ The manifest always declares exactly these three rulesets, in this order:
 
 - Rule ids start at 1 and are dense within each ruleset.
 - Regex budget: at most 1,000 regex rules across `detail-*` combined, and the same selection in `compact`.
-- `map-<rulesetId>.json`: JSON array, index = rule id (index 0 is `null`). Entry: `{ "l": "easylist" | "easyprivacy", "f": ["<original filter text>", ...] }`. `detail-*` entries have exactly one filter; `compact` entries list every merged filter.
+- `map-<rulesetId>.json`: JSON array, index = rule id (index 0 is `null`), kept slim because the popup loads it on open. `detail-*`: each entry is the original filter text (a string); the list is implied by the ruleset id. `compact`: each entry is `[listIndex, count, firstFilter]` where `listIndex` indexes `LIST_IDS` and `count` is the number of merged filters.
 - `report.json`: `{ generatedAt, sources, perList: { parsed, converted, skipped: { <reason>: n } }, rulesets: { <id>: { rules, regexRules } }, compactCut: n }`.
 - `LICENSE`: copy of `lists/LICENSE`.
 

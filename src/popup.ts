@@ -1,4 +1,5 @@
-﻿import { LIST_NAME, groupMatches, type Maps, type MapEntry } from "./lib/matched";
+import { LISTS, type RuleMap } from "./compiler/types.ts";
+import { groupMatches, type Maps } from "./lib/matched";
 import { hostFromUrl } from "./lib/site";
 
 const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
@@ -25,13 +26,24 @@ async function loadMaps(ids: string[]): Promise<Maps> {
     ids.map(async (id) => {
       try {
         // Packaged extension file, not a network request.
-        maps[id] = (await (await fetch(chrome.runtime.getURL(`rulesets/map-${id}.json`))).json()) as (MapEntry | null)[];
+        maps[id] = (await (await fetch(chrome.runtime.getURL(`rulesets/map-${id}.json`))).json()) as RuleMap;
       } catch {
         maps[id] = [];
       }
     }),
   );
   return maps;
+}
+
+async function loadMatched(tabId: number) {
+  try {
+    const { rulesMatchedInfo } = await chrome.declarativeNetRequest.getMatchedRules({ tabId });
+    const matches = rulesMatchedInfo.filter((m) => m.rule.rulesetId !== "_dynamic");
+    return { matches, maps: await loadMaps([...new Set(matches.map((m) => m.rule.rulesetId))]) };
+  } catch (e) {
+    console.warn("Hush: could not read matched rules", e);
+    return null;
+  }
 }
 
 function renderGroups(maps: Maps, matches: chrome.declarativeNetRequest.MatchedRuleInfo[]): void {
@@ -44,7 +56,7 @@ function renderGroups(maps: Maps, matches: chrome.declarativeNetRequest.MatchedR
       const li = document.createElement("li");
       const name = Object.assign(document.createElement("span"), { className: "name", textContent: g.label });
       const count = Object.assign(document.createElement("span"), { className: "count", textContent: String(g.count) });
-      const list = Object.assign(document.createElement("span"), { className: "list", textContent: LIST_NAME[g.list] });
+      const list = Object.assign(document.createElement("span"), { className: "list", textContent: LISTS[g.list].name });
       li.append(name, count, list);
       return li;
     }),
@@ -72,7 +84,11 @@ async function main(): Promise<void> {
     toggle.setAttribute("aria-checked", String(on));
     label.textContent = on ? "Hush is on for this site" : "Hush is off for this site";
   };
-  const state = (await chrome.runtime.sendMessage({ type: "getState" })) as { ok?: boolean; off?: string[] } | undefined;
+  const matched = id === undefined ? Promise.resolve(null) : loadMatched(id); // starts now, in parallel with getState
+  const [state, data] = await Promise.all([
+    chrome.runtime.sendMessage({ type: "getState" }) as Promise<{ ok?: boolean; off?: string[] } | undefined>,
+    matched,
+  ]);
   showOn(!state?.off?.includes(host));
   toggle.addEventListener("click", async () => {
     const wantOn = toggle.getAttribute("aria-checked") !== "true";
@@ -86,15 +102,7 @@ async function main(): Promise<void> {
     toggle.focus();
   });
 
-  if (id === undefined) return;
-  try {
-    const { rulesMatchedInfo } = await chrome.declarativeNetRequest.getMatchedRules({ tabId: id });
-    const matches = rulesMatchedInfo.filter((m) => m.rule.rulesetId !== "_dynamic");
-    const maps = await loadMaps([...new Set(matches.map((m) => m.rule.rulesetId))]);
-    renderGroups(maps, matches);
-  } catch (e) {
-    console.warn("Hush: could not read matched rules", e);
-  }
+  if (data) renderGroups(data.maps, data.matches);
 }
 
 void main();

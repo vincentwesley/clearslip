@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { filterHost, groupMatches, type Maps } from "../../src/lib/matched";
 
 describe("filterHost", () => {
@@ -14,8 +14,8 @@ describe("filterHost", () => {
 
 describe("groupMatches", () => {
   const maps: Maps = {
-    "detail-easylist": [null, { l: "easylist", f: ["||ads.a.com^"] }, { l: "easylist", f: ["/banner/"] }, { l: "easylist", f: ["@@||ok.a.com^"] }],
-    compact: [null, { l: "easyprivacy", f: ["||x.com^", "||y.com^", "||z.com^"] }],
+    "detail-easylist": [null, "||ads.a.com^", "/banner/", "@@||ok.a.com^"],
+    compact: [null, [1, 3, "||x.com^"]],
   };
   const m = (rulesetId: string, ruleId: number) => ({ rule: { rulesetId, ruleId } });
   it("counts real matches, groups by host, skips allow rules and unknown ids", () => {

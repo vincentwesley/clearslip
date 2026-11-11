@@ -1,6 +1,6 @@
 import type { Filter, ListId, ParseResult } from "./types.ts";
 
-const TYPE_MAP: Record<string, string> = {
+export const TYPE_MAP: Record<string, string> = {
   script: "script",
   image: "image",
   stylesheet: "stylesheet",
@@ -30,6 +30,9 @@ const OPTIONS_RE = /^[~a-z0-9_-]+(=[^,]*)?(,[~a-z0-9_-]+(=[^,]*)?)*$/i;
 const HOST_RE = /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/;
 const NON_ASCII = /[\u0080-￿]/;
 const COSMETIC_RE = /#[@?$%]*#/;
+
+/** Splits a leading `~` (negation) off an option name or domain. */
+const splitNeg = (s: string): [boolean, string] => (s.startsWith("~") ? [true, s.slice(1)] : [false, s]);
 
 const fail = (reason: string): ParseResult => ({ ok: false, reason });
 
@@ -118,8 +121,7 @@ export function parseLine(rawLine: string, list: ListId): ParseResult | null {
     const eq = o.indexOf("=");
     const name = (eq < 0 ? o : o.slice(0, eq)).toLowerCase();
     const value = eq < 0 ? "" : o.slice(eq + 1);
-    const neg = name.startsWith("~");
-    const key = neg ? name.slice(1) : name;
+    const [neg, key] = splitNeg(name);
     if (key === "third-party" || key === "3p") f.thirdParty = !neg;
     else if (key === "first-party" || key === "1p") f.thirdParty = neg;
     else if (key === "match-case") f.matchCase = !neg;
@@ -128,14 +130,13 @@ export function parseLine(rawLine: string, list: ListId): ParseResult | null {
     else if (key === "domain") {
       for (const d of value.split("|")) {
         if (d === "") continue;
-        const n = d.startsWith("~");
-        const bare = n ? d.slice(1) : d;
+        const [n, bare] = splitNeg(d);
         if (bare.endsWith(".*")) return fail("domain-entity");
         const h = asciiHost(bare);
         if (!h) return fail("domain-invalid");
         (n ? f.notDomains : f.domains).push(h);
       }
-    } else if (key in TYPE_MAP && !name.includes("=")) {
+    } else if (key in TYPE_MAP) {
       (neg ? f.notTypes : f.types).push(TYPE_MAP[key]);
     } else if (UNSUPPORTED.has(key)) return fail(`option-${key}`);
     else return fail("unknown-option");
@@ -157,10 +158,12 @@ export function parseLine(rawLine: string, list: ListId): ParseResult | null {
   } else {
     const p = fixPattern(body);
     if (p === null) return fail("non-ascii");
-    if (p.startsWith("||*") || /\s/.test(p) || p.replace(/^\|\|?/, "").replace(/\|$/, "").includes("|")) return fail("invalid-pattern");
+    const inner = p.replace(/^\|\|?/, "").replace(/\|$/, ""); // pattern without its anchors
+    if (p.startsWith("||*") || /\s/.test(p) || inner.includes("|")) return fail("invalid-pattern");
+    const wildcardOnly = /^\*+$/.test(p);
     f.pattern = f.matchCase ? p : p.toLowerCase();
-    if ((p === "" || /^\*+$/.test(p)) && f.domains.length === 0) return fail("empty-pattern");
-    if (/^\*+$/.test(p)) f.pattern = "";
+    if ((p === "" || wildcardOnly) && f.domains.length === 0) return fail("empty-pattern");
+    if (wildcardOnly) f.pattern = "";
   }
   return { ok: true, filter: f };
 }
