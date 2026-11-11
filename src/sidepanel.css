@@ -1,0 +1,13 @@
+@import "./tokens.css";
+@import "./credits/credits.css";
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 1rem/1.5 var(--font-body); }
+h1, h2 { font-family: var(--font-head); margin: 0 0 0.5rem; }
+.top, main, footer { padding: 1rem; }
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.top .hs-eyebrow { flex-basis: 100%; }
+.top h1 { margin: 0; font-size: 1.4rem; }
+label { display: block; margin-bottom: 0.25rem; color: var(--fg-muted); }
+textarea { width: 100%; padding: 0.5rem; font: 1rem var(--font-body); color: var(--fg); background: var(--bg); border: 2px solid var(--border-strong); border-radius: 0; }
+.mono { font-family: var(--font-mono); }

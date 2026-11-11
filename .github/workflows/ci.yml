@@ -1,0 +1,15 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md', 'docs/**']
+  pull_request:
+    paths-ignore: ['**.md', 'docs/**']
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: vincentwesley/house/.github/workflows/ci-node.yml@6d808f1bddc36aca8b16d83a6c5f2f2cb1777f17
