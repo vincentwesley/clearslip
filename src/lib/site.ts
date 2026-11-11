@@ -44,10 +44,12 @@ export function siteRules(hosts: string[]): SiteRule[] {
   return hosts.map((h, i) => siteRule(i + 1, h));
 }
 
-/** Add or remove a host, keeping the list validated, unique, sorted and capped. */
-export function withSite(off: string[], host: string, isOff: boolean): string[] {
+/** Add or remove a host, keeping the list validated, unique and sorted. At the cap an add is refused (`limit`) and the list is returned unchanged. */
+export function withSite(off: string[], host: string, isOff: boolean): { off: string[]; limit: boolean } {
   const set = new Set(off.filter(isValidHost));
+  if (isOff && !set.has(host) && set.size >= MAX_OFF_SITES) return { off: [...set].sort(), limit: true };
   if (isOff) set.add(host);
   else set.delete(host);
-  return [...set].sort().slice(0, MAX_OFF_SITES);
+  return { off: [...set].sort(), limit: false };
 }
+

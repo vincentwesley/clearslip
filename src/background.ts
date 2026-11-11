@@ -1,18 +1,17 @@
-// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
-import { DETAIL_IDS, type Report } from "./compiler/types.ts";
+﻿// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
+import { DETAIL_IDS, RULESET_IDS, type Report } from "./compiler/types.ts";
+import { pickMode, type Mode } from "./lib/mode";
 import { isValidHost, siteRules, withSite } from "./lib/site";
 
-type Mode = "detail" | "compact";
 const DETAIL: string[] = [...DETAIL_IDS];
 
-async function detailRuleTotal(): Promise<{ detail: number; compact: number }> {
+async function ruleCounts(): Promise<Record<string, number>> {
   try {
     // Packaged extension file, not a network request.
     const report = (await (await fetch(chrome.runtime.getURL("rulesets/report.json"))).json()) as Report;
-    const n = (id: string): number => Number(report?.rulesets?.[id]?.rules) || 0;
-    return { detail: DETAIL.reduce((s, id) => s + n(id), 0), compact: n("compact") };
+    return Object.fromEntries(RULESET_IDS.map((id) => [id, Number(report?.rulesets?.[id]?.rules) || 0]));
   } catch {
-    return { detail: 0, compact: 0 };
+    return {};
   }
 }
 
@@ -23,12 +22,12 @@ const plan = (mode: Mode) =>
 const apply = (mode: Mode) => chrome.declarativeNetRequest.updateEnabledRulesets(plan(mode));
 
 async function chooseMode(): Promise<Mode> {
-  const [{ detail, compact }, enabled, free] = await Promise.all([
-    detailRuleTotal(),
+  const [counts, enabled, free] = await Promise.all([
+    ruleCounts(),
     chrome.declarativeNetRequest.getEnabledRulesets(),
     chrome.declarativeNetRequest.getAvailableStaticRuleCount(),
   ]);
-  let mode: Mode = detail > 0 && free + (enabled.includes("compact") ? compact : 0) >= detail ? "detail" : "compact";
+  let mode = pickMode(counts, enabled, free);
   const { enableRulesetIds: wanted, disableRulesetIds: unwanted } = plan(mode);
   if (wanted.some((id) => !enabled.includes(id)) || unwanted.some((id) => enabled.includes(id))) {
     try {
@@ -88,12 +87,15 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
   if (m?.type === "setSiteOff" && isValidHost(m.host) && typeof m.off === "boolean") {
     const { host, off: isOff } = m;
     void serial(async () => {
-      const off = withSite(await readOff(), host, isOff);
-      await chrome.storage.local.set({ off });
-      await reconcile(off);
-      sendResponse({ ok: true, off });
+      const cur = await readOff();
+      const r = withSite(cur, host, isOff);
+      if (r.limit) return sendResponse({ ok: false, reason: "limit" });
+      await chrome.storage.local.set({ off: r.off });
+      await reconcile(r.off);
+      sendResponse({ ok: true, off: r.off });
     }).catch(() => sendResponse({ ok: false }));
     return true;
   }
   return false;
 });
+

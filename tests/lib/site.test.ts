@@ -33,8 +33,15 @@ describe("rules", () => {
     expect(siteRules(["a.com", "b.com"]).map((r) => r.id)).toEqual([1, 2]);
   });
   it("withSite adds, removes, dedupes, sorts and drops invalid entries", () => {
-    expect(withSite(["b.com", "bad host"], "a.com", true)).toEqual(["a.com", "b.com"]);
-    expect(withSite(["a.com"], "a.com", true)).toEqual(["a.com"]);
-    expect(withSite(["a.com", "b.com"], "a.com", false)).toEqual(["b.com"]);
+    expect(withSite(["b.com", "bad host"], "a.com", true).off).toEqual(["a.com", "b.com"]);
+    expect(withSite(["a.com"], "a.com", true).off).toEqual(["a.com"]);
+    expect(withSite(["a.com", "b.com"], "a.com", false).off).toEqual(["b.com"]);
+  });
+  it("withSite refuses a new host at the cap but still allows re-adds and removals", () => {
+    const full = Array.from({ length: 1000 }, (_, i) => `h${String(i).padStart(4, "0")}.com`);
+    expect(withSite(full, "a.com", true)).toEqual({ off: full, limit: true });
+    expect(withSite(full, full[5], true).limit).toBe(false);
+    expect(withSite(full, full[5], false).off).toHaveLength(999);
   });
 });
+
