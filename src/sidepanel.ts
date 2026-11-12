@@ -116,12 +116,47 @@ function render(note: string | null, site: string, tab?: TabReceipt): void {
   current = { text: receiptText(tab, index) };
 }
 
+// ---- Selectors the user hid with the zapper (saved per exact host by the service worker). ----
+let zapTarget: { tabId: number; host: string } | undefined;
+function renderZaps(selectors: string[]): void {
+  $("z-section").hidden = selectors.length === 0;
+  $("z-list").replaceChildren(
+    ...selectors.map((s) => {
+      const li = el("li");
+      const btn = el("button", "hs-btn", "Show again") as HTMLButtonElement;
+      btn.type = "button";
+      btn.setAttribute("aria-label", `Show again: ${s}`);
+      btn.addEventListener("click", () => void changeZaps({ type: "removeZap", host: zapTarget?.host, selector: s }));
+      li.append(el("code", undefined, s), btn);
+      return li;
+    }),
+  );
+}
+async function changeZaps(msg: object): Promise<void> {
+  const t = zapTarget;
+  if (!t) return;
+  const res = (await chrome.runtime.sendMessage(msg).catch(() => undefined)) as { ok?: boolean } | undefined;
+  $("z-status").textContent = res?.ok ? "" : "Could not change this. Try again.";
+  if (res?.ok) await chrome.tabs.reload(t.tabId).catch(() => undefined); // the stylesheet is gone only after a reload
+}
+async function loadZaps(tabId: number, host: string): Promise<void> {
+  zapTarget = { tabId, host };
+  const res = (await chrome.runtime.sendMessage({ type: "getZaps", host }).catch(() => undefined)) as { ok?: boolean; selectors?: string[] } | undefined;
+  if (zapTarget?.host === host) renderZaps(res?.ok && Array.isArray(res.selectors) ? res.selectors : []);
+}
+$("z-clear").addEventListener("click", () => void changeZaps({ type: "clearZaps", host: zapTarget?.host }));
+
 let seq = 0;
 async function refresh(): Promise<void> {
   const mine = ++seq;
   const tab = await pickTab();
   const host = hostFromUrl(tab?.url);
-  if (tab?.id === undefined || !host) return render("Hush does not run on this page.", tab?.url ? "This page" : "No page");
+  if (tab?.id === undefined || !host) {
+    zapTarget = undefined;
+    renderZaps([]);
+    return render("Hush does not run on this page.", tab?.url ? "This page" : "No page");
+  }
+  void loadZaps(tab.id, host);
   const [state, stored] = await Promise.all([
     chrome.runtime.sendMessage({ type: "getState" }).catch(() => undefined) as Promise<{ ok?: boolean; off?: string[] } | undefined>,
     chrome.storage.session.get("receipts"),
@@ -142,7 +177,7 @@ $("copy").addEventListener("click", () => {
   );
 });
 chrome.storage.session.onChanged.addListener(() => void refresh());
-chrome.storage.local.onChanged.addListener((c) => c.off && void refresh()); // pause switch changed
+chrome.storage.local.onChanged.addListener((c) => (c.off || c.zaps) && void refresh()); // pause switch or hidden list changed
 chrome.tabs.onActivated.addListener(() => void refresh());
 chrome.tabs.onUpdated.addListener((_id, c) => c.url && void refresh());
 void refresh();

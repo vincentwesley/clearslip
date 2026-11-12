@@ -27,3 +27,7 @@ h3 { font: 400 0.75rem var(--font-label); letter-spacing: 0.06em; text-transform
 .chip { font: 400 0.7rem var(--font-label); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-muted); border: 1px solid var(--border-strong); padding: 0 0.3rem; }
 .paths { margin: 0.4rem 0; padding-left: 1.1rem; font-size: 0.8rem; overflow-wrap: anywhere; }
 #copy { margin-top: 1rem; min-height: 48px; }
+.zaps { list-style: none; margin: 0.5rem 0 1rem; padding: 0; display: grid; gap: 0.5rem; }
+.zaps li { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; align-items: center; border-top: 1px solid var(--border-strong); padding-top: 0.5rem; }
+.zaps code { font-family: var(--font-mono); font-size: 0.8rem; overflow-wrap: anywhere; }
+.zaps .hs-btn, #z-clear { min-height: 48px; }

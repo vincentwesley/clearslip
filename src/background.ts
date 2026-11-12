@@ -5,6 +5,7 @@ import { planCosmetic } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
 import { beginPage, commitsPage, recordBlock, type Receipts } from "./lib/receipt";
 import { hostFromUrl, isValidHost, siteIsOff, siteRules, withSite } from "./lib/site";
+import { addZap, cleanZaps, removeZap, validSelector, zapCss, zapsFor, type Zaps } from "./lib/zaps";
 
 const DETAIL: string[] = [...DETAIL_IDS];
 
@@ -46,6 +47,7 @@ async function chooseMode(): Promise<Mode> {
 
 const cleanOff = (off: unknown): string[] => (Array.isArray(off) ? off.filter(isValidHost) : []);
 const readOff = async (): Promise<string[]> => cleanOff((await chrome.storage.local.get("off")).off);
+const readZaps = async (): Promise<Zaps> => cleanZaps((await chrome.storage.local.get("zaps")).zaps);
 
 // Replace all dynamic rules with those for `off` in one atomic call: idempotent, no drift.
 async function reconcile(off: string[]): Promise<void> {
@@ -97,13 +99,15 @@ async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<voi
   const site = hostFromUrl(sender.tab?.url);
   if (tabId === undefined || sender.frameId === undefined || !site) return;
   const frame = hostFromUrl(sender.url) ?? site; // about:blank / srcdoc frames inherit the site
-  const [specific, off] = await Promise.all([loadSpecific(), readOff()]);
+  const [specific, off, zaps] = await Promise.all([loadSpecific(), readOff(), readZaps()]);
   if (siteIsOff(off, site)) return;
   const plan = planCosmetic(site, frame, specific);
-  if (!plan) return;
   const target = { tabId, frameIds: [sender.frameId] };
   const insert = (o: { files: string[] } | { css: string }) => chrome.scripting.insertCSS({ target, origin: "USER", ...o });
   const calls: Promise<void>[] = [];
+  const mine = zapCss(zaps, site); // the user's own rules apply even where a list says noCosmetic
+  if (mine) calls.push(insert({ css: mine }));
+  if (!plan) return void (await Promise.all(calls));
   if (plan.file) calls.push(insert({ files: ["rulesets/cosmetic-generic.css"] }));
   else if (plan.genericOff.length) {
     let css = genericMinus.get(frame);
@@ -183,9 +187,54 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
     if (sender.tab && sender.id === chrome.runtime.id) void injectCosmetic(sender).catch(() => undefined);
     return false;
   }
+  // The element picker (injected on an explicit click): top frame of a tab only, selector re-validated here.
+  if ((msg as { type?: unknown } | null)?.type === "zap") {
+    const tab = sender.tab;
+    if (!tab?.id || sender.frameId !== 0 || sender.id !== chrome.runtime.id) return false;
+    const tabId = tab.id;
+    const site = hostFromUrl(tab.url);
+    const selector = (msg as { selector?: unknown }).selector;
+    if (!site || !validSelector(selector)) {
+      sendResponse({ ok: false, reason: "invalid" });
+      return false;
+    }
+    void serial(async () => {
+      const r = addZap(await readZaps(), site, selector);
+      if (!r.ok) return sendResponse({ ok: false, reason: r.reason });
+      await chrome.storage.local.set({ zaps: r.zaps });
+      await chrome.scripting.insertCSS({ target: { tabId, allFrames: true }, origin: "USER", css: zapCss(r.zaps, site) });
+      sendResponse({ ok: true });
+    }).catch(() => sendResponse({ ok: false, reason: "error" }));
+    return true;
+  }
   // Only this extension's own pages (popup, side panel).
   if (sender.id !== chrome.runtime.id || !sender.url?.startsWith(chrome.runtime.getURL(""))) return false;
-  const m = msg as { type?: unknown; host?: unknown; off?: unknown } | null;
+  const m = msg as { type?: unknown; host?: unknown; off?: unknown; tabId?: unknown; selector?: unknown } | null;
+  if (m?.type === "startPicker" && Number.isInteger(m.tabId)) {
+    const tabId = m.tabId as number;
+    void (async () => {
+      const tab = await chrome.tabs.get(tabId);
+      const site = hostFromUrl(tab.url);
+      if (!site || siteIsOff(await readOff(), site)) return sendResponse({ ok: false, reason: "unsupported" });
+      await chrome.scripting.executeScript({ target: { tabId }, files: ["picker.js"] }); // top frame only
+      sendResponse({ ok: true });
+    })().catch(() => sendResponse({ ok: false, reason: "error" }));
+    return true;
+  }
+  if (m?.type === "getZaps" && isValidHost(m.host)) {
+    const host = m.host;
+    void readZaps().then((z) => sendResponse({ ok: true, selectors: zapsFor(z, host) }), () => sendResponse({ ok: false }));
+    return true;
+  }
+  if ((m?.type === "removeZap" || m?.type === "clearZaps") && isValidHost(m.host) && (m.type === "clearZaps" || validSelector(m.selector))) {
+    const { host, selector } = m as { host: string; selector?: string };
+    void serial(async () => {
+      const z = removeZap(await readZaps(), host, m.type === "clearZaps" ? undefined : selector);
+      await chrome.storage.local.set({ zaps: z });
+      sendResponse({ ok: true });
+    }).catch(() => sendResponse({ ok: false }));
+    return true;
+  }
   if (m?.type === "getState") {
     void (async () => {
       const { mode, off } = await chrome.storage.local.get(["mode", "off"]);

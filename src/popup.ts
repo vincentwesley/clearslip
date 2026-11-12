@@ -72,6 +72,7 @@ async function main(): Promise<void> {
   const showPaused = (paused: boolean): void => {
     toggle.setAttribute("aria-checked", String(paused)); // switch on = Hush paused here
     $("state").textContent = paused ? `Paused on ${host}` : "Hush is on";
+    $("zap").hidden = paused; // nothing to hide while Hush is paused here
   };
   const matched = id === undefined ? Promise.resolve(null) : loadMatched(id); // starts now, in parallel with getState
   let state: { ok?: boolean; off?: string[] } | undefined;
@@ -106,6 +107,12 @@ async function main(): Promise<void> {
       toggle.disabled = false;
       toggle.focus();
     }
+  });
+  $("zap").addEventListener("click", async () => {
+    if (id === undefined) return;
+    const res = (await chrome.runtime.sendMessage({ type: "startPicker", tabId: id }).catch(() => undefined)) as { ok?: boolean } | undefined;
+    if (res?.ok) window.close();
+    else fail("Could not start the picker on this page. Try reloading it.");
   });
   const data = await matched; // loadMatched never rejects; null = could not read
   if (data) renderGroups(data.maps, data.matches);

@@ -28,5 +28,6 @@ main, #controls { display: grid; gap: 0.9rem; }
 .groups .count { font-family: var(--font-mono); font-weight: 600; }
 .groups .list { grid-column: 1 / -1; font: 400 0.7rem var(--font-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); }
 
+#zap { justify-content: center; min-height: 48px; }
 footer { display: grid; gap: 0.6rem; }
 footer .hs-btn { justify-content: center; }
