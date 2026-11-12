@@ -4,7 +4,8 @@ Contract between the compiler (`src/compiler/`, `scripts/compile.ts`) and the ru
 
 ## Inputs
 - `lists/easylist.txt`, `lists/easyprivacy.txt`: pinned snapshots. `lists/SOURCES.json`: `[{ id, url, fetchedAt, sha256, lines }]`. Refreshed only by `npm run lists:update`.
-- `lists/LICENSE`: CC BY-SA 3.0 notice + credit.
+- `lists/hush-sg.txt`: Hush's own Singapore list (MIT, ABP syntax, each filter cites benchmark evidence). Never downloaded: `lists:update` only re-records its sha256 in SOURCES.json (`LISTS["hush-sg"].url` is `""`).
+- `lists/LICENSE`: CC BY-SA 3.0 notice + credit for EasyList/EasyPrivacy; states hush-sg.txt is MIT.
 
 ## Filter support (network filters only in milestone 1)
 Each line parses to a typed filter or a skip with a reason code. Nothing is dropped silently.
@@ -33,13 +34,14 @@ Skipped with a reason: cosmetic (`##`, `#@#`, `#?#`), `$redirect`, `$redirect-ru
 | per-site off (dynamic `allowAllRequests`, runtime) | 100 |
 
 ## Outputs (written to `dist/rulesets/`, never committed)
-The manifest always declares exactly these three rulesets, in this order:
+The manifest always declares exactly these four rulesets, in this order:
 
 | Ruleset id | File | Enabled by default | Content |
 |---|---|---|---|
-| `compact` | `compact.json` | yes | Same-option filters merged (pure-host block filters become one rule with a `requestDomains` array; otherwise identical rules deduped). Must be <= 30,000 rules. If it does not fit: keep every allow rule, then block rules in list order EasyPrivacy-host, EasyList-host, then pattern rules; report what was cut. |
+| `compact` | `compact.json` | yes | Same-option filters merged (pure-host block filters become one rule with a `requestDomains` array; otherwise identical rules deduped). Must be <= 30,000 rules. If it does not fit: keep every allow rule, then block rules in list order hush-sg-host, EasyPrivacy-host, EasyList-host, then pattern rules; report what was cut. |
 | `detail-easylist` | `detail-easylist.json` | no | One rule per filter, no merging. |
 | `detail-easyprivacy` | `detail-easyprivacy.json` | no | One rule per filter, no merging. |
+| `detail-hush-sg` | `detail-hush-sg.json` | no | One rule per filter, no merging. Also merged into `compact`. Detail mode enables all three `detail-*` rulesets. |
 
 - Rule ids start at 1 and are dense within each ruleset.
 - Regex budget: at most 1,000 regex rules across `detail-*` combined, and the same selection in `compact`.
@@ -89,7 +91,7 @@ Outputs in `dist/rulesets/` (CC BY-SA data, with the other rulesets):
 - Store (`src/lib/receipt.ts`, pure): `chrome.storage.session` key `receipts`, `{ [tabId]: { site, loadedAt, touched, blocked, hosts: { [host]: { count, types, paths } } } }`. Memory only, cleared when the browser closes, never `storage.local`. Default access level (extension pages only). Writes are debounced (150 ms). Deleted on `tabs.onRemoved`.
 - Caps: 200 hosts per tab (first-seen host dropped), 50 tabs (least recently touched dropped), 5 distinct paths per host, path 200 chars. Only the pathname is stored: query strings and fragments are removed before storing.
 - Not recorded: paused sites (site or parent in `off`), incognito tabs (`tab.incognito`; the extension is not incognito-enabled by default, the check is defence in depth).
-- List attribution: not available from webRequest. The side panel joins hosts to filters through `getMatchedRules` + the build-time maps (`listIndex`): host of a non-merged block filter, matched by host suffix. EasyList = "Ads", EasyPrivacy = "Trackers", unknown (compact mode merged rules, regex or path filters) = "Other". `getMatchedRules` calls are throttled to one per 30 s per page.
+- List attribution: not available from webRequest. The side panel joins hosts to filters through `getMatchedRules` + the build-time maps (`listIndex`): host of a non-merged block filter, matched by host suffix. EasyList = "Ads", EasyPrivacy = "Trackers", Hush Singapore list = "Singapore list", unknown (compact mode merged rules, regex or path filters) = "Other". `getMatchedRules` calls are throttled to one per 30 s per page.
 - UI: counts are real (requests blocked, distinct hosts listed); no bytes or time estimates. "Copy receipt" writes plain text (site, ISO time, counts, hosts) via `navigator.clipboard.writeText` on click. All page-derived text is set with `textContent`.
 
 ## Zapper (milestone 4)

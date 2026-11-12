@@ -1,0 +1,14 @@
+[Adblock Plus 1.1]
+! Title: Hush Singapore list
+! Hush's own small list. Own work, MIT licence, Copyright (c) 2026 Vincent Wesley.
+! Every filter cites evidence from the 2026-11-12 benchmark of Singapore sites.
+!
+! SPH Media audience-segment lookup keyed by a per-user id
+! (public-api.segmento.sphdigital.com.sg/downstream/segments/users/<uuid>, fetch).
+! Seen on straitstimes.com and hardwarezone.com.sg.
+||segmento.sphdigital.com.sg^
+! Header-bidding endpoint and cookie sync (bidder.copper6.com/prebid/multi/...,
+! sync.copper6.com/api/sync/image/). Seen on asiaone.com.
+||copper6.com^$third-party
+! The Trade Desk OpenPath bid request (/bid/bidder/...). Seen on asiaone.com.
+||bid-openpath.ttdcdn.org^$third-party

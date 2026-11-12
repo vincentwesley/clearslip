@@ -90,7 +90,7 @@ export function mergeHosts(items: Item[]): Item[] {
 }
 
 /**
- * Orders compact items (allow rules, then EasyPrivacy hosts, EasyList hosts, pattern rules) and
+ * Orders compact items (allow rules, then Hush Singapore hosts, EasyPrivacy hosts, EasyList hosts, pattern rules) and
  * cuts from the end until at most `max` remain. Allow rules are never cut.
  */
 export function capCompact(items: Item[], max: number) {
@@ -99,6 +99,7 @@ export function capCompact(items: Item[], max: number) {
   const block = items.filter((i) => i.rule.action.type === "block");
   const ordered = [
     ...allow,
+    ...block.filter((i) => isHost(i) && i.list === "hush-sg"),
     ...block.filter((i) => isHost(i) && i.list === "easyprivacy"),
     ...block.filter((i) => isHost(i) && i.list === "easylist"),
     ...block.filter((i) => !isHost(i)),

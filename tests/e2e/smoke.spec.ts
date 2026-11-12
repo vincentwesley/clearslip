@@ -100,6 +100,13 @@ test.describe("rules", () => {
     expect(await adOutcome()).toBe("net::ERR_BLOCKED_BY_CLIENT");
   });
 
+  test("Singapore list host is blocked when requested from another site", async () => {
+    const outcome = await sw.evaluate(() =>
+      chrome.declarativeNetRequest.testMatchOutcome({ url: "https://bidder.copper6.com/x", type: "xmlhttprequest", initiator: "http://127.0.0.1" }),
+    );
+    expect(outcome.matchedRules.length).toBeGreaterThan(0);
+  });
+
   test("pausing from the popup reloads the tab and lets the blocked request through", async () => {
     const page = await ctx.newPage();
     const ad: string[] = [];

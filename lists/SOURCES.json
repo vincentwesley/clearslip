@@ -12,5 +12,12 @@
     "fetchedAt": "2026-11-11T13:22:08.010Z",
     "sha256": "02027c18c4fff5df070b5ce804c2e1fe74df06030e984c23cf9b99bb30c51210",
     "lines": 57381
+  },
+  {
+    "id": "hush-sg",
+    "url": "local: lists/hush-sg.txt (own list, not downloaded)",
+    "fetchedAt": "2026-11-12T00:00:00.000Z",
+    "sha256": "63fdab72b122c565e07f10df2cff1374d4da88590f30ec99896de12489596b78",
+    "lines": 15
   }
 ]

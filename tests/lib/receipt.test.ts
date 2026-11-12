@@ -120,6 +120,14 @@ describe("receipt view", () => {
     expect(text).toContain("Requests blocked: 4");
     expect(text).toContain("Ads (EasyList)\nib.adnxs.com  2");
   });
+  it("labels hush-sg hits as the Singapore list", () => {
+    const i = listIndex([{ rule: { ruleId: 1, rulesetId: "detail-hush-sg" } }], { "detail-hush-sg": [null, "||copper6.com^$third-party"] });
+    const r: Receipts = {};
+    beginPage(r, 1, "s.test", Date.UTC(2026, 10, 12));
+    recordBlock(r, 1, req("https://bidder.copper6.com/x"), 5, false);
+    expect(sections(r[1], i).map((x) => [x.key, x.title])).toEqual([["sg", "Singapore list"]]);
+    expect(receiptText(r[1], i)).toContain("\nSingapore list\nbidder.copper6.com  1");
+  });
   it("skips merged and allow entries", () => {
     const i = listIndex(
       [

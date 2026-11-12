@@ -108,20 +108,20 @@ export interface Row extends HostEntry {
   info?: ListInfo;
 }
 export interface Section {
-  key: "ads" | "trackers" | "other";
+  key: "ads" | "trackers" | "sg" | "other";
   title: string;
   rows: Row[];
 }
-const TITLES = { ads: "Ads", trackers: "Trackers", other: "Other" } as const;
+const TITLES = { ads: "Ads", trackers: "Trackers", sg: "Singapore list", other: "Other" } as const;
 
-/** Rows grouped by the list that blocks the host (EasyList = Ads, EasyPrivacy = Trackers), busiest first. Empty sections are omitted. */
+/** Rows grouped by the list that blocks the host (EasyList = Ads, EasyPrivacy = Trackers, Hush Singapore list = Singapore list), busiest first. Empty sections are omitted. */
 export function sections(tab: TabReceipt, index: Map<string, ListInfo>): Section[] {
-  const groups: Record<Section["key"], Row[]> = { ads: [], trackers: [], other: [] };
+  const groups: Record<Section["key"], Row[]> = { ads: [], trackers: [], sg: [], other: [] };
   for (const [host, e] of Object.entries(tab.hosts)) {
     const info = hostSuffixes(host)
       .map((h) => index.get(h))
       .find(Boolean);
-    groups[info ? (info.list === "easylist" ? "ads" : "trackers") : "other"].push({ host, ...e, info });
+    groups[info ? (info.list === "easylist" ? "ads" : info.list === "hush-sg" ? "sg" : "trackers") : "other"].push({ host, ...e, info });
   }
   return (Object.keys(groups) as Section["key"][])
     .filter((k) => groups[k].length)
@@ -138,7 +138,7 @@ export function receiptText(tab: TabReceipt, index: Map<string, ListInfo>): stri
     `Tracker hosts: ${Object.keys(tab.hosts).length}`,
   ];
   for (const s of sections(tab, index)) {
-    lines.push("", s.key === "other" ? s.title : `${s.title} (${LISTS[s.key === "ads" ? "easylist" : "easyprivacy"].name})`);
+    lines.push("", s.key === "other" || s.key === "sg" ? s.title : `${s.title} (${LISTS[s.key === "ads" ? "easylist" : "easyprivacy"].name})`);
     for (const r of s.rows) lines.push(`${r.host}  ${r.count}`);
   }
   return lines.join("\n") + "\n";

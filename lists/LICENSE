@@ -10,8 +10,11 @@ Sources:
 Snapshot dates and checksums are in SOURCES.json. The files are unmodified
 copies of the upstream lists.
 
+hush-sg.txt is Hush's own Singapore list: MIT licence, Copyright (c) 2026
+Vincent Wesley. It is not part of EasyList and is not downloaded.
+
 Compiled rulesets derived from this data (the generated files in
-rulesets/ and their maps) are adaptations and carry the same licence,
-CC BY-SA 3.0, with the same credit: "The EasyList authors
-(https://easylist.to/)". The Hush source code itself is MIT-licensed and is
-not covered by this notice.
+rulesets/ and their maps) are adaptations of the EasyList data and, as a
+whole, carry the same licence, CC BY-SA 3.0, with the same credit: "The
+EasyList authors (https://easylist.to/)". The Hush source code itself is
+MIT-licensed and is not covered by this notice.

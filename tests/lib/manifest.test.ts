@@ -12,11 +12,12 @@ describe("manifest", () => {
     ]);
     expect(manifest).not.toHaveProperty("web_accessible_resources");
   });
-  it("declares exactly the three rulesets in order", () => {
+  it("declares exactly the four rulesets in order", () => {
     expect(manifest.declarative_net_request.rule_resources.map((r) => [r.id, r.enabled, r.path])).toEqual([
       ["compact", true, "rulesets/compact.json"],
       ["detail-easylist", false, "rulesets/detail-easylist.json"],
       ["detail-easyprivacy", false, "rulesets/detail-easyprivacy.json"],
+      ["detail-hush-sg", false, "rulesets/detail-hush-sg.json"],
     ]);
   });
 });

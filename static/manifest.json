@@ -31,7 +31,8 @@
     "rule_resources": [
       { "id": "compact", "enabled": true, "path": "rulesets/compact.json" },
       { "id": "detail-easylist", "enabled": false, "path": "rulesets/detail-easylist.json" },
-      { "id": "detail-easyprivacy", "enabled": false, "path": "rulesets/detail-easyprivacy.json" }
+      { "id": "detail-easyprivacy", "enabled": false, "path": "rulesets/detail-easyprivacy.json" },
+      { "id": "detail-hush-sg", "enabled": false, "path": "rulesets/detail-hush-sg.json" }
     ]
   }
 }

@@ -6,7 +6,7 @@ Hush is a Chrome extension that blocks ads and trackers and shows you what it bl
 Click the toolbar icon, then "Hide something on this page". Move the pointer over the page, click the box you want gone, adjust its size with the Up and Down arrow keys, then press "Hide" (Esc cancels). Hush saves a CSS rule for that exact site and hides the element at once and on every later visit. The rule is stored only on your device (`chrome.storage.local`), applies to that exact site only (not its subdomains), and stops while Hush is paused there. To undo: open the side panel ("Full receipt"), find "Hidden by you on this site", and press "Show again" next to a rule or "Show all again"; the tab reloads. Up to 100 rules per site and 500 sites. The picker code runs on a page only after you click that button.
 
 ## What it blocks, and what it does not
-- Blocks network requests to ad and tracker hosts using the EasyList and EasyPrivacy filter lists, compiled at build time into Chrome's declarativeNetRequest rules.
+- Blocks network requests to ad and tracker hosts using the EasyList and EasyPrivacy filter lists plus Hush's own small Singapore list (`lists/hush-sg.txt`), compiled at build time into Chrome's declarativeNetRequest rules.
 - Counts shown are real, measured by Chrome. Nothing is estimated.
 - Hides leftover ad boxes with CSS from the EasyList element-hiding rules (plain CSS selectors only; rules needing scripts or text matching are skipped). Hidden elements are not counted in the popup.
 - Does not rewrite, redirect or strip URL parameters.
@@ -43,7 +43,7 @@ node scripts/render-icons.mjs   # re-render icon PNGs from static/icons/icon.svg
 
 ## Licences
 - Code: MIT, Copyright (c) 2026 Vincent Wesley.
-- Filter rules: EasyList and EasyPrivacy, CC BY-SA 3.0. Credit: The EasyList authors (https://easylist.to/). Compiled rulesets are derived data under the same licence.
+- Filter rules: EasyList and EasyPrivacy, CC BY-SA 3.0. Credit: The EasyList authors (https://easylist.to/). Compiled rulesets are derived data under the same licence as a whole. `lists/hush-sg.txt` (Hush's own Singapore list) is MIT, Copyright (c) 2026 Vincent Wesley.
 - Fonts: OFL (see `src/fonts/OFL.txt`). Character art in the credits card is all rights reserved.
 
 Provided as is, without warranty.

@@ -1,18 +1,18 @@
 # Real-site check
 
-Headless Chromium 158.0.8127.18, unpacked `dist` build, Hush commit b67f585, 2026-11-12. Each site: one fresh profile without the extension, one with Hush; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with `npm run test:real` (live network, local only, never CI).
+Headless Chromium 158.0.8127.18, unpacked `dist` build, Hush commit a2994d9, 2026-11-12. Each site: one fresh profile without the extension, one with Hush; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with `npm run test:real` (live network, local only, never CI).
 
 "Selectors matched" = how many of the generic cosmetic selectors match at least one element on the settled page (Hush run). "Page OK" = HTTP status below 400, non-empty title, body text over 500 characters. "Errors" = uncaught page errors, plain -> Hush.
 
 | Site | Requests | Blocked | Transferred | Load event | Selectors matched | Page OK | Errors |
 |---|---|---|---|---|---|---|---|
-| www.theguardian.com/international | 104 -> 104 | 12 | 1059 kB -> 1055 kB | 2033 -> 2022 ms | 12 | yes | 0 -> 11 |
-| www.bbc.com/news | 387 -> 117 | 22 | 3189 kB -> 1804 kB | 3646 -> 1975 ms | 1 | yes | 1 -> 0 |
-| www.straitstimes.com | 553 -> 140 | 27 | 7435 kB -> 4188 kB | 10581 -> 3030 ms | 3 | yes | 0 -> 3 |
-| www.channelnewsasia.com | 414 -> 165 | 30 | 7258 kB -> 3566 kB | 7999 -> 3453 ms | 3 | yes | 2 -> 2 |
-| mothership.sg | 180 -> 67 | 11 | 25559 kB -> 23072 kB | 2763 -> 1852 ms | 0 | yes | 4 -> 0 |
-| www.speedtest.net | 60 -> 35 | 6 | 3362 kB -> 1660 kB | 2570 -> 2542 ms | 4 | yes | 0 -> 0 |
-| en.wikipedia.org/wiki/Ad_blocking | 38 -> 38 | 1 | 493 kB -> 492 kB | 1342 -> 1351 ms | 0 | yes | 0 -> 0 |
+| www.theguardian.com/international | 115 -> 116 | 12 | 1264 kB -> 1263 kB | 1821 -> 1710 ms | 12 | yes | 0 -> 11 |
+| www.bbc.com/news | 384 -> 116 | 21 | 3175 kB -> 1789 kB | 4460 -> 2011 ms | 1 | yes | 1 -> 0 |
+| www.straitstimes.com | unreachable without Hush (page.goto: Timeout 20000ms exceeded.) | | | | | | |
+| www.channelnewsasia.com | 418 -> 165 | 30 | 7818 kB -> 3598 kB | 11089 -> 3887 ms | 3 | yes | 2 -> 2 |
+| mothership.sg | 192 -> 67 | 11 | 32525 kB -> 28764 kB | 3537 -> 3136 ms | 0 | yes | 4 -> 0 |
+| www.speedtest.net | 56 -> 39 | 6 | 2846 kB -> 2175 kB | 1760 -> 1706 ms | 4 | yes | 0 -> 0 |
+| en.wikipedia.org/wiki/Ad_blocking | 38 -> 38 | 1 | 492 kB -> 491 kB | 567 -> 441 ms | 0 | yes | 0 -> 0 |
 
 ## Problems seen
 

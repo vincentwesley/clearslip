@@ -1,0 +1,2446 @@
+{
+ "meta": {
+  "date": "2026-11-12",
+  "hushCommit": "a2994d9",
+  "hushDirty": false,
+  "versions": {
+   "ubol": {
+    "repo": "uBlockOrigin/uBOL-home",
+    "version": "2026.1110.1816",
+    "asset": "uBOLite_2026.1110.1816.chromium.zip",
+    "url": "https://github.com/uBlockOrigin/uBOL-home/releases/download/2026.1110.1816/uBOLite_2026.1110.1816.chromium.zip",
+    "sha256": "85fe5909366e8ada66c5b331bbdbf69cf5100245ed6161b1e4e2f1f848ec7d03"
+   },
+   "adguard": {
+    "repo": "AdguardTeam/AdguardBrowserExtension",
+    "version": "v5.5.4",
+    "asset": "chrome-mv3.zip",
+    "url": "https://github.com/AdguardTeam/AdguardBrowserExtension/releases/download/v5.5.4/chrome-mv3.zip",
+    "sha256": "012263305d8fdd56281aa5c2149cd9de499ba7e0abf0f379d1cb7cf799e40bba"
+   }
+  },
+  "manifests": {
+   "hush": {
+    "manifest_version": 3,
+    "name": "Hush",
+    "version": "0.1.0",
+    "description": "Ad and tracker blocker that shows what it blocked.",
+    "minimum_chrome_version": "121",
+    "permissions": [
+     "declarativeNetRequest",
+     "declarativeNetRequestFeedback",
+     "storage",
+     "sidePanel",
+     "activeTab",
+     "scripting",
+     "webRequest"
+    ],
+    "host_permissions": [
+     "<all_urls>"
+    ],
+    "content_scripts": [
+     {
+      "matches": [
+       "<all_urls>"
+      ],
+      "js": [
+       "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+     }
+    ],
+    "icons": {
+     "16": "icons/icon-16.png",
+     "32": "icons/icon-32.png",
+     "48": "icons/icon-48.png",
+     "128": "icons/icon-128.png"
+    },
+    "action": {
+     "default_title": "Hush",
+     "default_popup": "popup.html",
+     "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+     }
+    },
+    "side_panel": {
+     "default_path": "sidepanel.html"
+    },
+    "background": {
+     "service_worker": "background.js",
+     "type": "module"
+    },
+    "declarative_net_request": {
+     "rule_resources": [
+      {
+       "id": "compact",
+       "enabled": true,
+       "path": "rulesets/compact.json"
+      },
+      {
+       "id": "detail-easylist",
+       "enabled": false,
+       "path": "rulesets/detail-easylist.json"
+      },
+      {
+       "id": "detail-easyprivacy",
+       "enabled": false,
+       "path": "rulesets/detail-easyprivacy.json"
+      }
+     ]
+    }
+   },
+   "ubol": {
+    "action": {
+     "default_icon": {
+      "16": "img/icon_16.png",
+      "32": "img/icon_32.png",
+      "64": "img/icon_64.png"
+     },
+     "default_popup": "popup.html"
+    },
+    "author": "Raymond Hill",
+    "background": {
+     "service_worker": "/js/background.js",
+     "type": "module"
+    },
+    "commands": {
+     "enter-zapper-mode": {
+      "description": "__MSG_zapperTipEnter__"
+     },
+     "enter-picker-mode": {
+      "description": "__MSG_pickerTipEnter__"
+     }
+    },
+    "declarative_net_request": {
+     "rule_resources": [
+      {
+       "id": "ublock-filters",
+       "enabled": true,
+       "path": "/rulesets/main/ublock-filters.json"
+      },
+      {
+       "id": "easylist",
+       "enabled": true,
+       "path": "/rulesets/main/easylist.json"
+      },
+      {
+       "id": "easyprivacy",
+       "enabled": true,
+       "path": "/rulesets/main/easyprivacy.json"
+      },
+      {
+       "id": "pgl",
+       "enabled": true,
+       "path": "/rulesets/main/pgl.json"
+      },
+      {
+       "id": "ublock-badware",
+       "enabled": true,
+       "path": "/rulesets/main/ublock-badware.json"
+      },
+      {
+       "id": "urlhaus-full",
+       "enabled": true,
+       "path": "/rulesets/main/urlhaus-full.json"
+      },
+      {
+       "id": "adguard-mobile",
+       "enabled": false,
+       "path": "/rulesets/main/adguard-mobile.json"
+      },
+      {
+       "id": "block-lan",
+       "enabled": false,
+       "path": "/rulesets/main/block-lan.json"
+      },
+      {
+       "id": "adguard-spyware-url",
+       "enabled": false,
+       "path": "/rulesets/main/adguard-spyware-url.json"
+      },
+      {
+       "id": "annoyances-ai",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-ai.json"
+      },
+      {
+       "id": "annoyances-cookies",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-cookies.json"
+      },
+      {
+       "id": "annoyances-overlays",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-overlays.json"
+      },
+      {
+       "id": "annoyances-social",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-social.json"
+      },
+      {
+       "id": "annoyances-widgets",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-widgets.json"
+      },
+      {
+       "id": "annoyances-others",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-others.json"
+      },
+      {
+       "id": "annoyances-notifications",
+       "enabled": false,
+       "path": "/rulesets/main/annoyances-notifications.json"
+      },
+      {
+       "id": "ublock-experimental",
+       "enabled": false,
+       "path": "/rulesets/main/ublock-experimental.json"
+      },
+      {
+       "id": "ubol-tests",
+       "enabled": false,
+       "path": "/rulesets/main/ubol-tests.json"
+      },
+      {
+       "id": "alb-0",
+       "enabled": false,
+       "path": "/rulesets/main/alb-0.json"
+      },
+      {
+       "id": "ara-0",
+       "enabled": false,
+       "path": "/rulesets/main/ara-0.json"
+      },
+      {
+       "id": "bgr-0",
+       "enabled": false,
+       "path": "/rulesets/main/bgr-0.json"
+      },
+      {
+       "id": "chn-0",
+       "enabled": false,
+       "path": "/rulesets/main/chn-0.json"
+      },
+      {
+       "id": "cze-0",
+       "enabled": false,
+       "path": "/rulesets/main/cze-0.json"
+      },
+      {
+       "id": "deu-0",
+       "enabled": false,
+       "path": "/rulesets/main/deu-0.json"
+      },
+      {
+       "id": "est-0",
+       "enabled": false,
+       "path": "/rulesets/main/est-0.json"
+      },
+      {
+       "id": "fin-0",
+       "enabled": false,
+       "path": "/rulesets/main/fin-0.json"
+      },
+      {
+       "id": "fra-0",
+       "enabled": false,
+       "path": "/rulesets/main/fra-0.json"
+      },
+      {
+       "id": "grc-0",
+       "enabled": false,
+       "path": "/rulesets/main/grc-0.json"
+      },
+      {
+       "id": "hrv-0",
+       "enabled": false,
+       "path": "/rulesets/main/hrv-0.json"
+      },
+      {
+       "id": "hun-0",
+       "enabled": false,
+       "path": "/rulesets/main/hun-0.json"
+      },
+      {
+       "id": "idn-0",
+       "enabled": false,
+       "path": "/rulesets/main/idn-0.json"
+      },
+      {
+       "id": "ind-0",
+       "enabled": false,
+       "path": "/rulesets/main/ind-0.json"
+      },
+      {
+       "id": "irn-0",
+       "enabled": false,
+       "path": "/rulesets/main/irn-0.json"
+      },
+      {
+       "id": "isl-0",
+       "enabled": false,
+       "path": "/rulesets/main/isl-0.json"
+      },
+      {
+       "id": "isr-0",
+       "enabled": false,
+       "path": "/rulesets/main/isr-0.json"
+      },
+      {
+       "id": "ita-0",
+       "enabled": false,
+       "path": "/rulesets/main/ita-0.json"
+      },
+      {
+       "id": "jpn-1",
+       "enabled": false,
+       "path": "/rulesets/main/jpn-1.json"
+      },
+      {
+       "id": "kor-1",
+       "enabled": false,
+       "path": "/rulesets/main/kor-1.json"
+      },
+      {
+       "id": "ltu-0",
+       "enabled": false,
+       "path": "/rulesets/main/ltu-0.json"
+      },
+      {
+       "id": "lva-0",
+       "enabled": false,
+       "path": "/rulesets/main/lva-0.json"
+      },
+      {
+       "id": "mkd-0",
+       "enabled": false,
+       "path": "/rulesets/main/mkd-0.json"
+      },
+      {
+       "id": "nld-0",
+       "enabled": false,
+       "path": "/rulesets/main/nld-0.json"
+      },
+      {
+       "id": "nor-0",
+       "enabled": false,
+       "path": "/rulesets/main/nor-0.json"
+      },
+      {
+       "id": "pol-0",
+       "enabled": false,
+       "path": "/rulesets/main/pol-0.json"
+      },
+      {
+       "id": "pol-3",
+       "enabled": false,
+       "path": "/rulesets/main/pol-3.json"
+      },
+      {
+       "id": "rou-1",
+       "enabled": false,
+       "path": "/rulesets/main/rou-1.json"
+      },
+      {
+       "id": "rus-0",
+       "enabled": false,
+       "path": "/rulesets/main/rus-0.json"
+      },
+      {
+       "id": "rus-1",
+       "enabled": false,
+       "path": "/rulesets/main/rus-1.json"
+      },
+      {
+       "id": "spa-0",
+       "enabled": false,
+       "path": "/rulesets/main/spa-0.json"
+      },
+      {
+       "id": "spa-1",
+       "enabled": false,
+       "path": "/rulesets/main/spa-1.json"
+      },
+      {
+       "id": "svn-0",
+       "enabled": false,
+       "path": "/rulesets/main/svn-0.json"
+      },
+      {
+       "id": "swe-1",
+       "enabled": false,
+       "path": "/rulesets/main/swe-1.json"
+      },
+      {
+       "id": "tha-0",
+       "enabled": false,
+       "path": "/rulesets/main/tha-0.json"
+      },
+      {
+       "id": "tur-0",
+       "enabled": false,
+       "path": "/rulesets/main/tur-0.json"
+      },
+      {
+       "id": "ukr-0",
+       "enabled": false,
+       "path": "/rulesets/main/ukr-0.json"
+      },
+      {
+       "id": "vie-1",
+       "enabled": false,
+       "path": "/rulesets/main/vie-1.json"
+      }
+     ]
+    },
+    "default_locale": "en",
+    "description": "__MSG_extShortDesc__",
+    "host_permissions": [
+     "<all_urls>"
+    ],
+    "incognito": "split",
+    "icons": {
+     "16": "img/icon_16.png",
+     "32": "img/icon_32.png",
+     "64": "img/icon_64.png",
+     "128": "img/icon_128.png"
+    },
+    "manifest_version": 3,
+    "minimum_chrome_version": "122.0",
+    "name": "__MSG_extName__",
+    "options_page": "dashboard.html",
+    "permissions": [
+     "activeTab",
+     "alarms",
+     "declarativeNetRequest",
+     "offscreen",
+     "scripting",
+     "storage",
+     "unlimitedStorage",
+     "userScripts"
+    ],
+    "short_name": "uBO Lite",
+    "storage": {
+     "managed_schema": "managed_storage.json"
+    },
+    "version": "2026.1110.1816",
+    "web_accessible_resources": [
+     {
+      "resources": [
+       "/strictblock.html"
+      ],
+      "matches": [
+       "<all_urls>"
+      ],
+      "use_dynamic_url": true
+     },
+     {
+      "resources": [
+       "/zapper-ui.html"
+      ],
+      "matches": [
+       "<all_urls>"
+      ],
+      "use_dynamic_url": true
+     },
+     {
+      "resources": [
+       "/picker-ui.html"
+      ],
+      "matches": [
+       "<all_urls>"
+      ],
+      "use_dynamic_url": true
+     },
+     {
+      "resources": [
+       "/unpicker-ui.html"
+      ],
+      "matches": [
+       "<all_urls>"
+      ],
+      "use_dynamic_url": true
+     },
+     {
+      "resources": [
+       "web_accessible_resources/noop.js",
+       "web_accessible_resources/amazon_apstag.js",
+       "web_accessible_resources/google-ima.js",
+       "web_accessible_resources/fingerprint2.js",
+       "web_accessible_resources/sensors-analytics.js",
+       "web_accessible_resources/adthrive_abd.js",
+       "web_accessible_resources/noop.txt",
+       "web_accessible_resources/1x1.gif",
+       "web_accessible_resources/empty",
+       "web_accessible_resources/noop.css",
+       "web_accessible_resources/32x32.png",
+       "web_accessible_resources/2x2.png",
+       "web_accessible_resources/3x2.png",
+       "web_accessible_resources/noop.html",
+       "web_accessible_resources/amazon_ads.js",
+       "web_accessible_resources/googletagservices_gpt.js",
+       "web_accessible_resources/google-analytics_analytics.js",
+       "web_accessible_resources/nofab.js",
+       "web_accessible_resources/hd-main.js",
+       "web_accessible_resources/popads.js",
+       "web_accessible_resources/googlesyndication_adsbygoogle.js",
+       "web_accessible_resources/prebid-ads.js",
+       "web_accessible_resources/doubleclick_instream_ad_status.js",
+       "web_accessible_resources/google-analytics_cx_api.js",
+       "web_accessible_resources/scorecardresearch_beacon.js",
+       "web_accessible_resources/google-analytics_ga.js",
+       "web_accessible_resources/outbrain-widget.js",
+       "web_accessible_resources/fingerprint3.js",
+       "web_accessible_resources/noop-vmap1.xml",
+       "web_accessible_resources/noop-vast3.xml",
+       "web_accessible_resources/noop-0.1s.mp3",
+       "web_accessible_resources/noop-vast2.xml",
+       "web_accessible_resources/noop-1s.mp4",
+       "web_accessible_resources/nobab2.js",
+       "web_accessible_resources/nitropay_ads.js",
+       "web_accessible_resources/chartbeat.js",
+       "web_accessible_resources/noop.json",
+       "web_accessible_resources/noeval-silent.js"
+      ],
+      "matches": [
+       "<all_urls>"
+      ],
+      "use_dynamic_url": true
+     }
+    ]
+   },
+   "adguard": {
+    "version": "5.5.4.55",
+    "manifest_version": 3,
+    "name": "__MSG_name__",
+    "content_security_policy": {
+     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+    },
+    "short_name": "__MSG_short_name__",
+    "author": "Adguard Software Ltd",
+    "default_locale": "en",
+    "description": "__MSG_description__",
+    "icons": {
+     "16": "assets/icons/on-16.png",
+     "128": "assets/icons/on-128.png"
+    },
+    "content_scripts": [
+     {
+      "all_frames": true,
+      "js": [
+       "pages/content-script-start.js"
+      ],
+      "matches": [
+       "http://*/*",
+       "https://*/*"
+      ],
+      "match_about_blank": true,
+      "run_at": "document_start"
+     },
+     {
+      "all_frames": true,
+      "js": [
+       "pages/content-script-end.js"
+      ],
+      "matches": [
+       "http://*/*",
+       "https://*/*"
+      ],
+      "match_about_blank": true,
+      "run_at": "document_end"
+     },
+     {
+      "all_frames": true,
+      "js": [
+       "pages/subscribe.js"
+      ],
+      "matches": [
+       "http://*/*",
+       "https://*/*"
+      ],
+      "match_about_blank": false,
+      "run_at": "document_end"
+     },
+     {
+      "all_frames": false,
+      "js": [
+       "pages/thankyou.js"
+      ],
+      "matches": [
+       "*://*.adguard.com/*/thankyou.html*",
+       "*://*.adguard.info/*/thankyou.html*",
+       "*://*.adguard.app/*/thankyou.html*"
+      ],
+      "run_at": "document_start"
+     },
+     {
+      "all_frames": false,
+      "js": [
+       "pages/import-configuration.js"
+      ],
+      "matches": [
+       "*://reports.adguard.com/*",
+       "*://reports.adguard.info/*",
+       "*://reports.adguard.app/*"
+      ],
+      "run_at": "document_end"
+     }
+    ],
+    "action": {
+     "default_icon": {
+      "19": "assets/icons/on-19.png",
+      "38": "assets/icons/on-38.png"
+     },
+     "default_title": "__MSG_name__",
+     "default_popup": "pages/popup.html"
+    },
+    "background": {
+     "service_worker": "pages/background.js"
+    },
+    "host_permissions": [
+     "<all_urls>"
+    ],
+    "minimum_chrome_version": "121",
+    "web_accessible_resources": [
+     {
+      "resources": [
+       "web-accessible-resources/*"
+      ],
+      "matches": [
+       "http://*/*",
+       "https://*/*"
+      ],
+      "use_dynamic_url": true
+     },
+     {
+      "resources": [
+       "assets/fonts/Roboto-Flex-Regular.woff2"
+      ],
+      "matches": [
+       "http://*/*",
+       "https://*/*"
+      ],
+      "use_dynamic_url": true
+     }
+    ],
+    "options_page": "pages/options.html",
+    "devtools_page": "pages/devtools.html",
+    "permissions": [
+     "tabs",
+     "webRequest",
+     "webNavigation",
+     "storage",
+     "unlimitedStorage",
+     "contextMenus",
+     "cookies",
+     "declarativeNetRequest",
+     "declarativeNetRequestFeedback",
+     "scripting",
+     "userScripts"
+    ],
+    "optional_permissions": [
+     "privacy"
+    ],
+    "declarative_net_request": {
+     "rule_resources": [
+      {
+       "id": "ruleset_0",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_0/ruleset_0.json"
+      },
+      {
+       "id": "ruleset_1",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_1/ruleset_1.json"
+      },
+      {
+       "id": "ruleset_10",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_10/ruleset_10.json"
+      },
+      {
+       "id": "ruleset_103",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_103/ruleset_103.json"
+      },
+      {
+       "id": "ruleset_105",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_105/ruleset_105.json"
+      },
+      {
+       "id": "ruleset_108",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_108/ruleset_108.json"
+      },
+      {
+       "id": "ruleset_109",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_109/ruleset_109.json"
+      },
+      {
+       "id": "ruleset_11",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_11/ruleset_11.json"
+      },
+      {
+       "id": "ruleset_110",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_110/ruleset_110.json"
+      },
+      {
+       "id": "ruleset_111",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_111/ruleset_111.json"
+      },
+      {
+       "id": "ruleset_112",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_112/ruleset_112.json"
+      },
+      {
+       "id": "ruleset_114",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_114/ruleset_114.json"
+      },
+      {
+       "id": "ruleset_120",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_120/ruleset_120.json"
+      },
+      {
+       "id": "ruleset_13",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_13/ruleset_13.json"
+      },
+      {
+       "id": "ruleset_16",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_16/ruleset_16.json"
+      },
+      {
+       "id": "ruleset_17",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_17/ruleset_17.json"
+      },
+      {
+       "id": "ruleset_18",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_18/ruleset_18.json"
+      },
+      {
+       "id": "ruleset_19",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_19/ruleset_19.json"
+      },
+      {
+       "id": "ruleset_2",
+       "enabled": true,
+       "path": "filters/declarative/ruleset_2/ruleset_2.json"
+      },
+      {
+       "id": "ruleset_20",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_20/ruleset_20.json"
+      },
+      {
+       "id": "ruleset_202",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_202/ruleset_202.json"
+      },
+      {
+       "id": "ruleset_203",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_203/ruleset_203.json"
+      },
+      {
+       "id": "ruleset_208",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_208/ruleset_208.json"
+      },
+      {
+       "id": "ruleset_21",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_21/ruleset_21.json"
+      },
+      {
+       "id": "ruleset_214",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_214/ruleset_214.json"
+      },
+      {
+       "id": "ruleset_216",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_216/ruleset_216.json"
+      },
+      {
+       "id": "ruleset_217",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_217/ruleset_217.json"
+      },
+      {
+       "id": "ruleset_218",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_218/ruleset_218.json"
+      },
+      {
+       "id": "ruleset_22",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_22/ruleset_22.json"
+      },
+      {
+       "id": "ruleset_224",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_224/ruleset_224.json"
+      },
+      {
+       "id": "ruleset_227",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_227/ruleset_227.json"
+      },
+      {
+       "id": "ruleset_23",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_23/ruleset_23.json"
+      },
+      {
+       "id": "ruleset_233",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_233/ruleset_233.json"
+      },
+      {
+       "id": "ruleset_235",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_235/ruleset_235.json"
+      },
+      {
+       "id": "ruleset_238",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_238/ruleset_238.json"
+      },
+      {
+       "id": "ruleset_243",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_243/ruleset_243.json"
+      },
+      {
+       "id": "ruleset_249",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_249/ruleset_249.json"
+      },
+      {
+       "id": "ruleset_25",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_25/ruleset_25.json"
+      },
+      {
+       "id": "ruleset_252",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_252/ruleset_252.json"
+      },
+      {
+       "id": "ruleset_253",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_253/ruleset_253.json"
+      },
+      {
+       "id": "ruleset_254",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_254/ruleset_254.json"
+      },
+      {
+       "id": "ruleset_255",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_255/ruleset_255.json"
+      },
+      {
+       "id": "ruleset_256",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_256/ruleset_256.json"
+      },
+      {
+       "id": "ruleset_257",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_257/ruleset_257.json"
+      },
+      {
+       "id": "ruleset_259",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_259/ruleset_259.json"
+      },
+      {
+       "id": "ruleset_260",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_260/ruleset_260.json"
+      },
+      {
+       "id": "ruleset_3",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_3/ruleset_3.json"
+      },
+      {
+       "id": "ruleset_4",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_4/ruleset_4.json"
+      },
+      {
+       "id": "ruleset_5",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_5/ruleset_5.json"
+      },
+      {
+       "id": "ruleset_6",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_6/ruleset_6.json"
+      },
+      {
+       "id": "ruleset_7",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_7/ruleset_7.json"
+      },
+      {
+       "id": "ruleset_8",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_8/ruleset_8.json"
+      },
+      {
+       "id": "ruleset_9",
+       "enabled": false,
+       "path": "filters/declarative/ruleset_9/ruleset_9.json"
+      }
+     ]
+    }
+   }
+  },
+  "runs": 3,
+  "conditions": [
+   "none",
+   "hush",
+   "ubol",
+   "adguard"
+  ],
+  "firstRunState": {
+   "hush": {
+    "rulesets": 1,
+    "origins": [
+     "<all_urls>"
+    ],
+    "storedKeys": []
+   },
+   "ubol": {
+    "rulesets": 6,
+    "origins": [
+     "<all_urls>"
+    ],
+    "storedKeys": []
+   },
+   "adguard": {
+    "rulesets": 1,
+    "origins": [
+     "*://*.adguard.app/*/thankyou.html*",
+     "*://*.adguard.com/*/thankyou.html*",
+     "*://*.adguard.info/*/thankyou.html*",
+     "*://reports.adguard.app/*",
+     "*://reports.adguard.com/*",
+     "*://reports.adguard.info/*",
+     "<all_urls>",
+     "http://*/*",
+     "https://*/*"
+    ],
+    "storedKeys": []
+   }
+  },
+  "chromium": "158.0.0.0"
+ },
+ "sites": [
+  {
+   "url": "https://www.theguardian.com/international",
+   "singapore": false,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 115,
+      "min": 115,
+      "max": 115
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 92,
+      "min": 92,
+      "max": 92
+     },
+     "bytes": {
+      "median": 1286376,
+      "min": 1286236,
+      "max": 1287224
+     },
+     "loadMs": {
+      "median": 1330,
+      "min": 1304,
+      "max": 1478
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 116,
+      "min": 116,
+      "max": 116
+     },
+     "blocked": {
+      "median": 12,
+      "min": 12,
+      "max": 12
+     },
+     "thirdPartyDone": {
+      "median": 93,
+      "min": 93,
+      "max": 93
+     },
+     "bytes": {
+      "median": 1285982,
+      "min": 1285680,
+      "max": 1286082
+     },
+     "loadMs": {
+      "median": 1434,
+      "min": 1432,
+      "max": 1499
+     },
+     "pageErrors": {
+      "median": 11,
+      "min": 11,
+      "max": 11
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 115,
+      "min": 115,
+      "max": 115
+     },
+     "blocked": {
+      "median": 12,
+      "min": 12,
+      "max": 12
+     },
+     "thirdPartyDone": {
+      "median": 92,
+      "min": 92,
+      "max": 92
+     },
+     "bytes": {
+      "median": 1283555,
+      "min": 1283061,
+      "max": 1290786
+     },
+     "loadMs": {
+      "median": 1623,
+      "min": 1583,
+      "max": 1763
+     },
+     "pageErrors": {
+      "median": 11,
+      "min": 11,
+      "max": 11
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 115,
+      "min": 115,
+      "max": 115
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 92,
+      "min": 92,
+      "max": 92
+     },
+     "bytes": {
+      "median": 1286949,
+      "min": 1286381,
+      "max": 1294426
+     },
+     "loadMs": {
+      "median": 1468,
+      "min": 1447,
+      "max": 1468
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.bbc.com/news",
+   "singapore": false,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 384,
+      "min": 206,
+      "max": 390
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 358,
+      "min": 192,
+      "max": 373
+     },
+     "bytes": {
+      "median": 3252686,
+      "min": 3251993,
+      "max": 3253146
+     },
+     "loadMs": {
+      "median": 3670,
+      "min": 1015,
+      "max": 4444
+     },
+     "pageErrors": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 116,
+      "min": 116,
+      "max": 116
+     },
+     "blocked": {
+      "median": 21,
+      "min": 21,
+      "max": 21
+     },
+     "thirdPartyDone": {
+      "median": 89,
+      "min": 89,
+      "max": 89
+     },
+     "bytes": {
+      "median": 1833182,
+      "min": 1833038,
+      "max": 1833313
+     },
+     "loadMs": {
+      "median": 1862,
+      "min": 1796,
+      "max": 2023
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 124,
+      "min": 123,
+      "max": 125
+     },
+     "blocked": {
+      "median": 17,
+      "min": 16,
+      "max": 17
+     },
+     "thirdPartyDone": {
+      "median": 93,
+      "min": 93,
+      "max": 94
+     },
+     "bytes": {
+      "median": 1845467,
+      "min": 1845421,
+      "max": 1845762
+     },
+     "loadMs": {
+      "median": 2953,
+      "min": 2148,
+      "max": 3431
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 122,
+      "min": 122,
+      "max": 122
+     },
+     "blocked": {
+      "median": 8,
+      "min": 8,
+      "max": 8
+     },
+     "thirdPartyDone": {
+      "median": 105,
+      "min": 105,
+      "max": 105
+     },
+     "bytes": {
+      "median": 2168130,
+      "min": 2168101,
+      "max": 2168152
+     },
+     "loadMs": {
+      "median": 3285,
+      "min": 3089,
+      "max": 3964
+     },
+     "pageErrors": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.straitstimes.com/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 2,
+     "brokenRuns": 1,
+     "requests": {
+      "median": 488,
+      "min": 472,
+      "max": 504
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 415.5,
+      "min": 399,
+      "max": 432
+     },
+     "bytes": {
+      "median": 6901878,
+      "min": 6882360,
+      "max": 6921396
+     },
+     "loadMs": {
+      "median": 12467,
+      "min": 11553,
+      "max": 13381
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 140,
+      "min": 140,
+      "max": 140
+     },
+     "blocked": {
+      "median": 27,
+      "min": 27,
+      "max": 27
+     },
+     "thirdPartyDone": {
+      "median": 51,
+      "min": 51,
+      "max": 51
+     },
+     "bytes": {
+      "median": 3544228,
+      "min": 3543257,
+      "max": 3545886
+     },
+     "loadMs": {
+      "median": 2504,
+      "min": 2439,
+      "max": 3119
+     },
+     "pageErrors": {
+      "median": 3,
+      "min": 3,
+      "max": 3
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 142,
+      "min": 142,
+      "max": 151
+     },
+     "blocked": {
+      "median": 17,
+      "min": 17,
+      "max": 24
+     },
+     "thirdPartyDone": {
+      "median": 53,
+      "min": 53,
+      "max": 55
+     },
+     "bytes": {
+      "median": 3378321,
+      "min": 3374748,
+      "max": 3383202
+     },
+     "loadMs": {
+      "median": 2828,
+      "min": 2636,
+      "max": 5415
+     },
+     "pageErrors": {
+      "median": 4,
+      "min": 3,
+      "max": 4
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 208,
+      "min": 205,
+      "max": 209
+     },
+     "blocked": {
+      "median": 19,
+      "min": 19,
+      "max": 19
+     },
+     "thirdPartyDone": {
+      "median": 121,
+      "min": 119,
+      "max": 122
+     },
+     "bytes": {
+      "median": 5980212,
+      "min": 5888963,
+      "max": 5981357
+     },
+     "loadMs": {
+      "median": 6025,
+      "min": 5806,
+      "max": 8589
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 1
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.channelnewsasia.com/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 407,
+      "min": 401,
+      "max": 410
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 353,
+      "min": 346,
+      "max": 356
+     },
+     "bytes": {
+      "median": 7652897,
+      "min": 7501856,
+      "max": 7808467
+     },
+     "loadMs": {
+      "median": 6847,
+      "min": 6846,
+      "max": 6879
+     },
+     "pageErrors": {
+      "median": 2,
+      "min": 2,
+      "max": 2
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 165,
+      "min": 165,
+      "max": 165
+     },
+     "blocked": {
+      "median": 30,
+      "min": 30,
+      "max": 30
+     },
+     "thirdPartyDone": {
+      "median": 91,
+      "min": 91,
+      "max": 91
+     },
+     "bytes": {
+      "median": 3686554,
+      "min": 3686514,
+      "max": 3686882
+     },
+     "loadMs": {
+      "median": 2745,
+      "min": 2697,
+      "max": 2899
+     },
+     "pageErrors": {
+      "median": 2,
+      "min": 2,
+      "max": 2
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 171,
+      "min": 171,
+      "max": 177
+     },
+     "blocked": {
+      "median": 27,
+      "min": 27,
+      "max": 27
+     },
+     "thirdPartyDone": {
+      "median": 93,
+      "min": 93,
+      "max": 96
+     },
+     "bytes": {
+      "median": 3695382,
+      "min": 3695375,
+      "max": 3695761
+     },
+     "loadMs": {
+      "median": 3395,
+      "min": 3092,
+      "max": 3473
+     },
+     "pageErrors": {
+      "median": 3,
+      "min": 3,
+      "max": 3
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 268,
+      "min": 267,
+      "max": 270
+     },
+     "blocked": {
+      "median": 22,
+      "min": 22,
+      "max": 22
+     },
+     "thirdPartyDone": {
+      "median": 197,
+      "min": 197,
+      "max": 199
+     },
+     "bytes": {
+      "median": 5601722,
+      "min": 5601643,
+      "max": 5610701
+     },
+     "loadMs": {
+      "median": 6406,
+      "min": 6215,
+      "max": 6788
+     },
+     "pageErrors": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     }
+    }
+   }
+  },
+  {
+   "url": "https://mothership.sg/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 188,
+      "min": 186,
+      "max": 193
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 134,
+      "min": 132,
+      "max": 139
+     },
+     "bytes": {
+      "median": 32617551,
+      "min": 32247447,
+      "max": 32717284
+     },
+     "loadMs": {
+      "median": 4578,
+      "min": 3562,
+      "max": 4629
+     },
+     "pageErrors": {
+      "median": 4,
+      "min": 4,
+      "max": 4
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 67,
+      "min": 67,
+      "max": 67
+     },
+     "blocked": {
+      "median": 11,
+      "min": 11,
+      "max": 11
+     },
+     "thirdPartyDone": {
+      "median": 9,
+      "min": 9,
+      "max": 9
+     },
+     "bytes": {
+      "median": 29451976,
+      "min": 29451067,
+      "max": 29453659
+     },
+     "loadMs": {
+      "median": 3419,
+      "min": 2828,
+      "max": 3486
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 74,
+      "min": 71,
+      "max": 74
+     },
+     "blocked": {
+      "median": 9,
+      "min": 9,
+      "max": 9
+     },
+     "thirdPartyDone": {
+      "median": 11,
+      "min": 11,
+      "max": 11
+     },
+     "bytes": {
+      "median": 29462301,
+      "min": 29460551,
+      "max": 29481706
+     },
+     "loadMs": {
+      "median": 3083,
+      "min": 3047,
+      "max": 3084
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 83,
+      "min": 83,
+      "max": 83
+     },
+     "blocked": {
+      "median": 3,
+      "min": 3,
+      "max": 3
+     },
+     "thirdPartyDone": {
+      "median": 31,
+      "min": 31,
+      "max": 31
+     },
+     "bytes": {
+      "median": 30373610,
+      "min": 30372954,
+      "max": 30378930
+     },
+     "loadMs": {
+      "median": 2954,
+      "min": 2926,
+      "max": 3259
+     },
+     "pageErrors": {
+      "median": 4,
+      "min": 4,
+      "max": 4
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.speedtest.net/",
+   "singapore": false,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 56,
+      "min": 56,
+      "max": 56
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 52,
+      "min": 52,
+      "max": 52
+     },
+     "bytes": {
+      "median": 2913783,
+      "min": 2913740,
+      "max": 2913798
+     },
+     "loadMs": {
+      "median": 1880,
+      "min": 1572,
+      "max": 1944
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 35,
+      "min": 35,
+      "max": 35
+     },
+     "blocked": {
+      "median": 6,
+      "min": 6,
+      "max": 6
+     },
+     "thirdPartyDone": {
+      "median": 25,
+      "min": 24,
+      "max": 25
+     },
+     "bytes": {
+      "median": 1699812,
+      "min": 1699269,
+      "max": 1700129
+     },
+     "loadMs": {
+      "median": 1840,
+      "min": 1503,
+      "max": 2088
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 44,
+      "min": 40,
+      "max": 44
+     },
+     "blocked": {
+      "median": 5,
+      "min": 5,
+      "max": 5
+     },
+     "thirdPartyDone": {
+      "median": 27,
+      "min": 27,
+      "max": 27
+     },
+     "bytes": {
+      "median": 2234749,
+      "min": 1707487,
+      "max": 2235384
+     },
+     "loadMs": {
+      "median": 1849,
+      "min": 1696,
+      "max": 2053
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 40,
+      "min": 40,
+      "max": 41
+     },
+     "blocked": {
+      "median": 7,
+      "min": 7,
+      "max": 8
+     },
+     "thirdPartyDone": {
+      "median": 29,
+      "min": 29,
+      "max": 29
+     },
+     "bytes": {
+      "median": 2225331,
+      "min": 2224360,
+      "max": 2225663
+     },
+     "loadMs": {
+      "median": 1779,
+      "min": 1752,
+      "max": 2732
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    }
+   }
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Ad_blocking",
+   "singapore": false,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 5,
+      "min": 5,
+      "max": 5
+     },
+     "bytes": {
+      "median": 504536,
+      "min": 504508,
+      "max": 504543
+     },
+     "loadMs": {
+      "median": 517,
+      "min": 500,
+      "max": 1423
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "blocked": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     },
+     "thirdPartyDone": {
+      "median": 5,
+      "min": 5,
+      "max": 5
+     },
+     "bytes": {
+      "median": 503624,
+      "min": 503618,
+      "max": 503661
+     },
+     "loadMs": {
+      "median": 501,
+      "min": 458,
+      "max": 524
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "blocked": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     },
+     "thirdPartyDone": {
+      "median": 5,
+      "min": 5,
+      "max": 5
+     },
+     "bytes": {
+      "median": 503627,
+      "min": 503614,
+      "max": 503666
+     },
+     "loadMs": {
+      "median": 606,
+      "min": 542,
+      "max": 983
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 5,
+      "min": 5,
+      "max": 5
+     },
+     "bytes": {
+      "median": 504375,
+      "min": 504203,
+      "max": 504516
+     },
+     "loadMs": {
+      "median": 876,
+      "min": 630,
+      "max": 1582
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.todayonline.com/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 353,
+      "min": 352,
+      "max": 353
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 346,
+      "min": 345,
+      "max": 347
+     },
+     "bytes": {
+      "median": 6579504,
+      "min": 6563630,
+      "max": 6588480
+     },
+     "loadMs": {
+      "median": 7298,
+      "min": 6527,
+      "max": 9885
+     },
+     "pageErrors": {
+      "median": 2,
+      "min": 2,
+      "max": 2
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 131,
+      "min": 131,
+      "max": 131
+     },
+     "blocked": {
+      "median": 28,
+      "min": 28,
+      "max": 28
+     },
+     "thirdPartyDone": {
+      "median": 102,
+      "min": 102,
+      "max": 102
+     },
+     "bytes": {
+      "median": 2972531,
+      "min": 2972509,
+      "max": 2972534
+     },
+     "loadMs": {
+      "median": 3100,
+      "min": 2111,
+      "max": 3323
+     },
+     "pageErrors": {
+      "median": 2,
+      "min": 2,
+      "max": 2
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 136,
+      "min": 135,
+      "max": 136
+     },
+     "blocked": {
+      "median": 25,
+      "min": 25,
+      "max": 25
+     },
+     "thirdPartyDone": {
+      "median": 106,
+      "min": 105,
+      "max": 106
+     },
+     "bytes": {
+      "median": 2981345,
+      "min": 2981340,
+      "max": 2981355
+     },
+     "loadMs": {
+      "median": 3551,
+      "min": 2364,
+      "max": 4357
+     },
+     "pageErrors": {
+      "median": 3,
+      "min": 3,
+      "max": 3
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 227,
+      "min": 227,
+      "max": 227
+     },
+     "blocked": {
+      "median": 22,
+      "min": 22,
+      "max": 22
+     },
+     "thirdPartyDone": {
+      "median": 204,
+      "min": 204,
+      "max": 204
+     },
+     "bytes": {
+      "median": 4862705,
+      "min": 4860708,
+      "max": 4863042
+     },
+     "loadMs": {
+      "median": 5910,
+      "min": 5843,
+      "max": 5929
+     },
+     "pageErrors": {
+      "median": 1,
+      "min": 1,
+      "max": 1
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.hardwarezone.com.sg/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 464,
+      "min": 430,
+      "max": 475
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 409,
+      "min": 377,
+      "max": 422
+     },
+     "bytes": {
+      "median": 3871656,
+      "min": 3797946,
+      "max": 3922985
+     },
+     "loadMs": {
+      "median": 12160,
+      "min": 9727,
+      "max": 14289
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 110,
+      "min": 110,
+      "max": 111
+     },
+     "blocked": {
+      "median": 25,
+      "min": 25,
+      "max": 26
+     },
+     "thirdPartyDone": {
+      "median": 35,
+      "min": 35,
+      "max": 35
+     },
+     "bytes": {
+      "median": 1450871,
+      "min": 1449631,
+      "max": 1450916
+     },
+     "loadMs": {
+      "median": 1866,
+      "min": 1861,
+      "max": 2178
+     },
+     "pageErrors": {
+      "median": 4,
+      "min": 4,
+      "max": 4
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 116,
+      "min": 116,
+      "max": 117
+     },
+     "blocked": {
+      "median": 22,
+      "min": 22,
+      "max": 23
+     },
+     "thirdPartyDone": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "bytes": {
+      "median": 1464140,
+      "min": 1463300,
+      "max": 1506249
+     },
+     "loadMs": {
+      "median": 2161,
+      "min": 1688,
+      "max": 2391
+     },
+     "pageErrors": {
+      "median": 3,
+      "min": 3,
+      "max": 3
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 162,
+      "min": 160,
+      "max": 163
+     },
+     "blocked": {
+      "median": 18,
+      "min": 18,
+      "max": 18
+     },
+     "thirdPartyDone": {
+      "median": 92,
+      "min": 92,
+      "max": 95
+     },
+     "bytes": {
+      "median": 2831586,
+      "min": 2831199,
+      "max": 2853268
+     },
+     "loadMs": {
+      "median": 7723,
+      "min": 5478,
+      "max": 7738
+     },
+     "pageErrors": {
+      "median": 4,
+      "min": 4,
+      "max": 4
+     }
+    }
+   }
+  },
+  {
+   "url": "https://www.propertyguru.com.sg/",
+   "singapore": true,
+   "excluded": "unreachable without a blocker (status 403, title \"Just a moment...\", body 271)",
+   "conditions": {}
+  },
+  {
+   "url": "https://sg.carousell.com/",
+   "singapore": true,
+   "excluded": "unreachable without a blocker (status 403, title \"Just a moment...\", body 264)",
+   "conditions": {}
+  },
+  {
+   "url": "https://www.asiaone.com/",
+   "singapore": true,
+   "excluded": null,
+   "conditions": {
+    "none": {
+     "runs": 3,
+     "loadedRuns": 2,
+     "brokenRuns": 1,
+     "requests": {
+      "median": 556,
+      "min": 542,
+      "max": 570
+     },
+     "blocked": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "thirdPartyDone": {
+      "median": 479,
+      "min": 465,
+      "max": 493
+     },
+     "bytes": {
+      "median": 6823972,
+      "min": 5620481,
+      "max": 8027463
+     },
+     "loadMs": {
+      "median": 8631,
+      "min": 8369,
+      "max": 8893
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "hush": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 162,
+      "min": 162,
+      "max": 163
+     },
+     "blocked": {
+      "median": 38,
+      "min": 38,
+      "max": 38
+     },
+     "thirdPartyDone": {
+      "median": 53,
+      "min": 53,
+      "max": 54
+     },
+     "bytes": {
+      "median": 2650528,
+      "min": 2650229,
+      "max": 2650608
+     },
+     "loadMs": {
+      "median": 1737,
+      "min": 1542,
+      "max": 3379
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "ubol": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 172,
+      "min": 169,
+      "max": 173
+     },
+     "blocked": {
+      "median": 41,
+      "min": 39,
+      "max": 41
+     },
+     "thirdPartyDone": {
+      "median": 56,
+      "min": 48,
+      "max": 56
+     },
+     "bytes": {
+      "median": 2449328,
+      "min": 2447086,
+      "max": 2449456
+     },
+     "loadMs": {
+      "median": 1877,
+      "min": 1685,
+      "max": 1891
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    },
+    "adguard": {
+     "runs": 3,
+     "loadedRuns": 3,
+     "brokenRuns": 0,
+     "requests": {
+      "median": 184,
+      "min": 180,
+      "max": 236
+     },
+     "blocked": {
+      "median": 19,
+      "min": 18,
+      "max": 50
+     },
+     "thirdPartyDone": {
+      "median": 114,
+      "min": 107,
+      "max": 116
+     },
+     "bytes": {
+      "median": 3452522,
+      "min": 3435046,
+      "max": 3815101
+     },
+     "loadMs": {
+      "median": 4124,
+      "min": 3440,
+      "max": 5269
+     },
+     "pageErrors": {
+      "median": 0,
+      "min": 0,
+      "max": 0
+     }
+    }
+   }
+  }
+ ]
+}
