@@ -3,26 +3,35 @@
 Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no remote yet, not published).
 
 ## Before anything
-1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md`.
+1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md` (sections: Cosmetic filtering, Receipt, Zapper).
 2. `npm ci --ignore-scripts`, then `npm run check && npm run build`.
 
 ## How to work here
-- Orchestrate; builders (Sonnet) implement, Fable reviews compiler diffs.
+- Orchestrate; builders (`vin-workflow:builder`, Sonnet) implement, Fable reviews diffs. Reviews: `code-review low <range>` after each milestone, plus a security read of new handlers.
 - Local commits only. Identity: `vincentwesley` noreply. No push, no repo creation, no store upload without the owner's OK.
-- The owner wants no check-ins: work through the milestones in `docs/PLAN.md`.
+- Owner wants no check-ins (2026-11-11) and an install-and-use blocker: no sign-in, no setup, safe, proven to work (2026-11-12).
+- Builder prompts must say: PowerShell + `fnm env --use-on-cd | Out-String | Invoke-Expression; fnm use 24`; `git -C`; never write files with `Set-Content`/`Out-File`/`>` (adds a BOM); headless only.
+- Do not rebuild `dist/` while a benchmark or real-site run is in progress.
 
-## Current state
-- Milestones 1 (network blocking, popup, per-site off) and 2 (cosmetic filtering, see COMPILER-SPEC "Cosmetic filtering") are built locally, not pushed. Milestone 3 (privacy receipt) built, see COMPILER-SPEC "Receipt". Milestone 4 (element zapper, COMPILER-SPEC "Zapper") built locally. Next: milestone 5 (Singapore list).
-- Zapper: own selector generator (no `@medv/finder` dependency); picker injected only on the popup click; zaps in `chrome.storage.local.zaps`, exact host. Receipt reset now uses webRequest + `tabs.onUpdated` (COMPILER-SPEC "Receipt"). Page-keyed lookups use `Object.hasOwn`. BOM test guards tracked files.
-- Needs `security-review` (new message handlers, injected script) and a code review before any push. `knip.json` entry list lacks `src/picker.ts` (not touched; add it if `npm run knip` complains).
+## Current state (2026-11-12)
+- Milestones 1-4 built, committed, reviewed except as listed below. Last full green: 121 unit, 20 e2e (`npm run check`, `npm run build`, `npx playwright test`). Differential vs `@ghostery/adblocker`: 357/368 agree, rest in `tests/e2e/known-differences.json`.
+- Permissions: `declarativeNetRequest`, `declarativeNetRequestFeedback`, `storage`, `sidePanel`, `activeTab`, `scripting`, `webRequest`, `host_permissions: <all_urls>`.
+- Real-site check on 7 live sites: nothing broke (`docs/real-site-check.md`, `npm run test:real`).
+- No tracker-to-company names: every usable dataset is CC BY-NC-SA (`docs/RESEARCH.md`).
 
-- Milestone 2 reviewed and fixed (selector safety, unhide/notHide/genericOff tables, lazy generic fetch, popup load split). The popup switch is now "Pause on this site" and reloads the tab.
-- Real-site check done on 7 live sites (`npm run test:real`, local only; results and problems in `docs/real-site-check.md`): no page broke, no main frame blocked.
-- Milestone 3: `webRequest.onErrorOccurred` spike confirmed (`net::ERR_BLOCKED_BY_CLIENT` with url/type/tabId/initiator), so `webRequest` is in the manifest. Receipt store `src/lib/receipt.ts` (session storage), side panel UI, popup button now "Full receipt"; popup still uses `getMatchedRules`. Needs `security-review` and a code review before any push (new permission).
-- Green (m3: 99 unit, 15 e2e): `npm run check`, build, `npx playwright test` (12 e2e, incl. differential vs `@ghostery/adblocker`: 357/368 agree, rest in `tests/e2e/known-differences.json`).
+## Do next, in this order
+1. **Fix three milestone 4 review findings** (not started):
+   - `src/background.ts` `zap` handler: `insertCSS` failing after `storage.local.set` makes the picker say "Could not save this rule" though it was saved. Report saved; treat injection failure separately.
+   - `zap` handler does not check `siteIsOff` (only `startPicker` does): refuse on a paused site.
+   - `src/lib/receipt.ts` `commitsPage`: same-host navigation with no request (back/forward cache, same-site prerender activation) keeps the old receipt; with no receipt yet the fallback never starts one.
+2. **Finish milestone 6, the benchmark** (builder was interrupted mid-run): WIP is committed but unverified: `scripts/bench-fetch.ts`, `scripts/bench-report.ts`, `tests/real/bench.spec.ts`, `bench` script in `package.json`, `.gitignore` lines. `.bench/` (gitignored) holds downloaded uBOL + AdGuard MV3 and a partial `results.json`; delete `.bench/results.json` and rerun `npm run bench` in full. Still to do: `docs/benchmark/README.md` + `results.json`, typecheck/lint of the new files, and `.bench/sg-survivors.json` (third-party requests Hush lets through on Singapore sites that a competitor blocks). Spec for it is in git history of this file's session: 12 sites (7 from the real-site spec + todayonline, hardwarezone, propertyguru, sg.carousell, asiaone), 4 conditions (none, hush, ubol, adguard, defaults), 3 interleaved runs, medians, report honestly where Hush loses.
+3. **Milestone 5, Singapore list**: a third list `lists/hush-sg.txt` (own filters, MIT) compiled like the others; every filter cites the site and evidence from `sg-survivors.json`; verify each site still loads (`npm run test:real`). Adding a list means a new entry in `LIST_IDS`/`RULESET_IDS` (`src/compiler/types.ts`) and the manifest; do it before the first store release so the ruleset set stays fixed afterwards.
+4. **Wrap-up before asking the owner:** `knip.json` lacks `src/picker.ts`; popup failure paths have no automated test; no screenshots yet, so leftover empty ad boxes on real sites are unchecked; the Guardian barely improved (12 blocked of 104), worth a look; `simplify` + `security-review` over the whole repo; `vin-workflow:ship-batch` (pre-public gate), then `vin-workflow:release-extension` (zip, listing text, permission justifications, privacy answers, screenshots).
 
 ## Known gaps
-0. Run `security-review` on milestone 2 (content script, `scripting`, all-sites access) before milestone 3.
-0. Popup failure paths (worker not answering, matched rules failing) have no automated test.
-1. Items marked unverified in `docs/RESEARCH.md` need re-checking before they are relied on.
-2. Owner steps (end only): OK to create the public repo and push; Chrome Web Store upload.
+1. `webRequest` receipt verified in the unpacked build only, not a store build.
+2. Items marked unverified in `docs/RESEARCH.md`.
+
+## Owner steps (end only)
+1. OK to create the public GitHub repo `hush` and push.
+2. Upload the zip in the Chrome Web Store dashboard and paste the prepared listing answers.

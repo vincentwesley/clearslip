@@ -21,6 +21,7 @@
     "lists:update": "node scripts/lists-update.ts",
     "test:e2e": "npm run build && playwright test",
     "test:real": "npm run build && playwright test -c playwright.real.config.ts",
+    "bench": "npm run build && node scripts/bench-fetch.ts --if-missing && playwright test -c playwright.real.config.ts bench.spec.ts && node scripts/bench-report.ts",
     "knip": "knip"
   },
   "devDependencies": {

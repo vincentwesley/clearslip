@@ -25,3 +25,4 @@ brag-output/
 *.zip
 qa-output/
 .playwright-mcp/
+.bench/
