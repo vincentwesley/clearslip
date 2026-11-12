@@ -20,6 +20,7 @@
     "compile": "node scripts/compile.ts",
     "lists:update": "node scripts/lists-update.ts",
     "test:e2e": "npm run build && playwright test",
+    "test:real": "npm run build && playwright test -c playwright.real.config.ts",
     "knip": "knip"
   },
   "devDependencies": {
