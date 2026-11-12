@@ -87,9 +87,10 @@ describe("commitsPage", () => {
     const p = new Map([[1, "https://a.test/download"]]);
     expect(commitsPage(p, rec, 1, "https://a.test/page#frag")).toBe(false);
   });
-  it("falls back to a host change; no receipt and no request means no reset", () => {
+  it("falls back to a host change, or to no receipt yet; same host with a receipt and no request does not reset", () => {
     expect(commitsPage(new Map(), rec, 1, "https://b.test/")).toBe(true);
-    expect(commitsPage(new Map(), undefined, 1, "https://b.test/")).toBe(false);
+    expect(commitsPage(new Map(), undefined, 1, "https://b.test/")).toBe(true);
+    expect(commitsPage(new Map(), rec, 1, "https://a.test/z")).toBe(false);
   });
 });
 

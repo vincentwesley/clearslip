@@ -44,7 +44,8 @@ const noHash = (u: string): string => u.split("#")[0];
  * (set on webRequest.onBeforeRequest); a tabs.onUpdated "loading" for that same URL means the navigation
  * really committed. Requests that never commit (204, downloads, aborted) leave a stale entry that never
  * matches a later URL; pushState and #fragment changes have no request, so they never match either.
- * Fallback for pages swapped in without a request (prerender activation): the host changed.
+ * Fallback for pages swapped in without a request (prerender activation): no receipt yet, or the host changed.
+ * Known limitation: a same-host back/forward-cache navigation has no request, so it keeps the previous page's receipt.
  */
 export function commitsPage(pending: Map<number, string>, rec: TabReceipt | undefined, tabId: number, url: string): boolean {
   const want = pending.get(tabId);
@@ -52,7 +53,7 @@ export function commitsPage(pending: Map<number, string>, rec: TabReceipt | unde
     pending.delete(tabId);
     return true;
   }
-  return !!rec && hostFromUrl(url) !== rec.site;
+  return !rec || hostFromUrl(url) !== rec.site;
 }
 
 /** A new top-level page replaces whatever the tab had. */

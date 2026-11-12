@@ -199,10 +199,12 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
       return false;
     }
     void serial(async () => {
+      if (siteIsOff(await readOff(), site)) return sendResponse({ ok: false, reason: "unsupported" });
       const r = addZap(await readZaps(), site, selector);
       if (!r.ok) return sendResponse({ ok: false, reason: r.reason });
       await chrome.storage.local.set({ zaps: r.zaps });
-      await chrome.scripting.insertCSS({ target: { tabId, allFrames: true }, origin: "USER", css: zapCss(r.zaps, site) });
+      // Saved: a failed injection (tab gone, navigated) must not report failure; the rule applies on next load.
+      await chrome.scripting.insertCSS({ target: { tabId, allFrames: true }, origin: "USER", css: zapCss(r.zaps, site) }).catch(() => undefined);
       sendResponse({ ok: true });
     }).catch(() => sendResponse({ ok: false, reason: "error" }));
     return true;

@@ -152,6 +152,7 @@ if (!g[FLAG]) {
     const reasons: Record<string, string> = {
       "limit-selectors": "Too many hidden items on this site (limit 100). Show some again in the side panel first.",
       "limit-hosts": "Too many sites have hidden items (limit 500).",
+      unsupported: "Hush is paused on this site. Turn it on to hide items.",
     };
     chrome.runtime.sendMessage({ type: "zap", selector }).then(
       (res: { ok?: boolean; reason?: string } | undefined) => {
