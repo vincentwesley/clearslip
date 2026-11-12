@@ -78,21 +78,19 @@ async function main(): Promise<void> {
   $("host").textContent = host;
 
   const toggle = $<HTMLButtonElement>("toggle");
-  const label = $("toggle-label");
   const error = $("error");
   const fail = (msg: string): void => {
     error.textContent = msg;
     error.hidden = false;
   };
-  const showOn = (on: boolean): void => {
-    toggle.setAttribute("aria-checked", String(on));
-    label.textContent = on ? "Hush is on for this site" : "Hush is off for this site";
+  const showPaused = (paused: boolean): void => {
+    toggle.setAttribute("aria-checked", String(paused)); // switch on = Hush paused here
+    $("state").textContent = paused ? `Paused on ${host}` : "Hush is on";
   };
   const matched = id === undefined ? Promise.resolve(null) : loadMatched(id); // starts now, in parallel with getState
   let state: { ok?: boolean; off?: string[] } | undefined;
-  let data: Awaited<typeof matched> = null;
   try {
-    [state, data] = await Promise.all([chrome.runtime.sendMessage({ type: "getState" }) as Promise<typeof state>, matched]);
+    state = (await chrome.runtime.sendMessage({ type: "getState" })) as typeof state;
   } catch {
     state = undefined;
   }
@@ -100,30 +98,36 @@ async function main(): Promise<void> {
     fail("Hush could not load its settings. Close this popup and open it again.");
     return; // controls stay hidden: no unlabeled live switch
   }
-  showOn(!state.off?.includes(host));
+  showPaused(!!state.off?.includes(host));
   $("controls").hidden = false;
   toggle.addEventListener("click", async () => {
-    const wasOn = toggle.getAttribute("aria-checked") === "true";
+    const wasPaused = toggle.getAttribute("aria-checked") === "true";
     toggle.disabled = true;
     error.hidden = true;
     try {
-      const res = (await chrome.runtime.sendMessage({ type: "setSiteOff", host, off: wasOn })) as { ok?: boolean; reason?: string } | undefined;
+      const res = (await chrome.runtime.sendMessage({ type: "setSiteOff", host, off: !wasPaused })) as { ok?: boolean; reason?: string } | undefined;
       if (res?.ok) {
-        showOn(!wasOn);
-        $("reload").hidden = false;
+        showPaused(!wasPaused);
+        if (id !== undefined) await chrome.tabs.reload(id).catch(console.warn); // apply now
       } else {
-        showOn(wasOn);
+        showPaused(wasPaused);
         fail(res?.reason === "limit" ? "Too many sites are switched off (limit 1,000). Turn Hush back on for one first." : "Could not change this site. Try again.");
       }
     } catch {
-      showOn(wasOn);
+      showPaused(wasPaused);
       fail("Could not change this site. Try again.");
     } finally {
       toggle.disabled = false;
       toggle.focus();
     }
   });
+  const data = await matched; // loadMatched never rejects; null = could not read
   if (data) renderGroups(data.maps, data.matches);
+  else if (id !== undefined) {
+    const empty = $("empty");
+    empty.textContent = "Could not read what was blocked on this page.";
+    empty.hidden = false;
+  }
 }
 
 main().catch(() => {

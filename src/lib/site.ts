@@ -44,6 +44,17 @@ export function siteRules(hosts: string[]): SiteRule[] {
   return hosts.map((h, i) => siteRule(i + 1, h));
 }
 
+/** `a.b.example.com` -> [`a.b.example.com`, `b.example.com`, `example.com`]. Stops before the bare TLD. */
+export function hostSuffixes(host: string): string[] {
+  const parts = host.split(".");
+  const out: string[] = [];
+  for (let i = 0; i < parts.length - 1 || i === 0; i++) out.push(parts.slice(i).join("."));
+  return out;
+}
+
+/** True when the host or a parent domain is in `off` (the same subdomain-inclusive match the DNR rule uses). */
+export const siteIsOff = (off: readonly string[], site: string): boolean => hostSuffixes(site).some((h) => off.includes(h));
+
 /** Add or remove a host, keeping the list validated, unique and sorted. At the cap an add is refused (`limit`) and the list is returned unchanged. */
 export function withSite(off: string[], host: string, isOff: boolean): { off: string[]; limit: boolean } {
   const set = new Set(off.filter(isValidHost));

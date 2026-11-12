@@ -1,4 +1,4 @@
-import type { CosmeticResult } from "./cosmetic.ts";
+import type { CosmeticReport, CosmeticResult } from "./cosmetic.ts";
 
 // Minimal DNR types, defined here so the compiler never depends on @types/chrome.
 // Single source for list and ruleset ids; the manifest, build and runtime all derive from these.
@@ -82,7 +82,7 @@ export interface Report {
   perList: Record<string, { parsed: number; converted: number; skipped: Record<string, number> }>;
   rulesets: Record<string, { rules: number; regexRules: number }>;
   compactCut: number;
-  cosmetic: { generic: number; specificHosts: number; specificRules: number; exceptions: number; noGeneric: number; noCosmetic: number; skipped: Record<string, number> };
+  cosmetic: CosmeticReport;
 }
 
 export interface CompileResult {

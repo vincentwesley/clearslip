@@ -22,13 +22,15 @@ const noRules = ruleCount() === 0; // compiler output missing or empty: rule-dep
 let server: http.Server;
 let origin: string;
 let host: string;
+let hits = 0; // fixture page loads
 let ctx: BrowserContext;
 let sw: Worker;
 let extId: string;
 let dir: string;
 
 test.beforeAll(async () => {
-  server = http.createServer((_req, res) => {
+  server = http.createServer((req, res) => {
+    if (req.url === "/") hits++; // not favicon.ico
     res.writeHead(200, { "content-type": "text/html" });
     res.end(`<!doctype html><title>t</title><body>hello<script src="${AD}"></script></body>`);
   });
@@ -38,7 +40,7 @@ test.beforeAll(async () => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-e2e-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium", // new headless mode, required for extensions
-    args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],
+    args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, "--host-resolver-rules=MAP ib.adnxs.com 127.0.0.1"], // the ad host never reaches a real server
   });
   sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));
   extId = new URL(sw.url()).host;
@@ -98,6 +100,28 @@ test.describe("rules", () => {
     expect(await adOutcome()).toBe("net::ERR_BLOCKED_BY_CLIENT");
   });
 
+  test("pausing from the popup reloads the tab and lets the blocked request through", async () => {
+    const page = await ctx.newPage();
+    const ad: string[] = [];
+    page.on("requestfailed", (r) => r.url() === AD && ad.push(r.failure()?.errorText ?? "failed"));
+    page.on("requestfinished", (r) => r.url() === AD && ad.push("finished"));
+    const before = hits;
+    await page.goto(origin);
+    await expect.poll(() => ad.at(-1)).toBe("net::ERR_BLOCKED_BY_CLIENT");
+    const tabId = await sw.evaluate(async (u) => (await chrome.tabs.query({ url: `${u}*` }))[0].id, origin);
+    const p = await ctx.newPage();
+    await p.goto(`chrome-extension://${extId}/popup.html?url=${encodeURIComponent(origin)}&tabId=${tabId}`);
+    await p.getByRole("switch").click();
+    await expect(p.getByRole("switch")).toHaveAttribute("aria-checked", "true");
+    await expect.poll(() => hits).toBe(before + 2); // reloaded
+    await expect.poll(() => ad.at(-1)).not.toBe("net::ERR_BLOCKED_BY_CLIENT");
+    await p.getByRole("switch").click();
+    await expect.poll(() => hits).toBe(before + 3);
+    await expect.poll(() => ad.at(-1)).toBe("net::ERR_BLOCKED_BY_CLIENT");
+    await p.close();
+    await page.close();
+  });
+
   test("popup lists what was blocked on the page", async () => {
     await adOutcome(true); // page stays open so matches keep their tab id
     const tabId = await sw.evaluate(async () => {
@@ -122,14 +146,16 @@ test.describe("popup", () => {
     await p.goto(`chrome-extension://${extId}/popup.html?url=${encodeURIComponent(origin)}`);
     const sw_ = p.getByRole("switch");
     await expect(p.locator("#host")).toHaveText(host);
-    await expect(sw_).toHaveAttribute("aria-checked", "true");
+    await expect(p.getByRole("switch", { name: "Pause on this site" })).toHaveAttribute("aria-checked", "false");
+    await expect(p.locator("#state")).toHaveText("Hush is on");
     expect((await sw_.boundingBox())!.height).toBeGreaterThanOrEqual(48);
     await sw_.focus();
     await p.keyboard.press("Space");
-    await expect(sw_).toHaveAttribute("aria-checked", "false");
+    await expect(sw_).toHaveAttribute("aria-checked", "true");
+    await expect(p.locator("#state")).toHaveText(`Paused on ${host}`);
     expect(await sw.evaluate(async () => (await chrome.storage.local.get("off")).off)).toEqual([host]);
     await sw_.click();
-    await expect(sw_).toHaveAttribute("aria-checked", "true");
+    await expect(sw_).toHaveAttribute("aria-checked", "false");
     expect(await sw.evaluate(async () => (await chrome.storage.local.get("off")).off)).toEqual([]);
     expect(errors).toEqual([]);
     await p.close();

@@ -72,7 +72,6 @@ export function compile(
   const each = <T>(pick: (b: (typeof built)[RulesetId]) => T) =>
     Object.fromEntries(RULESET_IDS.map((id) => [id, pick(built[id])])) as Record<RulesetId, T>;
   const cosmetic = compileCosmetic(lists);
-  const { stats, specific } = cosmetic;
   return {
     cosmetic,
     rulesets: each((b) => b.rules),
@@ -83,15 +82,7 @@ export function compile(
       perList,
       rulesets: each((b) => ({ rules: b.rules.length, regexRules: b.regexRules })),
       compactCut: capped.cut.length,
-      cosmetic: {
-        generic: cosmetic.generic.length,
-        specificHosts: stats.specificHosts,
-        specificRules: stats.specificRules,
-        exceptions: stats.exceptions,
-        noGeneric: specific.noGeneric.length,
-        noCosmetic: specific.noCosmetic.length,
-        skipped: stats.skipped,
-      },
+      cosmetic: cosmetic.report,
     },
   };
 }

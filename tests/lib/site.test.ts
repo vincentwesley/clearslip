@@ -1,5 +1,16 @@
 ﻿import { describe, expect, it } from "vitest";
-import { hostFromUrl, isValidHost, siteRule, siteRules, withSite } from "../../src/lib/site";
+import { hostFromUrl, hostSuffixes, isValidHost, siteIsOff, siteRule, siteRules, withSite } from "../../src/lib/site";
+
+describe("hostSuffixes / siteIsOff", () => {
+  it("walks suffixes without the bare TLD", () => {
+    expect(hostSuffixes("a.b.example.com")).toEqual(["a.b.example.com", "b.example.com", "example.com"]);
+    expect(hostSuffixes("localhost")).toEqual(["localhost"]);
+  });
+  it("off matches subdomains", () => {
+    expect(siteIsOff(["example.com"], "www.example.com")).toBe(true);
+    expect(siteIsOff(["example.com"], "notexample.com")).toBe(false);
+  });
+});
 
 describe("hostFromUrl", () => {
   it("keeps the exact lowercase hostname for http(s)", () => {

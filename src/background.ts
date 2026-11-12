@@ -1,9 +1,9 @@
 // Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
 import { DETAIL_IDS, RULESET_IDS, type Report } from "./compiler/types.ts";
-import type { Specific } from "./compiler/cosmetic.ts";
-import { planCosmetic, siteIsOff } from "./lib/cosmetic";
+import { toCss, type Specific } from "./compiler/cosmetic.ts";
+import { planCosmetic } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
-import { hostFromUrl, isValidHost, siteRules, withSite } from "./lib/site";
+import { hostFromUrl, isValidHost, siteIsOff, siteRules, withSite } from "./lib/site";
 
 const DETAIL: string[] = [...DETAIL_IDS];
 
@@ -76,28 +76,46 @@ chrome.runtime.onInstalled.addListener(() => void serial(init).catch(console.err
 chrome.runtime.onStartup.addListener(() => void serial(init).catch(console.error));
 
 // Packaged files, read lazily (the worker may have slept) and cached for its lifetime.
-let cosmeticData: Promise<{ specific: Specific; generic: string[] }> | undefined;
-const loadCosmetic = () =>
-  (cosmeticData ??= Promise.all(["cosmetic-specific", "cosmetic-generic"].map(async (n) => (await fetch(chrome.runtime.getURL(`rulesets/${n}.json`))).json())).then(
-    ([specific, generic]) => ({ specific, generic }),
-    (e) => {
-      cosmeticData = undefined;
-      throw e;
-    },
-  ));
+const once = <T>(name: string) => {
+  let p: Promise<T> | undefined;
+  return () =>
+    (p ??= fetch(chrome.runtime.getURL(`rulesets/${name}.json`)).then(
+      (r) => r.json() as Promise<T>,
+      (e) => {
+        p = undefined;
+        throw e;
+      },
+    ));
+};
+const loadSpecific = once<Specific>("cosmetic-specific");
+const loadGeneric = once<string[]>("cosmetic-generic"); // only needed when a frame has generic exceptions
+const genericMinus = new Map<string, Promise<string>>(); // frame host -> CSS of generic minus its exceptions
 
 async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<void> {
   const tabId = sender.tab?.id;
   const site = hostFromUrl(sender.tab?.url);
   if (tabId === undefined || sender.frameId === undefined || !site) return;
   const frame = hostFromUrl(sender.url) ?? site; // about:blank / srcdoc frames inherit the site
-  if (siteIsOff(await readOff(), site)) return;
-  const { specific, generic } = await loadCosmetic();
-  const plan = planCosmetic(site, frame, specific, generic);
+  const [specific, off] = await Promise.all([loadSpecific(), readOff()]);
+  if (siteIsOff(off, site)) return;
+  const plan = planCosmetic(site, frame, specific);
   if (!plan) return;
   const target = { tabId, frameIds: [sender.frameId] };
-  if (plan.file) await chrome.scripting.insertCSS({ target, files: ["rulesets/cosmetic-generic.css"], origin: "USER" });
-  if (plan.css) await chrome.scripting.insertCSS({ target, css: plan.css, origin: "USER" });
+  const insert = (o: { files: string[] } | { css: string }) => chrome.scripting.insertCSS({ target, origin: "USER", ...o });
+  const calls: Promise<void>[] = [];
+  if (plan.file) calls.push(insert({ files: ["rulesets/cosmetic-generic.css"] }));
+  else if (plan.genericOff.length) {
+    let css = genericMinus.get(frame);
+    if (!css) {
+      const skip = new Set(plan.genericOff);
+      css = loadGeneric().then((g) => toCss(g.filter((s) => !skip.has(s))));
+      genericMinus.set(frame, css);
+      css.catch(() => genericMinus.delete(frame));
+    }
+    calls.push(css.then((c) => insert({ css: c })));
+  }
+  if (plan.css) calls.push(insert({ css: plan.css }));
+  await Promise.all(calls);
 }
 
 chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {

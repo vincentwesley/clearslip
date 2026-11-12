@@ -37,6 +37,10 @@ describe("parseCosmetic", () => {
     expect(safeSelectors('a[title="x,y"], b:not(.c, .d)')).toEqual(['a[title="x,y"]', "b:not(.c, .d)"]);
     expect(safeSelectors("a\\,b")).toEqual(["a\\,b"]);
   });
+  it("rejects a trailing backslash", () => {
+    expect(safeSelectors(".a\\")).toBeNull();
+    expect(safeSelectors(".a\\\\")).toEqual([".a\\\\"]);
+  });
 });
 
 describe("compileCosmetic", () => {
@@ -49,10 +53,26 @@ describe("compileCosmetic", () => {
       hide: { "a.com": [".x", ".y"] },
       unhide: { "b.com": [".ad"] },
       notHide: { "s.a.com": [".y"] },
+      genericOff: { "b.com": [".ad"] },
       noGeneric: ["c.com"],
       noCosmetic: ["d.com"],
     });
-    expect(r.stats).toMatchObject({ generic: 2, specificHosts: 1, specificRules: 2, exceptions: 4, skipped: { procedural: 1 } });
+    expect(r.report).toMatchObject({ generic: 1, specificHosts: 1, specificRules: 2, exceptions: 4, noGeneric: 1, noCosmetic: 1, skipped: { procedural: 1 } });
+  });
+  it("redefined tables: negations, global exceptions, genericOff, negated-only exceptions", () => {
+    const x = compileCosmetic([
+      {
+        id: "easylist",
+        text: ["##.g", "##.h", "##.gone", "a.com##.gone", "~n.com##.g", "a.com,~s.a.com##.p", "a.com,~s.a.com##.g", "#@#.gone", "x.com#@#.h", "x.com#@#.other", "~y.com#@#.g"].join("\n"),
+      },
+    ]);
+    expect(x.generic).toEqual([".g", ".h"]);
+    expect(x.specific.hide).toEqual({ "a.com": [".p", ".g"] }); // .gone removed everywhere
+    expect(x.specific.unhide).toEqual({ "n.com": [".g"], "x.com": [".h", ".other"] });
+    expect(x.specific.notHide).toEqual({ "s.a.com": [".p", ".g"] });
+    expect(x.specific.genericOff).toEqual({ "n.com": [".g"], "x.com": [".h"] });
+    expect(x.report.skipped).toEqual({ "exception-negated-only": 1 });
+    expect(x.report).toMatchObject({ generic: 2, specificHosts: 1, exceptions: 3 });
   });
   it("css has one rule per selector", () => {
     expect(toCss([".a", "b"])).toBe(".a{display:none!important}\nb{display:none!important}");

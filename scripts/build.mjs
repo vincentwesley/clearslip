@@ -1,6 +1,7 @@
 import { build } from "esbuild";
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { compileCosmetic, toCss } from "../src/compiler/cosmetic.ts";
 import { RULESET_IDS } from "../src/compiler/types.ts";
 
 rmSync("dist", { recursive: true, force: true });
@@ -31,9 +32,10 @@ if (existsSync("scripts/compile.ts")) {
     writeFileSync(`dist/rulesets/map-${id}.json`, "[null]");
     rulesets[id] = { rules: 0, regexRules: 0 };
   }
-  writeFileSync("dist/rulesets/cosmetic-generic.css", "");
-  writeFileSync("dist/rulesets/cosmetic-generic.json", "[]");
-  writeFileSync("dist/rulesets/cosmetic-specific.json", JSON.stringify({ hide: {}, unhide: {}, notHide: {}, noGeneric: [], noCosmetic: [] }));
+  const empty = compileCosmetic([]);
+  writeFileSync("dist/rulesets/cosmetic-generic.css", toCss(empty.generic));
+  writeFileSync("dist/rulesets/cosmetic-generic.json", JSON.stringify(empty.generic));
+  writeFileSync("dist/rulesets/cosmetic-specific.json", JSON.stringify(empty.specific));
   writeFileSync(
     "dist/rulesets/report.json",
     JSON.stringify({ generatedAt: new Date().toISOString(), sources: [], perList: {}, rulesets, compactCut: 0 }),
