@@ -34,6 +34,10 @@ describe("planCosmetic", () => {
     expect(planCosmetic("nog.com", "nog.com", { ...data, hide: { "nog.com": [".s"] } })).toEqual({ file: false, genericOff: [], css: css(".s") });
     expect(planCosmetic("nog.com", "nog.com", data)).toBeNull();
   });
+  it("prototype-key hosts do not hit Object.prototype", () => {
+    expect(planCosmetic("constructor", "constructor", data)).toEqual({ file: true, genericOff: [], css: "" });
+    expect(planCosmetic("a.tostring", "a.tostring", data)).toEqual({ file: true, genericOff: [], css: "" });
+  });
   it("noCosmetic (also for subdomains) injects nothing", () => {
     expect(planCosmetic("off.com", "off.com", data)).toBeNull();
     expect(planCosmetic("www.off.com", "www.off.com", data)).toBeNull();

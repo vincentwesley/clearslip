@@ -1,4 +1,4 @@
-﻿> Update at the end of any session that changed state. Keep it lean.
+> Update at the end of any session that changed state. Keep it lean.
 
 Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no remote yet, not published).
 

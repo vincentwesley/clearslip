@@ -1,4 +1,4 @@
-﻿@import "./tokens.css";
+@import "./tokens.css";
 @import "./credits/credits.css";
 
 *, *::before, *::after { box-sizing: border-box; }

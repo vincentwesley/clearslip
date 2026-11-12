@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { hostFromUrl, hostSuffixes, isValidHost, siteIsOff, siteRule, siteRules, withSite } from "../../src/lib/site";
 
 describe("hostSuffixes / siteIsOff", () => {

@@ -1,9 +1,9 @@
-﻿// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
+// Service worker. Local-only: reads packaged files and chrome.storage, makes no network calls.
 import { DETAIL_IDS, RULESET_IDS, type Report } from "./compiler/types.ts";
 import { toCss, type Specific } from "./compiler/cosmetic.ts";
 import { planCosmetic } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
-import { beginPage, recordBlock, type Receipts } from "./lib/receipt";
+import { beginPage, commitsPage, recordBlock, type Receipts } from "./lib/receipt";
 import { hostFromUrl, isValidHost, siteIsOff, siteRules, withSite } from "./lib/site";
 
 const DETAIL: string[] = [...DETAIL_IDS];
@@ -120,7 +120,7 @@ async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<voi
 }
 
 // Privacy receipt: blocked requests per tab, in memory-only session storage. Observed locally, never sent anywhere.
-// A main-frame request start (webRequest, no extra permission) resets the tab; other extensions' blocks look the same and are counted too.
+// A committed navigation resets the tab (webRequest + tabs.onUpdated, no extra permission); other extensions' blocks look the same and are counted too.
 let receipts: Promise<Receipts> | undefined;
 const loadReceipts = () => (receipts ??= chrome.storage.session.get("receipts").then((s) => (s.receipts ?? {}) as Receipts));
 let flushTimer: ReturnType<typeof setTimeout> | undefined;
@@ -137,18 +137,25 @@ const record = (fn: (r: Receipts) => Promise<void>): void => {
   }).catch(() => undefined);
 };
 
+// A main-frame request alone is not a new page (204s, downloads and prerenders never show), so it only marks the
+// tab as pending; the receipt resets when tabs.onUpdated reports that URL loading. See docs/COMPILER-SPEC.md "Receipt reset".
+const pending = new Map<number, string>();
 chrome.webRequest.onBeforeRequest.addListener(
   (d) => {
-    record(async (r) => {
-      if (d.tabId < 0) return;
-      const site = hostFromUrl(d.url);
-      if (!site) return void delete r[d.tabId];
-      const tab = await chrome.tabs.get(d.tabId).catch(() => undefined);
-      beginPage(r, d.tabId, site, Date.now(), tab?.incognito ?? true);
-    });
+    if (d.tabId >= 0 && d.documentLifecycle === "active" && d.frameType === "outermost_frame") pending.set(d.tabId, d.url);
   },
   { urls: ["<all_urls>"], types: ["main_frame"] },
 );
+chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
+  const url = tab.url;
+  if (change.status !== "loading" || !url) return;
+  record(async (r) => {
+    if (!commitsPage(pending, r[tabId], tabId, url)) return;
+    const site = hostFromUrl(url);
+    if (!site) return void delete r[tabId];
+    beginPage(r, tabId, site, Date.now(), tab.incognito);
+  });
+});
 chrome.webRequest.onErrorOccurred.addListener(
   (d) => {
     if (d.error !== "net::ERR_BLOCKED_BY_CLIENT" || d.tabId < 0 || d.type === "main_frame") return;
@@ -165,7 +172,10 @@ chrome.webRequest.onErrorOccurred.addListener(
   },
   { urls: ["<all_urls>"] },
 );
-chrome.tabs.onRemoved.addListener((tabId) => record(async (r) => void delete r[tabId]));
+chrome.tabs.onRemoved.addListener((tabId) => {
+  pending.delete(tabId);
+  record(async (r) => void delete r[tabId]);
+});
 
 chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
   // The content script: trust only `sender`, never the message body.

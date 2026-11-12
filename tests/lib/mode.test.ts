@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { pickMode } from "../../src/lib/mode";
 
 const counts = { compact: 100, "detail-easylist": 400, "detail-easyprivacy": 200 }; // detail needs 600

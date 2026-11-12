@@ -1,4 +1,4 @@
-﻿// Pure helpers for the per-site off switch. No chrome.* here so they are unit-testable.
+// Pure helpers for the per-site off switch. No chrome.* here so they are unit-testable.
 
 export const MAX_OFF_SITES = 1000;
 export const SITE_RULE_PRIORITY = 100;

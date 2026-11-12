@@ -1,4 +1,4 @@
-﻿import { DETAIL_IDS } from "../compiler/types.ts";
+import { DETAIL_IDS } from "../compiler/types.ts";
 
 export type Mode = "detail" | "compact";
 

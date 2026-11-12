@@ -1,7 +1,7 @@
 // Privacy receipt store and formatting. Pure: no chrome.* so it is unit-testable.
 import { LISTS, LIST_IDS, type ListId } from "../compiler/types.ts";
 import { filterHost, type Maps, type Match } from "./matched";
-import { hostSuffixes } from "./site";
+import { hostFromUrl, hostSuffixes, isValidHost } from "./site";
 
 export const MAX_HOSTS = 200; // per tab, oldest host dropped
 export const MAX_TABS = 50; // oldest tab dropped
@@ -31,8 +31,28 @@ export function splitUrl(url: unknown): { host: string; path: string } | null {
   } catch {
     return null;
   }
-  if (!/^(https?|wss?):$/.test(u.protocol) || !u.hostname) return null;
-  return { host: u.hostname.toLowerCase(), path: u.pathname.slice(0, MAX_PATH_LEN) };
+  if (!/^(https?|wss?):$/.test(u.protocol)) return null;
+  const host = u.hostname.toLowerCase().replace(/\.$/, "");
+  if (!isValidHost(host)) return null; // page-controlled: also keeps `__proto__` and friends out of the lookups below
+  return { host, path: u.pathname.slice(0, MAX_PATH_LEN) };
+}
+
+const noHash = (u: string): string => u.split("#")[0];
+
+/**
+ * Decides whether a tab's receipt starts over. `pending` holds the last main-frame request URL per tab
+ * (set on webRequest.onBeforeRequest); a tabs.onUpdated "loading" for that same URL means the navigation
+ * really committed. Requests that never commit (204, downloads, aborted) leave a stale entry that never
+ * matches a later URL; pushState and #fragment changes have no request, so they never match either.
+ * Fallback for pages swapped in without a request (prerender activation): the host changed.
+ */
+export function commitsPage(pending: Map<number, string>, rec: TabReceipt | undefined, tabId: number, url: string): boolean {
+  const want = pending.get(tabId);
+  if (want !== undefined && noHash(want) === noHash(url)) {
+    pending.delete(tabId);
+    return true;
+  }
+  return !!rec && hostFromUrl(url) !== rec.site;
 }
 
 /** A new top-level page replaces whatever the tab had. */
@@ -50,14 +70,14 @@ export function recordBlock(r: Receipts, tabId: number, req: { url: string; type
   const tab = r[tabId];
   const u = splitUrl(req.url);
   if (!tab || tab.skip || paused || !u) return false;
-  let e = tab.hosts[u.host];
+  let e = Object.hasOwn(tab.hosts, u.host) ? tab.hosts[u.host] : undefined; // "constructor" is a valid host
   if (!e) {
     const keys = Object.keys(tab.hosts);
     if (keys.length >= MAX_HOSTS) delete tab.hosts[keys[0]]; // insertion order = first seen
     e = tab.hosts[u.host] = { count: 0, types: {}, paths: [] };
   }
   e.count++;
-  e.types[req.type] = (e.types[req.type] ?? 0) + 1;
+  e.types[req.type] = (Object.hasOwn(e.types, req.type) ? e.types[req.type] : 0) + 1;
   if (e.paths.length < MAX_PATHS && !e.paths.includes(u.path)) e.paths.push(u.path);
   tab.blocked++;
   tab.touched = now;

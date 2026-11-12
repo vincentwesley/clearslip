@@ -1,4 +1,4 @@
-﻿import "./credits/credits.js";
+import "./credits/credits.js";
 import { nextTheme, type Theme } from "./theme";
 
 const root = document.documentElement;

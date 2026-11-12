@@ -1,4 +1,4 @@
-﻿// One-off: renders static/icons/icon.svg to PNGs with Playwright's Chromium. Run: node scripts/render-icons.mjs
+// One-off: renders static/icons/icon.svg to PNGs with Playwright's Chromium. Run: node scripts/render-icons.mjs
 import { chromium } from "@playwright/test";
 import { readFileSync, writeFileSync } from "node:fs";
 

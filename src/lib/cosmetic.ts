@@ -19,7 +19,7 @@ export interface CosmeticPlan {
 export function planCosmetic(site: string, frame: string, data: Specific): CosmeticPlan | null {
   if (siteIsOff(data.noCosmetic, site)) return null;
   const walk = hostSuffixes(frame);
-  const collect = (m: Record<string, string[]>) => walk.flatMap((h) => m[h] ?? []);
+  const collect = (m: Record<string, string[]>) => walk.flatMap((h) => (Object.hasOwn(m, h) ? m[h] : [])); // "constructor" is a valid host
   const excluded = new Set([...collect(data.unhide), ...collect(data.notHide)]);
   const hide = [...new Set(collect(data.hide))].filter((s) => !excluded.has(s));
   const useGeneric = !siteIsOff(data.noGeneric, site);

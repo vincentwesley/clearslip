@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { beginPage, listIndex, MAX_HOSTS, MAX_PATHS, MAX_TABS, receiptText, recordBlock, sections, splitUrl, type Receipts } from "../../src/lib/receipt";
+import { beginPage, commitsPage, listIndex, MAX_HOSTS, MAX_PATHS, MAX_TABS, receiptText, recordBlock, sections, splitUrl, type Receipts } from "../../src/lib/receipt";
 
 const req = (url: string, type = "script") => ({ url, type });
 
@@ -48,6 +48,48 @@ describe("receipt store", () => {
     expect(recordBlock(r, 1, req("data:text/plain,x"), 2, false)).toBe(false);
     expect(r[1].blocked + r[2].blocked).toBe(0);
     expect(splitUrl("nonsense")).toBeNull();
+  });
+});
+
+describe("page-controlled names", () => {
+  it("rejects invalid hosts and survives prototype-key hosts", () => {
+    expect(splitUrl("https://__proto__/x")).toBeNull();
+    expect(splitUrl("https://127.0.0.1/x")?.host).toBe("127.0.0.1");
+    expect(splitUrl("https://ads.example./x")?.host).toBe("ads.example");
+    const r: Receipts = {};
+    beginPage(r, 1, "s.test", 1);
+    for (const h of ["constructor", "tostring", "valueof", "__proto__"]) {
+      recordBlock(r, 1, req(`https://${h}/a`), 2, false);
+      recordBlock(r, 1, req(`https://${h}/a`), 2, false);
+    }
+    expect(r[1].hosts["constructor"]).toMatchObject({ count: 2, paths: ["/a"] });
+    expect(r[1].blocked).toBe(6); // __proto__ dropped
+    expect(({} as Record<string, unknown>).count).toBeUndefined();
+    expect(Object.getPrototypeOf(r[1].hosts)).toBe(Object.prototype);
+  });
+  it("a prototype-key request type is counted as its own key", () => {
+    const r: Receipts = {};
+    beginPage(r, 1, "s.test", 1);
+    recordBlock(r, 1, req("https://a.example/", "constructor"), 2, false);
+    expect(r[1].hosts["a.example"].types).toEqual({ constructor: 1 });
+  });
+});
+
+describe("commitsPage", () => {
+  const rec = { site: "a.test", loadedAt: 1, touched: 1, blocked: 0, hosts: {} };
+  it("commits only the pending URL, once, ignoring the fragment", () => {
+    const p = new Map([[1, "https://a.test/x"]]);
+    expect(commitsPage(p, rec, 1, "https://a.test/y")).toBe(false); // pushState
+    expect(commitsPage(p, rec, 1, "https://a.test/x#h")).toBe(true);
+    expect(commitsPage(p, rec, 1, "https://a.test/x")).toBe(false); // consumed
+  });
+  it("a request that never commits (204, download) does not reset", () => {
+    const p = new Map([[1, "https://a.test/download"]]);
+    expect(commitsPage(p, rec, 1, "https://a.test/page#frag")).toBe(false);
+  });
+  it("falls back to a host change; no receipt and no request means no reset", () => {
+    expect(commitsPage(new Map(), rec, 1, "https://b.test/")).toBe(true);
+    expect(commitsPage(new Map(), undefined, 1, "https://b.test/")).toBe(false);
   });
 });
 

@@ -1,4 +1,4 @@
-﻿import { test, expect, chromium, type BrowserContext, type Worker } from "@playwright/test";
+import { test, expect, chromium, type BrowserContext, type Worker } from "@playwright/test";
 import http from "node:http";
 import fs from "node:fs";
 import os from "node:os";
