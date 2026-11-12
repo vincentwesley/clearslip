@@ -1,4 +1,4 @@
-﻿# Research (2026-11-11)
+# Research (2026-11-11)
 
 Items marked **unverified** came from prior knowledge, not a checked source. Re-check before relying on them.
 
@@ -36,6 +36,11 @@ Source unless noted: https://developer.chrome.com/docs/extensions/reference/api/
 - Brave adblock-rust: https://github.com/brave/adblock-rust (MPL-2.0).
 - eyeo abp2dnr: https://github.com/kzar/abp2dnr (GPL-3.0).
 - Selector generation for the zapper: https://github.com/antonmedv/finder (MIT).
+
+## Tracker-to-company data (checked 2026-11-12): not used
+- DuckDuckGo Tracker Radar (https://github.com/duckduckgo/tracker-radar), Ghostery TrackerDB (https://github.com/ghostery/trackerdb) and Disconnect (https://github.com/disconnectme/disconnect-tracking-protection) are all CC BY-NC-SA 4.0: NonCommercial and ShareAlike, not bundled.
+- whotracks.me (https://github.com/whotracksme/whotracks.me) content is CC BY 4.0, but its company metadata is maintained in TrackerDB (NC-SA); provenance of names in its data dump is unverified.
+- Decision: the receipt groups by tracker host and by list (Ads = EasyList, Trackers = EasyPrivacy). No company names unless a cleanly licensed source appears.
 
 ## Testing and benchmark
 - Playwright loads MV3 extensions headless with `launchPersistentContext`, `channel: 'chromium'`, `--disable-extensions-except` and `--load-extension`; branded Chrome no longer accepts side-loading flags (https://playwright.dev/docs/chrome-extensions).
