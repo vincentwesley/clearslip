@@ -10,6 +10,7 @@ Manifest V3 ad and tracker blocker for Chrome. Network blocking from EasyList + 
 - The owner wants no involvement: decide and carry on. Nothing is pushed, made public or uploaded without the owner's OK.
 
 ## Hard constraints
+- **Install and use.** No sign-in, no account, no setup screen, no required configuration: blocking is on the moment the extension is installed (owner, 2026-11-12). Any feature that would need an account or a server is out.
 - **Zero network calls from the extension.** No remote code, no remote rules, no analytics. Lists are fetched only by `npm run lists:update` on the developer machine.
 - **Permissions:** `declarativeNetRequest`, `declarativeNetRequestFeedback`, `storage`, `sidePanel`, `activeTab` (popup needs the tab's hostname), `scripting` + `host_permissions: <all_urls>` (cosmetic CSS injection, milestone 2). The only content script (`src/content.ts`) sends one message and never touches the DOM. Every permission has a Web Store justification line in README.
 - **Licences:** code is MIT. `lists/` and generated `rulesets/` are EasyList data under CC BY-SA 3.0, credit "The EasyList authors (https://easylist.to/)". Never copy code or test fixtures from uBlock Origin, AdGuard or eyeo (GPL). `@ghostery/adblocker` (MPL-2.0) is a test-only devDependency and must never be imported from `src/`.
