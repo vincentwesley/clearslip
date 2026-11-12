@@ -1,10 +1,10 @@
-{
+﻿{
   "manifest_version": 3,
   "name": "Hush",
   "version": "0.1.0",
   "description": "Ad and tracker blocker that shows what it blocked.",
   "minimum_chrome_version": "121",
-  "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback", "storage", "sidePanel", "activeTab", "scripting"],
+  "permissions": ["declarativeNetRequest", "declarativeNetRequestFeedback", "storage", "sidePanel", "activeTab", "scripting", "webRequest"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     { "matches": ["<all_urls>"], "js": ["content.js"], "run_at": "document_start", "all_frames": true, "match_about_blank": true }

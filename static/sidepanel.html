@@ -8,11 +8,26 @@
 </head>
 <body>
   <header class="top">
-    <p class="hs-eyebrow">About</p>
+    <p class="hs-eyebrow">Privacy receipt</p>
     <h1>Hush</h1>
     <button id="theme" class="hs-btn" type="button" aria-pressed="false">Light theme</button>
   </header>
   <main>
+    <section class="hs-card" aria-labelledby="h-receipt">
+      <h2 id="h-receipt">This page</h2>
+      <p id="r-site" class="mono site">&nbsp;</p>
+      <p id="r-time" class="hint"></p>
+      <p id="r-note" class="hint" role="status" hidden></p>
+      <div id="r-body" hidden>
+        <dl class="stats">
+          <div><dt>Requests blocked</dt><dd id="r-blocked" class="mono">0</dd></div>
+          <div><dt>Tracker hosts</dt><dd id="r-hosts" class="mono">0</dd></div>
+        </dl>
+        <div id="r-sections"></div>
+        <button id="copy" class="hs-btn" type="button">Copy receipt</button>
+        <p id="copy-status" class="hint" role="status"></p>
+      </div>
+    </section>
     <section class="hs-card" aria-labelledby="h-about">
       <h2 id="h-about">About Hush</h2>
       <p>Hush blocks ads and trackers using the EasyList and EasyPrivacy filter lists, and shows what it blocked on each page. It collects nothing and makes no network calls.</p>

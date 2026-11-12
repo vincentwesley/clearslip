@@ -79,3 +79,14 @@ Outputs in `dist/rulesets/` (CC BY-SA data, with the other rulesets):
 - Injection: `chrome.scripting.insertCSS({ target: { tabId, frameIds: [frameId] }, origin: "USER", files | css })` (Chrome allows exactly one of `files`/`css` per call, so up to two calls, run in parallel). USER origin means an author `!important` rule cannot undo the hiding. No `web_accessible_resources`.
 - The JSON is fetched from the package lazily and cached for the worker's lifetime. Flash of an ad box before the first message round trip is possible; accepted for this milestone.
 - Needs `scripting` and `host_permissions: ["<all_urls>"]`.
+
+
+## Receipt (milestone 3)
+- Source: `webRequest.onErrorOccurred` (permission `webRequest`, with the existing `<all_urls>`), only `error === "net::ERR_BLOCKED_BY_CLIENT"`, `tabId >= 0`, not `main_frame`. Observe-only: no blocking listener, no `extraInfoSpec`.
+- Limit: Chrome reports the same error for requests blocked by any extension, so blocks by other extensions are indistinguishable and are counted too.
+- Reset: `webRequest.onBeforeRequest` for `main_frame` starts a fresh receipt for that tab (no `webNavigation`/`tabs` permission needed); a non-http(s) page deletes it. If the worker wakes mid-page, the first blocked event adopts the tab's current page via `tabs.get`.
+- Store (`src/lib/receipt.ts`, pure): `chrome.storage.session` key `receipts`, `{ [tabId]: { site, loadedAt, touched, blocked, hosts: { [host]: { count, types, paths } } } }`. Memory only, cleared when the browser closes, never `storage.local`. Default access level (extension pages only). Writes are debounced (150 ms). Deleted on `tabs.onRemoved`.
+- Caps: 200 hosts per tab (first-seen host dropped), 50 tabs (least recently touched dropped), 5 distinct paths per host, path 200 chars. Only the pathname is stored: query strings and fragments are removed before storing.
+- Not recorded: paused sites (site or parent in `off`), incognito tabs (`tab.incognito`; the extension is not incognito-enabled by default, the check is defence in depth).
+- List attribution: not available from webRequest. The side panel joins hosts to filters through `getMatchedRules` + the build-time maps (`listIndex`): host of a non-merged block filter, matched by host suffix. EasyList = "Ads", EasyPrivacy = "Trackers", unknown (compact mode merged rules, regex or path filters) = "Other". `getMatchedRules` calls are throttled to one per 30 s per page.
+- UI: counts are real (requests blocked, distinct hosts listed); no bytes or time estimates. "Copy receipt" writes plain text (site, ISO time, counts, hosts) via `navigator.clipboard.writeText` on click. All page-derived text is set with `textContent`.

@@ -1,4 +1,4 @@
-# Research (2026-11-11)
+﻿# Research (2026-11-11)
 
 Items marked **unverified** came from prior knowledge, not a checked source. Re-check before relying on them.
 
@@ -13,7 +13,7 @@ Source unless noted: https://developer.chrome.com/docs/extensions/reference/api/
 - `onRuleMatchedDebug` and `testMatchOutcome`: unpacked extensions only. Useful for tests and the benchmark, not for the shipped UI.
 - Badge count: `setExtensionActionOptions({ displayActionCountAsBadgeText: true })`.
 - Chrome 145 added `topDomains` / `excludedTopDomains` rule conditions.
-- **Unverified:** `webRequest.onErrorOccurred` with `net::ERR_BLOCKED_BY_CLIENT` as a way to list blocked URLs in a store build (needs host permissions). Spike in milestone 3.
+- **Verified (2026-11-12, Chrome for Testing via Playwright, MV3, non-blocking listener, `webRequest` + `<all_urls>`):** a request blocked by our declarativeNetRequest rules fires `webRequest.onErrorOccurred` with `error: "net::ERR_BLOCKED_BY_CLIENT"` and carries `url` (full, including query and fragment), `type`, `tabId`, `initiator`, `frameId`, `method`. Used for the privacy receipt. Not tested in a Web Store build; the API is not restricted to unpacked extensions.
 - No API exposes blocked responses, so bytes or time saved cannot be measured inside the extension.
 - Side panel: `chrome.sidePanel` since Chrome 114 (https://developer.chrome.com/docs/extensions/reference/api/sidePanel).
 

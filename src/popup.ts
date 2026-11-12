@@ -1,4 +1,5 @@
-import { LISTS, type RuleMap } from "./compiler/types.ts";
+import { LISTS } from "./compiler/types.ts";
+import { loadMaps } from "./lib/maps";
 import { groupMatches, type Maps } from "./lib/matched";
 import { hostFromUrl } from "./lib/site";
 
@@ -18,21 +19,6 @@ async function currentTab(): Promise<{ id?: number; url?: string; windowId?: num
   const url = params.get("url") ?? tab?.url;
   const id = params.has("tabId") ? Number(params.get("tabId")) : tab?.id;
   return { id: Number.isInteger(id) ? id : undefined, url, windowId: tab?.windowId };
-}
-
-async function loadMaps(ids: string[]): Promise<Maps> {
-  const maps: Maps = {};
-  await Promise.all(
-    ids.map(async (id) => {
-      try {
-        // Packaged extension file, not a network request.
-        maps[id] = (await (await fetch(chrome.runtime.getURL(`rulesets/map-${id}.json`))).json()) as RuleMap;
-      } catch {
-        maps[id] = [];
-      }
-    }),
-  );
-  return maps;
 }
 
 async function loadMatched(tabId: number) {
