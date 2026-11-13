@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 const root = new URL("../", import.meta.url);
 const raw = JSON.parse(readFileSync(new URL(".bench/results.json", root), "utf8"));
 const CONDS: string[] = raw.meta.conditions;
-const LABEL: Record<string, string> = { none: "None", hush: "Hush", ubol: "uBOL", adguard: "AdGuard" };
+const LABEL: Record<string, string> = { none: "None", clearslip: "Clearslip", ubol: "uBOL", adguard: "AdGuard" };
 
 interface Run { loaded: boolean; ok: boolean; reason: string; requests: number; blocked: number; thirdPartyDone: number; bytes: number; loadMs: number; pageErrors: number }
 const METRICS = ["requests", "blocked", "thirdPartyDone", "bytes", "loadMs", "pageErrors"] as const;
@@ -55,9 +55,9 @@ const state = raw.meta.firstRunState as Record<string, { rulesets?: number; orig
 const ext = (c: string) => (c in mf ? `${mf[c].name} ${mf[c].version}${v[c]?.version ? ` (release ${v[c].version})` : ""}` : v[c]?.error ? `not run: ${v[c].error}` : "not run");
 const hostAccess = (c: string) => (state[c]?.origins?.length ? `granted host access: ${state[c].origins!.join(", ")}` : "no host access granted at launch");
 
-const text = `# Benchmark: Hush vs uBlock Origin Lite vs AdGuard MV3
+const text = `# Benchmark: Clearslip vs uBlock Origin Lite vs AdGuard MV3
 
-Date ${raw.meta.date}. Headless Chromium ${raw.meta.chromium}. Hush commit ${raw.meta.hushCommit}${raw.meta.hushDirty ? " (working tree had uncommitted changes under src, static or lists)" : ""}. Reproduce with \`npm run bench\` (live network, local only, never CI; competitor builds are downloaded into the gitignored \`.bench/\`).
+Date ${raw.meta.date}. Headless Chromium ${raw.meta.chromium}. Clearslip commit ${raw.meta.clearslipCommit}${raw.meta.clearslipDirty ? " (working tree had uncommitted changes under src, static or lists)" : ""}. Reproduce with \`npm run bench\` (live network, local only, never CI; competitor builds are downloaded into the gitignored \`.bench/\`).
 
 ## Extensions, all in their default configuration
 
@@ -91,10 +91,10 @@ ${excluded.length ? `\nExcluded:\n${excluded.join("\n")}\n` : ""}
 ## What this does and does not show
 
 - One machine, one network, one time of day, ${raw.meta.runs} runs: ad auctions, A/B tests and CDN choice vary, so small differences are noise.
-- Default settings only. Another configuration (uBOL optimal/complete modes, AdGuard extra filters, Hush with a Singapore list) would give different numbers.
+- Default settings only. Another configuration (uBOL optimal/complete modes, AdGuard extra filters, Clearslip with a Singapore list) would give different numbers.
 - Headless Chromium with unpacked builds, not the Web Store builds in a daily-driver profile.
 - Counts are network effects. Cosmetic filtering (hidden ad slots, leftover empty boxes), scriptlets and visual quality are not measured. "Blocked" counts only requests failed by the extension; redirects to neutered resources and cosmetic hiding are invisible here.
 - YouTube is not tested.
-- Numbers are reported as measured, including where Hush is behind.
+- Numbers are reported as measured, including where Clearslip is behind.
 `;
 writeFileSync(new URL("docs/benchmark/README.md", root), text);

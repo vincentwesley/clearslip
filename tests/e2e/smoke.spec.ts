@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const dist = path.join(root, "dist");
-const AD = "https://ib.adnxs.com/hush-e2e.js";
+const AD = "https://ib.adnxs.com/clearslip-e2e.js";
 
 function ruleCount(): number {
   try {
@@ -37,7 +37,7 @@ test.beforeAll(async () => {
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));
   origin = `http://127.0.0.1:${(server.address() as { port: number }).port}/`;
   host = "127.0.0.1";
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-e2e-"));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-e2e-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium", // new headless mode, required for extensions
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, "--host-resolver-rules=MAP ib.adnxs.com 127.0.0.1"], // the ad host never reaches a real server
@@ -77,7 +77,7 @@ async function send(msg: object): Promise<{ ok?: boolean; off?: string[] } | und
 test.describe("rules", () => {
   test.skip(noRules, "dist/rulesets/report.json shows zero rules (compiler output missing)");
 
-  test("known ad host is blocked, then allowed once Hush is off for the site", async () => {
+  test("known ad host is blocked, then allowed once Clearslip is off for the site", async () => {
     const outcome = await sw.evaluate(
       (u) => chrome.declarativeNetRequest.testMatchOutcome({ url: u, type: "script", initiator: "http://127.0.0.1" }),
       AD,
@@ -154,7 +154,7 @@ test.describe("popup", () => {
     const sw_ = p.getByRole("switch");
     await expect(p.locator("#host")).toHaveText(host);
     await expect(p.getByRole("switch", { name: "Pause on this site" })).toHaveAttribute("aria-checked", "false");
-    await expect(p.locator("#state")).toHaveText("Hush is on");
+    await expect(p.locator("#state")).toHaveText("Clearslip is on");
     expect((await sw_.boundingBox())!.height).toBeGreaterThanOrEqual(48);
     await sw_.focus();
     await p.keyboard.press("Space");
@@ -201,7 +201,7 @@ test.describe("popup", () => {
       await sw_.click();
       await expect(p.locator("#error")).toContainText("Too many sites are switched off");
       await expect(sw_).toHaveAttribute("aria-checked", "false");
-      await expect(p.locator("#state")).toHaveText("Hush is on");
+      await expect(p.locator("#state")).toHaveText("Clearslip is on");
       expect(await sw.evaluate(async () => (await chrome.storage.local.get("off")).off)).toEqual(seeded);
       await p.close();
     } finally {

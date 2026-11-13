@@ -26,7 +26,7 @@ test.beforeAll(async () => {
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));
   origin = `http://127.0.0.1:${(server.address() as { port: number }).port}/`;
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-cos-"));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-cos-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],

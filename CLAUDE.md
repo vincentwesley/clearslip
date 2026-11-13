@@ -1,4 +1,4 @@
-# Hush
+# Clearslip
 
 Manifest V3 ad and tracker blocker for Chrome. Network blocking from EasyList + EasyPrivacy compiled at build time into declarativeNetRequest rulesets by our own TypeScript compiler; popup shows what was blocked; per-site off switch. Plan: `docs/PLAN.md`. Compiler contract: `docs/COMPILER-SPEC.md`. Research and sources: `docs/RESEARCH.md`.
 

@@ -1,6 +1,6 @@
 [Adblock Plus 1.1]
-! Title: Hush Singapore list
-! Hush's own small list. Own work, MIT licence, Copyright (c) 2026 Vincent Wesley.
+! Title: Clearslip Singapore list
+! Clearslip's own small list. Own work, MIT licence, Copyright (c) 2026 Vincent Wesley.
 ! Every filter cites evidence from the 2026-11-12 benchmark of Singapore sites.
 !
 ! SPH Media audience-segment lookup keyed by a per-user id

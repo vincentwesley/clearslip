@@ -1,8 +1,8 @@
 {
  "meta": {
   "date": "2026-11-13",
-  "hushCommit": "03f01ce",
-  "hushDirty": false,
+  "clearslipCommit": "03f01ce",
+  "clearslipDirty": false,
   "versions": {
    "ubol": {
     "repo": "uBlockOrigin/uBOL-home",
@@ -20,9 +20,9 @@
    }
   },
   "manifests": {
-   "hush": {
+   "clearslip": {
     "manifest_version": 3,
-    "name": "Hush",
+    "name": "Clearslip",
     "version": "1.0.0",
     "description": "Ad and tracker blocker that shows what it blocked.",
     "minimum_chrome_version": "121",
@@ -58,7 +58,7 @@
      "128": "icons/icon-128.png"
     },
     "action": {
-     "default_title": "Hush",
+     "default_title": "Clearslip",
      "default_popup": "popup.html",
      "default_icon": {
       "16": "icons/icon-16.png",
@@ -92,9 +92,9 @@
        "path": "rulesets/detail-easyprivacy.json"
       },
       {
-       "id": "detail-hush-sg",
+       "id": "detail-clearslip-sg",
        "enabled": false,
-       "path": "rulesets/detail-hush-sg.json"
+       "path": "rulesets/detail-clearslip-sg.json"
       }
      ]
     }
@@ -927,12 +927,12 @@
   "runs": 3,
   "conditions": [
    "none",
-   "hush",
+   "clearslip",
    "ubol",
    "adguard"
   ],
   "firstRunState": {
-   "hush": {
+   "clearslip": {
     "rulesets": 1,
     "origins": [
      "<all_urls>"
@@ -1005,7 +1005,7 @@
       "max": 0
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1152,7 +1152,7 @@
       "max": 1
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1305,7 +1305,7 @@
       "max": 2
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1452,7 +1452,7 @@
       "max": 4
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1599,7 +1599,7 @@
       "max": 0
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1746,7 +1746,7 @@
       "max": 0
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -1893,7 +1893,7 @@
       "max": 2
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -2040,7 +2040,7 @@
       "max": 0
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,
@@ -2199,7 +2199,7 @@
       "max": 0
      }
     },
-    "hush": {
+    "clearslip": {
      "runs": 3,
      "loadedRuns": 3,
      "brokenRuns": 0,

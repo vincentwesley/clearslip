@@ -1,13 +1,13 @@
-# Hush (EXT-21): reviewed plan
+# Clearslip (EXT-21): reviewed plan
 
 ## Context
-Hush is your own Manifest V3 ad and tracker blocker for Chrome, built from first principles, with a per-site "privacy receipt" and a published benchmark. This plan is the result of checking your draft against current Chrome docs, prior art, list licensing and your local starter. The draft is sound; the changes below make it buildable within what Chrome actually allows, and safer to publish. `C:\Coding Projects\hush` does not exist yet, so nothing has been written.
+Clearslip is your own Manifest V3 ad and tracker blocker for Chrome, built from first principles, with a per-site "privacy receipt" and a published benchmark. This plan is the result of checking your draft against current Chrome docs, prior art, list licensing and your local starter. The draft is sound; the changes below make it buildable within what Chrome actually allows, and safer to publish. `C:\Coding Projects\clearslip` does not exist yet, so nothing has been written.
 
 ## What changes from your draft
 | Draft | Finding | Change |
 |---|---|---|
 | Popup shows "what was blocked" | A store-published extension cannot get blocked request URLs from the blocking API. `getMatchedRules` returns rule ID + tab only; `onRuleMatchedDebug` works only when unpacked. | Compiler emits a source map (rule ID -> original filter, list, tracker domain). The popup shows which filters and tracker domains fired and how often. URL-level detail is a spike in milestone 3 (`webRequest.onErrorOccurred`, unconfirmed in docs). |
-| Receipt shows data and load time saved | An extension never sees a blocked response, so it cannot measure this. | Receipt shows real counts only. Data and load-time savings are measured by the benchmark harness (page with and without Hush) and published per site. No estimates in the UI (real-data-only rule). |
+| Receipt shows data and load time saved | An extension never sees a blocked response, so it cannot measure this. | Receipt shows real counts only. Data and load-time savings are measured by the benchmark harness (page with and without Clearslip) and published per site. No estimates in the UI (real-data-only rule). |
 | "Needs access to all sites" | Block and allow rules need no host permission at all. | Milestone 1 ships with `declarativeNetRequest`, `declarativeNetRequestFeedback`, `storage` and nothing else. All-sites access arrives only with cosmetic filtering (milestone 2), with the justification written then. |
 | 30,000 static rules | Still 30,000 guaranteed, plus up to 300,000 from a pool shared by all extensions; 100 rulesets, 50 enabled; 1,000 regex rules; 30,000 dynamic (5,000 may redirect or modify headers). | Compiler merges same-option domain filters into one rule (`requestDomains` arrays), splits output into a "guaranteed" ruleset under 30,000 and overflow rulesets, and the service worker checks `getAvailableStaticRuleCount()` before enabling overflow. Report lists what was dropped and why. |
 | Licence to be decided | EasyList/EasyPrivacy: GPLv3 or CC BY-SA 3.0, your choice. CC BY-SA share-alike covers the adapted data, not separate code. | Code MIT (house rule). `rulesets/` and `lists/` carry their own `LICENSE` (CC BY-SA 3.0) crediting "The EasyList authors (https://easylist.to/)"; listed in `THIRD_PARTY_NOTICES.md`. Never copy code or test fixtures from uBlock Origin or AdGuard (GPL). Not legal advice. |
@@ -26,7 +26,7 @@ Hush is your own Manifest V3 ad and tracker blocker for Chrome, built from first
 - Minimum Chrome version: 121 (current rule limits).
 
 ## Milestones
-1. **Network blocking + popup + per-site off** (store release 0.1). Compiler with unit tests and a differential test: for a fixed URL corpus, Hush's rules must agree with `@ghostery/adblocker` (devDependency only, never shipped; licence checked when added). One Playwright test loads the built extension headless and asserts a known ad host is blocked and that the per-site switch unblocks it.
+1. **Network blocking + popup + per-site off** (store release 0.1). Compiler with unit tests and a differential test: for a fixed URL corpus, Clearslip's rules must agree with `@ghostery/adblocker` (devDependency only, never shipped; licence checked when added). One Playwright test loads the built extension headless and asserts a known ad host is blocked and that the per-site switch unblocks it.
 2. **Cosmetic filtering**: generic and per-site hide rules as injected CSS; adds all-sites access.
 3. **Privacy receipt** in the side panel, URL-level spike, tracker-to-company grouping (source data to be licence-checked).
 4. **Element zapper**: picker plus saved per-site hide rules (`@medv/finder`, MIT, for selectors).
@@ -46,7 +46,7 @@ Nothing new to install. Already present and sufficient: `modern-web-guidance:chr
 Yes, use Sonnet for the build, with one exception. Sonnet builders (your existing `vin-workflow:builder`) suit the popup, manifest, build script, tests, harness and docs, and the differential test makes compiler work self-checking. Keep Fable for three things: writing the filter-to-rule mapping spec and priority scheme before any builder starts, reviewing compiler diffs, and debugging disagreements with the oracle. Haiku scouts for lookups.
 
 ## After approval, in order
-1. Scaffold `C:\Coding Projects\hush` locally with `vin-workflow:new-project` (mv3-extension starter).
+1. Scaffold `C:\Coding Projects\clearslip` locally with `vin-workflow:new-project` (mv3-extension starter).
 2. Write `docs/RESEARCH.md` (findings with links, unverified items marked and re-checked), `docs/PLAN.md`, project `CLAUDE.md`, `docs/next-session.md`.
 3. Write the compiler mapping spec, then dispatch milestone 1 to builders in parallel (parser, converter/optimiser, popup + background, e2e test).
 
@@ -59,5 +59,5 @@ Yes, use Sonnet for the build, with one exception. Sonnet builders (your existin
 You asked not to be involved, so I work through all six milestones locally without check-ins, committing to a local repo and deciding everything myself (icon: a simple code-drawn non-character mark in the house palette). Nothing is pushed, made public or uploaded until the end.
 
 ## Your steps (one batch, at the very end)
-1. One OK to create the public GitHub repo `hush` and push, after the pre-public gate and security review pass.
+1. One OK to create the public GitHub repo `clearslip` and push, after the pre-public gate and security review pass.
 2. Upload the finished zip in the Chrome Web Store dashboard and paste the listing text, permission justifications and privacy answers I prepare. Only you can do this; it needs your developer account.

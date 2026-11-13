@@ -1,4 +1,4 @@
-// Live-web benchmark: Hush vs uBlock Origin Lite vs AdGuard MV3 vs no blocker. Run with `npm run bench` (local only, never CI).
+// Live-web benchmark: Clearslip vs uBlock Origin Lite vs AdGuard MV3 vs no blocker. Run with `npm run bench` (local only, never CI).
 // Raw output goes to .bench/results.json (+ .bench/sg-survivors.json); `scripts/bench-report.ts` turns it into docs/benchmark/.
 import { test, chromium, type BrowserContext, type Page } from "@playwright/test";
 import { execFileSync } from "node:child_process";
@@ -11,7 +11,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const benchDir = path.join(root, ".bench");
 const BLOCKED = "net::ERR_BLOCKED_BY_CLIENT";
 const RUNS = 3;
-const CONDS = ["none", "hush", "ubol", "adguard"] as const;
+const CONDS = ["none", "clearslip", "ubol", "adguard"] as const;
 type Cond = (typeof CONDS)[number];
 
 const SITES = [
@@ -56,7 +56,7 @@ const results: {
 } = { meta: {}, sites: [] };
 let chromiumVersion = "";
 
-const extDir = (c: Cond): string => path.join(benchDir, c === "hush" ? "../dist" : c);
+const extDir = (c: Cond): string => path.join(benchDir, c === "clearslip" ? "../dist" : c);
 
 function readManifest(dir: string): { name?: string; version?: string } {
   return JSON.parse(fs.readFileSync(path.join(dir, "manifest.json"), "utf8"));
@@ -64,13 +64,13 @@ function readManifest(dir: string): { name?: string; version?: string } {
 
 /** Launch a fresh profile; for extensions wait for the service worker and (competitors) first-run ruleset setup. */
 async function launch(cond: Cond, notes: Record<string, unknown>): Promise<{ ctx: BrowserContext; dir: string }> {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-bench-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-bench-"));
   const ext = path.resolve(root, extDir(cond));
   const args = cond === "none" ? [] : [`--disable-extensions-except=${ext}`, `--load-extension=${ext}`];
   const ctx = await chromium.launchPersistentContext(dir, { channel: "chromium", args });
   if (cond === "none") return { ctx, dir };
   const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker", { timeout: 30000 }));
-  const deadline = Date.now() + (cond === "hush" ? 60000 : 15000);
+  const deadline = Date.now() + (cond === "clearslip" ? 60000 : 15000);
   let info: Record<string, unknown> = {};
   while (Date.now() < deadline) {
     info = await sw
@@ -117,7 +117,7 @@ async function measure(cond: Cond, url: string, sg: boolean, notes: Record<strin
       }
       if (!/^https?:$/.test(u.protocol) || regDomain(u.hostname) === pageReg) return;
       run.thirdPartyDone++;
-      if (cond === "hush" && sg) {
+      if (cond === "clearslip" && sg) {
         const key = `${u.hostname}|${u.pathname}|${r.resourceType()}`;
         run.survivors[key] = (run.survivors[key] ?? 0) + 1;
       }
@@ -166,7 +166,7 @@ function writeSurvivors(): void {
   const blockedBy: Record<string, Set<string>> = { ubol: new Set(), adguard: new Set() };
   for (const s of results.sites) {
     if (!s.sg || s.excluded) continue;
-    for (const r of s.runs.hush)
+    for (const r of s.runs.clearslip)
       for (const [k, n] of Object.entries(r.survivors)) {
         const [host, p, type] = k.split("|");
         const e = (surv[k] ??= { host, path: p, type, count: 0, sites: new Set() });
@@ -184,14 +184,14 @@ function writeSurvivors(): void {
 test("benchmark", async () => {
   test.setTimeout(6 * 3600 * 1000);
   const versions = JSON.parse(fs.readFileSync(path.join(benchDir, "versions.json"), "utf8")) as Record<string, { version?: string; error?: string }>;
-  const active = CONDS.filter((c) => c === "none" || c === "hush" || (versions[c] && !versions[c].error && fs.existsSync(path.join(benchDir, c, "manifest.json"))));
+  const active = CONDS.filter((c) => c === "none" || c === "clearslip" || (versions[c] && !versions[c].error && fs.existsSync(path.join(benchDir, c, "manifest.json"))));
   const notes: Record<string, unknown> = {};
   const commit = execFileSync("git", ["-C", root, "rev-parse", "--short", "HEAD"]).toString().trim();
   const dirty = execFileSync("git", ["-C", root, "status", "--porcelain", "src", "static", "lists"]).toString().trim() !== "";
   results.meta = {
     date: new Date().toISOString().slice(0, 10),
-    hushCommit: commit,
-    hushDirty: dirty,
+    clearslipCommit: commit,
+    clearslipDirty: dirty,
     versions,
     manifests: Object.fromEntries(active.filter((c) => c !== "none").map((c) => [c, readManifest(path.resolve(root, extDir(c)))])),
     runs: RUNS,
@@ -199,7 +199,7 @@ test("benchmark", async () => {
     firstRunState: notes,
   };
   for (const site of SITES) {
-    const entry = { url: site.url, sg: !!site.sg, excluded: null as string | null, runs: { none: [], hush: [], ubol: [], adguard: [] } as Record<Cond, Run[]> };
+    const entry = { url: site.url, sg: !!site.sg, excluded: null as string | null, runs: { none: [], clearslip: [], ubol: [], adguard: [] } as Record<Cond, Run[]> };
     results.sites.push(entry);
     for (let i = 0; i < RUNS; i++) {
       for (const cond of active) {

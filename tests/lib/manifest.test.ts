@@ -17,7 +17,7 @@ describe("manifest", () => {
       ["compact", true, "rulesets/compact.json"],
       ["detail-easylist", false, "rulesets/detail-easylist.json"],
       ["detail-easyprivacy", false, "rulesets/detail-easyprivacy.json"],
-      ["detail-hush-sg", false, "rulesets/detail-hush-sg.json"],
+      ["detail-clearslip-sg", false, "rulesets/detail-clearslip-sg.json"],
     ]);
   });
 });

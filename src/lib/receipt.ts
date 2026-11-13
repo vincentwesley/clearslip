@@ -114,14 +114,14 @@ export interface Section {
 }
 const TITLES = { ads: "Ads", trackers: "Trackers", sg: "Singapore list", other: "Other" } as const;
 
-/** Rows grouped by the list that blocks the host (EasyList = Ads, EasyPrivacy = Trackers, Hush Singapore list = Singapore list), busiest first. Empty sections are omitted. */
+/** Rows grouped by the list that blocks the host (EasyList = Ads, EasyPrivacy = Trackers, Clearslip Singapore list = Singapore list), busiest first. Empty sections are omitted. */
 export function sections(tab: TabReceipt, index: Map<string, ListInfo>): Section[] {
   const groups: Record<Section["key"], Row[]> = { ads: [], trackers: [], sg: [], other: [] };
   for (const [host, e] of Object.entries(tab.hosts)) {
     const info = hostSuffixes(host)
       .map((h) => index.get(h))
       .find(Boolean);
-    groups[info ? (info.list === "easylist" ? "ads" : info.list === "hush-sg" ? "sg" : "trackers") : "other"].push({ host, ...e, info });
+    groups[info ? (info.list === "easylist" ? "ads" : info.list === "clearslip-sg" ? "sg" : "trackers") : "other"].push({ host, ...e, info });
   }
   return (Object.keys(groups) as Section["key"][])
     .filter((k) => groups[k].length)
@@ -131,7 +131,7 @@ export function sections(tab: TabReceipt, index: Map<string, ListInfo>): Section
 /** Plain-text receipt for the clipboard. */
 export function receiptText(tab: TabReceipt, index: Map<string, ListInfo>): string {
   const lines = [
-    "Hush privacy receipt",
+    "Clearslip privacy receipt",
     `Site: ${tab.site}`,
     `Loaded: ${new Date(tab.loadedAt).toISOString()}`,
     `Requests blocked: ${tab.blocked}`,

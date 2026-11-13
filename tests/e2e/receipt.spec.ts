@@ -29,7 +29,7 @@ test.beforeAll(async () => {
   });
   await new Promise<void>((r) => server.listen(0, "127.0.0.1", r));
   origin = `http://127.0.0.1:${(server.address() as { port: number }).port}/`;
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-receipt-"));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-receipt-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, `--host-resolver-rules=MAP ${AD} 127.0.0.1, MAP ${TRACKER} 127.0.0.1`],
@@ -75,7 +75,7 @@ test("receipt lists blocked hosts with counts and no query strings", async () =>
   await expect(p.locator("#copy-status")).toHaveText("Copied.");
   const text = (await p.evaluate(() => navigator.clipboard.readText())).replaceAll("\r\n", "\n"); // Windows clipboard turns \n into \r\n
   expect(text).toContain("Ads (EasyList)\nib.adnxs.com  2");
-  expect(text).toContain("Hush privacy receipt\nSite: 127.0.0.1\n");
+  expect(text).toContain("Clearslip privacy receipt\nSite: 127.0.0.1\n");
   expect(text).toContain("Requests blocked: 3\nTracker hosts: 2");
   expect(text).toMatch(new RegExp(`${AD.replaceAll(".", "\\.")}  2`));
   expect(text).toMatch(new RegExp(`${TRACKER.replaceAll(".", "\\.")}  1`));

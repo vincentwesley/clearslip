@@ -2,16 +2,16 @@ import type { CosmeticReport, CosmeticResult } from "./cosmetic.ts";
 
 // Minimal DNR types, defined here so the compiler never depends on @types/chrome.
 // Single source for list and ruleset ids; the manifest, build and runtime all derive from these.
-export const LIST_IDS = ["easylist", "easyprivacy", "hush-sg"] as const;
+export const LIST_IDS = ["easylist", "easyprivacy", "clearslip-sg"] as const;
 export type ListId = (typeof LIST_IDS)[number];
-/** `url` is "" for Hush's own list (lists/hush-sg.txt): never downloaded. */
+/** `url` is "" for Clearslip's own list (lists/clearslip-sg.txt): never downloaded. */
 export const LISTS: Record<ListId, { name: string; url: string }> = {
   easylist: { name: "EasyList", url: "https://easylist.to/easylist/easylist.txt" },
   easyprivacy: { name: "EasyPrivacy", url: "https://easylist.to/easylist/easyprivacy.txt" },
-  "hush-sg": { name: "Hush Singapore list", url: "" },
+  "clearslip-sg": { name: "Clearslip Singapore list", url: "" },
 };
 
-export const DETAIL_IDS = ["detail-easylist", "detail-easyprivacy", "detail-hush-sg"] as const;
+export const DETAIL_IDS = ["detail-easylist", "detail-easyprivacy", "detail-clearslip-sg"] as const;
 export const RULESET_IDS = ["compact", ...DETAIL_IDS] as const;
 export type RulesetId = (typeof RULESET_IDS)[number];
 

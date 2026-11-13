@@ -28,7 +28,7 @@ test.beforeAll(async () => {
   });
   await new Promise<void>((r) => server.listen(0, HOST, r));
   origin = `http://${HOST}:${(server.address() as { port: number }).port}/`;
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-zap-"));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-zap-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],

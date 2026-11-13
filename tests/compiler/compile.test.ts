@@ -100,11 +100,11 @@ describe("emitter", () => {
   });
 });
 
-describe("hush-sg list", () => {
+describe("clearslip-sg list", () => {
   it("compiles its three filters to block rules, in detail and compact", () => {
-    const text = readFileSync(new URL("../../lists/hush-sg.txt", import.meta.url), "utf8");
-    const r = compile([{ id: "hush-sg", text }], gen);
-    expect(r.rulesets["detail-hush-sg"].map((x) => [x.action.type, x.condition.urlFilter, x.condition.domainType])).toEqual([
+    const text = readFileSync(new URL("../../lists/clearslip-sg.txt", import.meta.url), "utf8");
+    const r = compile([{ id: "clearslip-sg", text }], gen);
+    expect(r.rulesets["detail-clearslip-sg"].map((x) => [x.action.type, x.condition.urlFilter, x.condition.domainType])).toEqual([
       ["block", "||segmento.sphdigital.com.sg^", undefined],
       ["block", "||copper6.com^", "thirdParty"],
       ["block", "||bid-openpath.ttdcdn.org^", "thirdParty"],
@@ -120,7 +120,7 @@ describe("real snapshots", () => {
   it("compile within limits", () => {
     const read = (f: string) => readFileSync(new URL(`../../lists/${f}`, import.meta.url), "utf8");
     const r = compile(
-      [{ id: "easylist", text: read("easylist.txt") }, { id: "easyprivacy", text: read("easyprivacy.txt") }, { id: "hush-sg", text: read("hush-sg.txt") }],
+      [{ id: "easylist", text: read("easylist.txt") }, { id: "easyprivacy", text: read("easyprivacy.txt") }, { id: "clearslip-sg", text: read("clearslip-sg.txt") }],
       gen,
     );
     expect(r.rulesets.compact.length).toBeLessThanOrEqual(30000);

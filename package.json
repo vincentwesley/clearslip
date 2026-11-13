@@ -1,12 +1,12 @@
 {
-  "name": "hush",
+  "name": "clearslip",
   "version": "1.0.0",
   "private": true,
   "description": "Manifest V3 ad and tracker blocker for Chrome that shows what it blocked",
   "type": "module",
   "license": "MIT",
   "author": "Vincent Wesley",
-  "repository": "github:vincentwesley/hush",
+  "repository": "github:vincentwesley/clearslip",
   "engines": {
     "node": ">=24"
   },

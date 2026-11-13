@@ -19,7 +19,7 @@ const frame = (w: number, h?: number) => `
 
 test("store screenshots", async () => {
   fs.mkdirSync(out, { recursive: true });
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-store-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-store-"));
   const ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium",
     viewport: VIEW,

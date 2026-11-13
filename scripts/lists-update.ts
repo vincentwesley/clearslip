@@ -1,4 +1,4 @@
-// Refreshes the downloaded lists/*.txt (not hush-sg.txt, our own) and lists/SOURCES.json. Run by `npm run lists:update` on the developer machine only.
+// Refreshes the downloaded lists/*.txt (not clearslip-sg.txt, our own) and lists/SOURCES.json. Run by `npm run lists:update` on the developer machine only.
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 

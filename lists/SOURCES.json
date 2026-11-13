@@ -14,8 +14,8 @@
     "lines": 57381
   },
   {
-    "id": "hush-sg",
-    "url": "local: lists/hush-sg.txt (own list, not downloaded)",
+    "id": "clearslip-sg",
+    "url": "local: lists/clearslip-sg.txt (own list, not downloaded)",
     "fetchedAt": "2026-11-12T00:00:00.000Z",
     "sha256": "63fdab72b122c565e07f10df2cff1374d4da88590f30ec99896de12489596b78",
     "lines": 15

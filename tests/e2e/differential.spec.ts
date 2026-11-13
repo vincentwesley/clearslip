@@ -31,13 +31,13 @@ const readJson = <T>(p: string, fallback: T): T => {
 const rs = (id: string) => path.join(dist, "rulesets", id);
 const corpus = readJson<Tuple[]>(path.join(here, "corpus.json"), []);
 const known = readJson<{ key: string; reason: string }[]>(path.join(here, "known-differences.json"), []);
-const IDS = ["compact", "detail-easylist", "detail-easyprivacy", "detail-hush-sg"] as const;
+const IDS = ["compact", "detail-easylist", "detail-easyprivacy", "detail-clearslip-sg"] as const;
 const rules = Object.fromEntries(IDS.map((id) => [id, readJson<Rule[]>(rs(`${id}.json`), [])]));
 const maps = Object.fromEntries(IDS.map((id) => [id, readJson<(string | [number, number, string] | null)[]>(rs(`map-${id}.json`), [])]));
 const skip = corpus.length === 0 || rules.compact.length === 0;
 
 const key = (t: Tuple) => `${t.type} ${t.url} <- ${t.initiator}`;
-const DETAIL = ["detail-easylist", "detail-easyprivacy", "detail-hush-sg"];
+const DETAIL = ["detail-easylist", "detail-easyprivacy", "detail-clearslip-sg"];
 /** Filter text of a rule (compact: its first filter). */
 const filterOf = (rulesetId: string, ruleId: number): string => {
   const e = maps[rulesetId][ruleId];
@@ -49,7 +49,7 @@ let sw: Worker;
 let dir: string;
 
 test.beforeAll(async () => {
-  dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-diff-"));
+  dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-diff-"));
   ctx = await chromium.launchPersistentContext(dir, {
     channel: "chromium", // new headless mode, required for extensions
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],

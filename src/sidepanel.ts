@@ -154,7 +154,7 @@ async function refresh(): Promise<void> {
   if (tab?.id === undefined || !host) {
     zapTarget = undefined;
     renderZaps([]);
-    return render("Hush does not run on this page.", tab?.url ? "This page" : "No page");
+    return render("Clearslip does not run on this page.", tab?.url ? "This page" : "No page");
   }
   void loadZaps(tab.id, host);
   const [state, stored] = await Promise.all([

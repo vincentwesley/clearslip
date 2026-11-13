@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Hush",
+  "name": "Clearslip",
   "version": "1.0.0",
   "description": "Ad and tracker blocker that shows what it blocked.",
   "minimum_chrome_version": "121",
@@ -16,7 +16,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Hush",
+    "default_title": "Clearslip",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
@@ -32,7 +32,7 @@
       { "id": "compact", "enabled": true, "path": "rulesets/compact.json" },
       { "id": "detail-easylist", "enabled": false, "path": "rulesets/detail-easylist.json" },
       { "id": "detail-easyprivacy", "enabled": false, "path": "rulesets/detail-easyprivacy.json" },
-      { "id": "detail-hush-sg", "enabled": false, "path": "rulesets/detail-hush-sg.json" }
+      { "id": "detail-clearslip-sg", "enabled": false, "path": "rulesets/detail-clearslip-sg.json" }
     ]
   }
 }

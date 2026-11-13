@@ -3,7 +3,7 @@
 // shadow root, and sends exactly one message ({ type: "zap", selector }) when the user presses Hide.
 import { buildSelector, type Ctx, type El } from "./lib/selector";
 
-const FLAG = "__hushPicker";
+const FLAG = "__clearslipPicker";
 const g = globalThis as unknown as Record<string, unknown>;
 
 if (!g[FLAG]) {
@@ -35,7 +35,7 @@ if (!g[FLAG]) {
   const box = el("div", "box");
   const bar = el("div", "bar");
   bar.setAttribute("role", "dialog");
-  bar.setAttribute("aria-label", "Hush: hide something");
+  bar.setAttribute("aria-label", "Clearslip: hide something");
   const msg = el("p", "msg", "Click what you want to hide. Esc cancels.");
   msg.setAttribute("role", "status");
   const selText = el("p", "sel");
@@ -153,7 +153,7 @@ if (!g[FLAG]) {
       "limit-selectors": "Too many hidden items on this site (limit 100). Show some again in the side panel first.",
       "limit-hosts": "Too many sites have hidden items (limit 500).",
       incognito: "Hidden items are not saved in private windows.",
-      unsupported: "Hush is paused on this site. Turn it on to hide items.",
+      unsupported: "Clearslip is paused on this site. Turn it on to hide items.",
     };
     chrome.runtime.sendMessage({ type: "zap", selector }).then(
       (res: { ok?: boolean; reason?: string } | undefined) => {
@@ -165,7 +165,7 @@ if (!g[FLAG]) {
       () => {
         busy = false;
         hideBtn.disabled = false;
-        msg.textContent = "Could not reach Hush. Reload the page and try again.";
+        msg.textContent = "Could not reach Clearslip. Reload the page and try again.";
       },
     );
   });

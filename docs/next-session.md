@@ -1,6 +1,6 @@
 > Update at the end of any session that changed state. Keep it lean.
 
-Continue work on **Hush** (folder `C:\Coding Projects\hush`, public repo github.com/vincentwesley/hush, pushed 2026-11-13; not yet in the Chrome Web Store).
+Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`, public repo github.com/vincentwesley/clearslip, pushed 2026-11-13; not yet in the Chrome Web Store).
 
 ## Before anything
 1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md`.
@@ -15,9 +15,9 @@ Continue work on **Hush** (folder `C:\Coding Projects\hush`, public repo github.
 
 ## Current state (2026-11-13): v1.0.0 ready, waiting on the owner
 - All six milestones done. Green: 125 unit, 23 e2e, `test:real` 7/7. Code review and a whole-repo security review done; findings fixed.
-- Benchmark at 03f01ce (`docs/benchmark/`): 9 sites, requests none 2421 / Hush 903 / uBOL 969 / AdGuard 1232; no breakage under any blocker.
+- Benchmark at 03f01ce (`docs/benchmark/`): 9 sites, requests none 2421 / Clearslip 903 / uBOL 969 / AdGuard 1232; no breakage under any blocker.
 - Release package: `extension.zip` (gitignored, rebuild with `npm run zip`), `docs/STORE-LISTING.md`, `docs/PRIVACY.md`, `docs/store/*.png` (1280x800, `tests/store/`).
-- Pre-public gate: `check-identity.sh --public hush` flags two false positives in upstream `lists/easylist*.txt` (the EasyList maintainers' public contact address; a filter line matching a secret pattern). PII/local-path scan clean.
+- Pre-public gate: `check-identity.sh --public clearslip` flags two false positives in upstream `lists/easylist*.txt` (the EasyList maintainers' public contact address; a filter line matching a secret pattern). PII/local-path scan clean.
 
 ## Known gaps
 1. `webRequest` receipt verified in the unpacked build only, not a store build.

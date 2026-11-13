@@ -27,7 +27,7 @@ async function loadMatched(tabId: number) {
     const matches = rulesMatchedInfo.filter((m) => m.rule.rulesetId !== "_dynamic");
     return { matches, maps: await loadMaps([...new Set(matches.map((m) => m.rule.rulesetId))]) };
   } catch (e) {
-    console.warn("Hush: could not read matched rules", e);
+    console.warn("Clearslip: could not read matched rules", e);
     return null;
   }
 }
@@ -70,8 +70,8 @@ async function main(): Promise<void> {
     error.hidden = false;
   };
   const showPaused = (paused: boolean): void => {
-    toggle.setAttribute("aria-checked", String(paused)); // switch on = Hush paused here
-    $("state").textContent = paused ? `Paused on ${host}` : "Hush is on";
+    toggle.setAttribute("aria-checked", String(paused)); // switch on = Clearslip paused here
+    $("state").textContent = paused ? `Paused on ${host}` : "Clearslip is on";
     $("zap").hidden = paused || !!incognito; // nothing to hide while paused; zaps are never saved from private windows
   };
   const matched = id === undefined ? Promise.resolve(null) : loadMatched(id); // starts now, in parallel with getState
@@ -82,7 +82,7 @@ async function main(): Promise<void> {
     state = undefined;
   }
   if (!state?.ok) {
-    fail("Hush could not load its settings. Close this popup and open it again.");
+    fail("Clearslip could not load its settings. Close this popup and open it again.");
     return; // controls stay hidden: no unlabeled live switch
   }
   showPaused(!!state.off?.includes(host));
@@ -98,7 +98,7 @@ async function main(): Promise<void> {
         if (id !== undefined) await chrome.tabs.reload(id).catch(console.warn); // apply now
       } else {
         showPaused(wasPaused);
-        fail(res?.reason === "limit" ? "Too many sites are switched off (limit 1,000). Turn Hush back on for one first." : "Could not change this site. Try again.");
+        fail(res?.reason === "limit" ? "Too many sites are switched off (limit 1,000). Turn Clearslip back on for one first." : "Could not change this site. Try again.");
       }
     } catch {
       showPaused(wasPaused);
@@ -125,7 +125,7 @@ async function main(): Promise<void> {
 
 main().catch(() => {
   const e = $("error");
-  e.textContent = "Hush could not start. Close this popup and open it again.";
+  e.textContent = "Clearslip could not start. Close this popup and open it again.";
   e.hidden = false;
 });
 

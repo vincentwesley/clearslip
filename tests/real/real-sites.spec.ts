@@ -1,4 +1,4 @@
-// Live-web check: each site loaded once without and once with Hush, sequentially. Run with `npm run test:real`.
+// Live-web check: each site loaded once without and once with Clearslip, sequentially. Run with `npm run test:real`.
 import { test, expect, chromium, type BrowserContext } from "@playwright/test";
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -30,24 +30,24 @@ interface Run {
   bytes: number;
   loadMs: number;
   bodyLen: number;
-  matched: number | null; // generic selectors matching >= 1 element (Hush run only)
+  matched: number | null; // generic selectors matching >= 1 element (Clearslip run only)
   pageErrors: string[];
   blockedHosts: string[];
 }
 interface Row {
   url: string;
   plain: Run;
-  hush: Run | null;
+  clearslip: Run | null;
 }
 const rows: Row[] = [];
 let chromiumVersion = "";
 
-async function measure(url: string, withHush: boolean): Promise<Run> {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "hush-real-"));
-  const args = withHush ? [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`] : [];
+async function measure(url: string, withClearslip: boolean): Promise<Run> {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-real-"));
+  const args = withClearslip ? [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`] : [];
   const ctx: BrowserContext = await chromium.launchPersistentContext(dir, { channel: "chromium", args });
   try {
-    if (withHush) {
+    if (withClearslip) {
       const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));
       await expect.poll(() => sw.evaluate(async () => (await chrome.storage.local.get("mode")).mode), { timeout: 60000 }).toBeTruthy();
     }
@@ -82,7 +82,7 @@ async function measure(url: string, withHush: boolean): Promise<Run> {
       run.loadMs = info.load;
       run.ok = status > 0 && status < 400 && info.title !== "" && info.len > 500;
       if (!run.ok) run.reason = `status ${status}, title "${info.title.slice(0, 40)}", body ${info.len}`;
-      if (withHush && process.env.HUSH_SHOTS === "1") {
+      if (withClearslip && process.env.CLEARSLIP_SHOTS === "1") {
         const shots = path.join(root, "test-results/real/shots");
         fs.mkdirSync(shots, { recursive: true });
         const host = new URL(url).hostname;
@@ -92,7 +92,7 @@ async function measure(url: string, withHush: boolean): Promise<Run> {
         await page.waitForTimeout(1500);
         await page.screenshot({ path: path.join(shots, `${host}-scrolled.png`) });
       }
-      if (withHush) {
+      if (withClearslip) {
         run.matched = await page.evaluate((sels) => {
           let n = 0;
           for (const s of sels) {
@@ -115,9 +115,9 @@ async function measure(url: string, withHush: boolean): Promise<Run> {
 }
 
 /** One retry, only when the first attempt did not load. */
-async function attempt(url: string, withHush: boolean): Promise<Run> {
-  const first = await measure(url, withHush);
-  return first.ok ? first : measure(url, withHush);
+async function attempt(url: string, withClearslip: boolean): Promise<Run> {
+  const first = await measure(url, withClearslip);
+  return first.ok ? first : measure(url, withClearslip);
 }
 
 const kb = (b: number) => `${(b / 1024).toFixed(0)} kB`;
@@ -132,15 +132,15 @@ function writeDoc(): void {
   const commit = execFileSync("git", ["-C", root, "rev-parse", "--short", "HEAD"]).toString().trim();
   const lines = rows.map((r) => {
     const site = new URL(r.url).hostname + new URL(r.url).pathname.replace(/\/$/, "");
-    if (!r.plain.ok || !r.hush) return `| ${site} | unreachable without Hush (${r.plain.reason}) | | | | | | |`;
-    const h = r.hush;
+    if (!r.plain.ok || !r.clearslip) return `| ${site} | unreachable without Clearslip (${r.plain.reason}) | | | | | | |`;
+    const h = r.clearslip;
     return `| ${site} | ${r.plain.requests} -> ${h.requests} | ${h.blocked} | ${kb(r.plain.bytes)} -> ${kb(h.bytes)} | ${r.plain.loadMs} -> ${h.loadMs} ms | ${h.matched} | ${h.ok ? "yes" : "NO: " + h.reason} | ${r.plain.pageErrors.length} -> ${h.pageErrors.length} |`;
   });
   const text = `# Real-site check
 
-Headless Chromium ${chromiumVersion}, unpacked \`dist\` build, Hush commit ${commit}, ${new Date().toISOString().slice(0, 10)}. Each site: one fresh profile without the extension, one with Hush; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with \`npm run test:real\` (live network, local only, never CI).
+Headless Chromium ${chromiumVersion}, unpacked \`dist\` build, Clearslip commit ${commit}, ${new Date().toISOString().slice(0, 10)}. Each site: one fresh profile without the extension, one with Clearslip; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with \`npm run test:real\` (live network, local only, never CI).
 
-"Selectors matched" = how many of the generic cosmetic selectors match at least one element on the settled page (Hush run). "Page OK" = HTTP status below 400, non-empty title, body text over 500 characters. "Errors" = uncaught page errors, plain -> Hush.
+"Selectors matched" = how many of the generic cosmetic selectors match at least one element on the settled page (Clearslip run). "Page OK" = HTTP status below 400, non-empty title, body text over 500 characters. "Errors" = uncaught page errors, plain -> Clearslip.
 
 | Site | Requests | Blocked | Transferred | Load event | Selectors matched | Page OK | Errors |
 |---|---|---|---|---|---|---|---|
@@ -159,18 +159,18 @@ for (const site of SITES) {
   test(site.url, async () => {
     const plain = await attempt(site.url, false);
     if (!plain.ok) {
-      rows.push({ url: site.url, plain, hush: null });
+      rows.push({ url: site.url, plain, clearslip: null });
       test.info().annotations.push({ type: "unreachable", description: plain.reason });
       return;
     }
-    const hush = await attempt(site.url, true);
-    rows.push({ url: site.url, plain, hush });
+    const clearslip = await attempt(site.url, true);
+    rows.push({ url: site.url, plain, clearslip });
     const base = (u: string) => new URL(u).hostname.split(".").slice(-2).join(".");
-    console.log(site.url, "blocked hosts:", [...new Set(hush.blockedHosts.map((u) => new URL(u).hostname))].slice(0, 12).join(", "));
-    console.log("  first-party blocked:", hush.blockedHosts.filter((u) => base(u) === base(site.url)).join(" | "));
-    console.log("  errors plain:", plain.pageErrors.join(" | "), "|| hush:", [...new Set(hush.pageErrors)].join(" | "));
-    expect.soft(hush.ok, `main document loads with Hush (${hush.reason})`).toBe(true);
-    if (site.news) expect.soft(hush.blocked, "at least one request blocked").toBeGreaterThan(0);
-    if (site.control) expect.soft(Math.abs(hush.bodyLen - plain.bodyLen) / plain.bodyLen, "body text within 10% of plain").toBeLessThanOrEqual(0.1);
+    console.log(site.url, "blocked hosts:", [...new Set(clearslip.blockedHosts.map((u) => new URL(u).hostname))].slice(0, 12).join(", "));
+    console.log("  first-party blocked:", clearslip.blockedHosts.filter((u) => base(u) === base(site.url)).join(" | "));
+    console.log("  errors plain:", plain.pageErrors.join(" | "), "|| clearslip:", [...new Set(clearslip.pageErrors)].join(" | "));
+    expect.soft(clearslip.ok, `main document loads with Clearslip (${clearslip.reason})`).toBe(true);
+    if (site.news) expect.soft(clearslip.blocked, "at least one request blocked").toBeGreaterThan(0);
+    if (site.control) expect.soft(Math.abs(clearslip.bodyLen - plain.bodyLen) / plain.bodyLen, "body text within 10% of plain").toBeLessThanOrEqual(0.1);
   });
 }

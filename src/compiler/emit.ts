@@ -52,7 +52,7 @@ export function compile(
   const rb = applyRegexBudget(bf.kept, REGEX_MAX);
   rb.over.forEach((f) => skip(perList, f.list, "regex-budget"));
 
-  const detail: Record<ListId, Item[]> = { easylist: [], easyprivacy: [], "hush-sg": [] };
+  const detail: Record<ListId, Item[]> = { easylist: [], easyprivacy: [], "clearslip-sg": [] };
   for (const { id } of lists) {
     const items = rb.kept.filter((f) => f.list === id).map((f): Item => ({ list: id, rule: toRule(f), f: [f.raw] }));
     const d = dedupe(items, false);
@@ -61,14 +61,14 @@ export function compile(
     perList[id].converted = d.items.length;
   }
 
-  const merged = dedupe(mergeHosts([...detail.easylist, ...detail.easyprivacy, ...detail["hush-sg"]]), true).items;
+  const merged = dedupe(mergeHosts([...detail.easylist, ...detail.easyprivacy, ...detail["clearslip-sg"]]), true).items;
   const capped = capCompact(merged, COMPACT_MAX);
 
   const built = {
     compact: build(capped.items, compactEntry),
     "detail-easylist": build(detail.easylist, detailEntry),
     "detail-easyprivacy": build(detail.easyprivacy, detailEntry),
-    "detail-hush-sg": build(detail["hush-sg"], detailEntry),
+    "detail-clearslip-sg": build(detail["clearslip-sg"], detailEntry),
   };
   const each = <T>(pick: (b: (typeof built)[RulesetId]) => T) =>
     Object.fromEntries(RULESET_IDS.map((id) => [id, pick(built[id])])) as Record<RulesetId, T>;

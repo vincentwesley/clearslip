@@ -37,7 +37,7 @@ async function chooseMode(): Promise<Mode> {
     try {
       await apply(mode);
     } catch (e) {
-      console.warn("Hush: could not switch rulesets, using compact", e);
+      console.warn("Clearslip: could not switch rulesets, using compact", e);
       mode = "compact";
       await apply(mode).catch(console.error);
     }

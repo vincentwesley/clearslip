@@ -1,35 +1,35 @@
 # Chrome Web Store listing (paste-ready)
 
-Version 1.0.0. Screenshots (1280x800) in `docs/store/`: `1-popup.png`, `2-receipt.png` (Hush's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish). Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only).
+Version 1.0.0. Screenshots (1280x800) in `docs/store/`: `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish). Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only).
 
 ## Name
-Hush
+Clearslip
 
 ## Short description (50 chars, limit 132)
 Ad and tracker blocker that shows what it blocked.
 
 ## Detailed description
-Hush blocks ads and trackers, and shows you exactly what it blocked.
+Clearslip blocks ads and trackers, and shows you exactly what it blocked.
 
 Install it and it works: no account, no sign-in, no setup.
 
 What it does
 - Blocks requests to ad and tracker hosts using the EasyList and EasyPrivacy filter lists plus a small Singapore list, compiled into Chrome's built-in declarativeNetRequest rules.
 - Privacy receipt: click the toolbar icon to see how many requests were blocked on this page and which hosts they came from. "Full receipt" opens the detail in Chrome's side panel. Counts are measured by Chrome, never estimated.
-- Pause on this site: one switch for sites that refuse visitors with an ad blocker. Hush turns off on that site and its subdomains, and the tab reloads.
-- Hide something: click "Hide something on this page", click the box you want gone, and Hush remembers it for that site. Undo any time from the side panel.
+- Pause on this site: one switch for sites that refuse visitors with an ad blocker. Clearslip turns off on that site and its subdomains, and the tab reloads.
+- Hide something: click "Hide something on this page", click the box you want gone, and Clearslip remembers it for that site. Undo any time from the side panel.
 - Hides leftover empty ad boxes with the plain-CSS element-hiding rules from EasyList.
 
 Privacy
-Hush collects no data and makes no network requests of its own. No analytics, no remote rules, no remote code. Your paused sites and hide rules are stored on your device. The receipt lives in memory and is cleared when you close the browser.
+Clearslip collects no data and makes no network requests of its own. No analytics, no remote rules, no remote code. Your paused sites and hide rules are stored on your device. The receipt lives in memory and is cleared when you close the browser.
 
 Limits
 - YouTube in-video ads are not handled.
 - Filter features that Chrome's declarativeNetRequest cannot express are skipped.
 
-Benchmark (measured 2026-11-13, headless Chromium 158, Hush 1.0.0, default settings for every extension, one machine, one network, 3 runs per site, 9 news and general sites): across the 9 sites, requests went from 2421 with no blocker to 903 with Hush, and summed page load time from 47.8 s to 23.1 s. Small differences between blockers are within noise. Method, per-site numbers and where Hush is behind: https://github.com/vincentwesley/hush/blob/main/docs/benchmark/README.md
+Benchmark (measured 2026-11-13, headless Chromium 158, Clearslip 1.0.0, default settings for every extension, one machine, one network, 3 runs per site, 9 news and general sites): across the 9 sites, requests went from 2421 with no blocker to 903 with Clearslip, and summed page load time from 47.8 s to 23.1 s. Small differences between blockers are within noise. Method, per-site numbers and where Clearslip is behind: https://github.com/vincentwesley/clearslip/blob/main/docs/benchmark/README.md
 
-Filter lists: The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Hush's code is MIT licensed.
+Filter lists: The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clearslip's code is MIT licensed.
 
 ## Category
 Suggested: "Privacy & Security" (alternative: "Tools"). Confirm in the dashboard; current category names could not be verified offline.
@@ -40,12 +40,12 @@ Block ads and trackers on web pages and show the user what was blocked.
 ## Permission justifications
 - `declarativeNetRequest`: blocks ad and tracker requests with the bundled rules and applies the per-site pause.
 - `declarativeNetRequestFeedback`: lets the popup read which rules matched on the current tab so it can show what was blocked.
-- `storage`: remembers the sites you paused Hush on, your hide rules and the active ruleset mode, on your device only; keeps the in-memory privacy receipt.
+- `storage`: remembers the sites you paused Clearslip on, your hide rules and the active ruleset mode, on your device only; keeps the in-memory privacy receipt.
 - `sidePanel`: opens the privacy receipt and credits in Chrome's side panel.
-- `activeTab`: when you open the popup, reads the current tab's address to show its hostname and to pause Hush for that site.
+- `activeTab`: when you open the popup, reads the current tab's address to show its hostname and to pause Clearslip for that site.
 - `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, and the element picker, which runs only after you click "Hide something on this page".
-- `webRequest`: observe-only; lists the requests Hush blocked on the page for the privacy receipt. Hush does not change, delay or send anything with it.
-- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Hush must add its hiding stylesheet and block requests on every site you visit; it reads no page content and sends nothing anywhere.
+- `webRequest`: observe-only; lists the requests Clearslip blocked on the page for the privacy receipt. Clearslip does not change, delay or send anything with it.
+- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit; it reads no page content and sends nothing anywhere.
 
 ## Remote code
 No. All code, filter rules and lists are bundled in the package; nothing is downloaded or evaluated at run time.
@@ -55,4 +55,4 @@ No. All code, filter rules and lists are bundled in the package; nothing is down
 - Certify: I do not sell or transfer user data to third parties outside the approved use cases; I do not use or transfer user data for purposes unrelated to the item's single purpose; I do not use or transfer user data to determine creditworthiness or for lending purposes.
 
 ## Privacy policy URL
-https://github.com/vincentwesley/hush/blob/main/docs/PRIVACY.md (works once the repo is public; text is in `docs/PRIVACY.md`)
+https://github.com/vincentwesley/clearslip/blob/main/docs/PRIVACY.md (works once the repo is public; text is in `docs/PRIVACY.md`)
