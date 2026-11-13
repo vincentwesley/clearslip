@@ -14,11 +14,11 @@ try {
 // `?url=` and `?tabId=` let tests point the popup at a page; the popup is only reachable from this extension.
 const params = new URLSearchParams(location.search);
 
-async function currentTab(): Promise<{ id?: number; url?: string; windowId?: number }> {
+async function currentTab(): Promise<{ id?: number; url?: string; windowId?: number; incognito?: boolean }> {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const url = params.get("url") ?? tab?.url;
   const id = params.has("tabId") ? Number(params.get("tabId")) : tab?.id;
-  return { id: Number.isInteger(id) ? id : undefined, url, windowId: tab?.windowId };
+  return { id: Number.isInteger(id) ? id : undefined, url, windowId: tab?.windowId, incognito: tab?.incognito };
 }
 
 async function loadMatched(tabId: number) {
@@ -50,7 +50,7 @@ function renderGroups(maps: Maps, matches: chrome.declarativeNetRequest.MatchedR
 }
 
 async function main(): Promise<void> {
-  const { id, url, windowId } = await currentTab();
+  const { id, url, windowId, incognito } = await currentTab();
   const host = hostFromUrl(url);
   $("about").addEventListener("click", () => {
     const opts = windowId === undefined ? {} : { windowId };
@@ -72,7 +72,7 @@ async function main(): Promise<void> {
   const showPaused = (paused: boolean): void => {
     toggle.setAttribute("aria-checked", String(paused)); // switch on = Hush paused here
     $("state").textContent = paused ? `Paused on ${host}` : "Hush is on";
-    $("zap").hidden = paused; // nothing to hide while Hush is paused here
+    $("zap").hidden = paused || !!incognito; // nothing to hide while paused; zaps are never saved from private windows
   };
   const matched = id === undefined ? Promise.resolve(null) : loadMatched(id); // starts now, in parallel with getState
   let state: { ok?: boolean; off?: string[] } | undefined;

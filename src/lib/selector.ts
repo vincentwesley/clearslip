@@ -52,7 +52,7 @@ export function buildSelector(el: El, ctx: Ctx): string | null {
   const parts: string[] = [];
   let cur: El | null = el;
   for (let level = 0; cur && level <= MAX_CLIMB; level++, cur = cur.parentElement) {
-    if (["html", "body"].includes(tag(cur))) return null;
+    if (["html", "body"].includes(tag(cur)) || !/^[a-z][a-z0-9-]*$/.test(tag(cur))) return null; // page-made tag names (createElementNS) never reach the selector
     const p = part(cur, ctx);
     parts.unshift(p.text);
     const sel = parts.join(" > ");

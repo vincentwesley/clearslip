@@ -134,6 +134,12 @@ describe("buildSelector", () => {
     const sel = buildSelector(t, world(html));
     expect(sel).toBe("div.w-1\\/2.md\\:flex.a\\.b");
   });
+  it("gives up on odd tag names", () => {
+    for (const name of ['a"]', "x:y", "a(b)", "1a"]) {
+      const t = new N(name);
+      expect(buildSelector(t, world(page(t).html))).toBeNull();
+    }
+  });
   it("rejects a selector that is too long or unsafe", () => {
     const long = new N("DIV", "", ["a".repeat(40), "b".repeat(40), "c".repeat(40)]);
     const t = new N("P", "", ["z".repeat(40)]);

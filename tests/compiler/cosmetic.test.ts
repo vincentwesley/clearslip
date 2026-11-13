@@ -37,6 +37,10 @@ describe("parseCosmetic", () => {
     expect(safeSelectors('a[title="x,y"], b:not(.c, .d)')).toEqual(['a[title="x,y"]', "b:not(.c, .d)"]);
     expect(safeSelectors("a\\,b")).toEqual(["a\\,b"]);
   });
+  it("rejects url( tokens", () => {
+    expect(safeSelectors("a[b=url(x)]")).toBeNull();
+    expect(safeSelectors("a:not(URL(')'))")).toBeNull();
+  });
   it("rejects a trailing backslash", () => {
     expect(safeSelectors(".a\\")).toBeNull();
     expect(safeSelectors(".a\\\\")).toEqual([".a\\\\"]);

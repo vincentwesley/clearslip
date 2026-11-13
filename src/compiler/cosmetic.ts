@@ -45,7 +45,7 @@ const DOMAINS = /^[a-z0-9._*~,-]*$/i;
  */
 export function safeSelectors(raw: string): string[] | null {
   // eslint-disable-next-line no-control-regex
-  if (/[{}@<\x00-\x1f\x7f]|\/\*|\*\/|\\[\r\n]/.test(raw)) return null;
+  if (/[{}@<\x00-\x1f\x7f]|\/\*|\*\/|\\[\r\n]|url\(/i.test(raw)) return null; // unquoted url( tokens desync the balance check
   const out: string[] = [];
   const stack: string[] = [];
   let quote = "";

@@ -92,7 +92,7 @@ const once = <T>(name: string) => {
 };
 const loadSpecific = once<Specific>("cosmetic-specific");
 const loadGeneric = once<string[]>("cosmetic-generic"); // only needed when a frame has generic exceptions
-const genericMinus = new Map<string, Promise<string>>(); // frame host -> CSS of generic minus its exceptions
+const genericMinus = new Map<string, Promise<string>>(); // generic exceptions (joined) -> CSS of generic minus them
 
 async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<void> {
   const tabId = sender.tab?.id;
@@ -110,12 +110,13 @@ async function injectCosmetic(sender: chrome.runtime.MessageSender): Promise<voi
   if (!plan) return void (await Promise.all(calls));
   if (plan.file) calls.push(insert({ files: ["rulesets/cosmetic-generic.css"] }));
   else if (plan.genericOff.length) {
-    let css = genericMinus.get(frame);
+    const key = plan.genericOff.join("\n");
+    let css = genericMinus.get(key);
     if (!css) {
       const skip = new Set(plan.genericOff);
       css = loadGeneric().then((g) => toCss(g.filter((s) => !skip.has(s))));
-      genericMinus.set(frame, css);
-      css.catch(() => genericMinus.delete(frame));
+      genericMinus.set(key, css);
+      css.catch(() => genericMinus.delete(key));
     }
     calls.push(css.then((c) => insert({ css: c })));
   }
@@ -191,6 +192,10 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
   if ((msg as { type?: unknown } | null)?.type === "zap") {
     const tab = sender.tab;
     if (!tab?.id || sender.frameId !== 0 || sender.id !== chrome.runtime.id) return false;
+    if (tab.incognito) {
+      sendResponse({ ok: false, reason: "incognito" }); // never write a private-window hostname to disk
+      return false;
+    }
     const tabId = tab.id;
     const site = hostFromUrl(tab.url);
     const selector = (msg as { selector?: unknown }).selector;

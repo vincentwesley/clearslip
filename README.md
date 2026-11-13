@@ -16,6 +16,8 @@ Click the toolbar icon, then "Hide something on this page". Move the pointer ove
 ## Privacy
 Hush collects nothing and makes no network calls: no analytics, no remote rules, no remote code. Filter lists are fetched only on the developer's machine when rules are rebuilt. Stored locally in `chrome.storage.local`: the list of sites you paused Hush on, the rules you created with "Hide something on this page", and which ruleset mode is active. The privacy receipt (blocked hosts, request types and up to five URL paths per host with query strings removed) is kept in `chrome.storage.session`: in memory only, per tab, cleared when you close the browser or the tab, never written to disk, and not recorded for paused sites or incognito. The theme choice is kept in the extension's `localStorage`.
 
+Full policy: [docs/PRIVACY.md](docs/PRIVACY.md). Store listing text: [docs/STORE-LISTING.md](docs/STORE-LISTING.md).
+
 ## Permissions
 - `declarativeNetRequest`: blocks ad and tracker requests with the bundled rules, and applies the per-site pause rules.
 - `declarativeNetRequestFeedback`: lets the popup read which rules matched on the current tab so it can show what was blocked.
