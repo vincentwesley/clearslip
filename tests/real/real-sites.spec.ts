@@ -82,6 +82,16 @@ async function measure(url: string, withHush: boolean): Promise<Run> {
       run.loadMs = info.load;
       run.ok = status > 0 && status < 400 && info.title !== "" && info.len > 500;
       if (!run.ok) run.reason = `status ${status}, title "${info.title.slice(0, 40)}", body ${info.len}`;
+      if (withHush && process.env.HUSH_SHOTS === "1") {
+        const shots = path.join(root, "test-results/real/shots");
+        fs.mkdirSync(shots, { recursive: true });
+        const host = new URL(url).hostname;
+        await page.setViewportSize({ width: 1280, height: 900 });
+        await page.screenshot({ path: path.join(shots, `${host}-top.png`) });
+        await page.evaluate(() => window.scrollTo(0, 1500));
+        await page.waitForTimeout(1500);
+        await page.screenshot({ path: path.join(shots, `${host}-scrolled.png`) });
+      }
       if (withHush) {
         run.matched = await page.evaluate((sels) => {
           let n = 0;

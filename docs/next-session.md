@@ -19,6 +19,12 @@ Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no
 - Real-site check on 7 live sites: nothing broke (`docs/real-site-check.md`, `npm run test:real`).
 - No tracker-to-company names: every usable dataset is CC BY-NC-SA (`docs/RESEARCH.md`).
 
+## Update 2026-11-12 (evening; session cut off by usage limit)
+- Done and committed: the three milestone 4 fixes (a2994d9); milestone 5 Singapore list, 3 filters, `detail-hush-sg` ruleset (d17d25d); first full benchmark in `docs/benchmark/` (Hush 1080 requests vs uBOL 1132 vs AdGuard 1447 vs none 3049; no breakage; propertyguru + carousell excluded, 403 bot wall). 123 unit, 21 e2e green; `test:real` 7/7.
+- Benchmark was run at a2994d9, BEFORE the Singapore list: rerun `npm run bench` (26 min) once code is final, then commit `docs/benchmark/`.
+- Interrupted, may have left uncommitted changes under `tests/` (check `git status`, review, keep or discard): a builder adding opt-in screenshots (`HUSH_SHOTS=1`, output `test-results/real/shots/`) to `tests/real/real-sites.spec.ts` and popup failure-path e2e cases. A `code-review low b04a2a3..HEAD` was started with no result read: rerun it.
+- Items 1-3 below are done. Remaining is item 4 (minus knip entries, done; knip still lists exports used only in their own file) and the Guardian question is closed (uBOL also blocks 12 there).
+
 ## Do next, in this order
 1. **Fix three milestone 4 review findings** (not started):
    - `src/background.ts` `zap` handler: `insertCSS` failing after `storage.local.set` makes the picker say "Could not save this rule" though it was saved. Report saved; treat injection failure separately.

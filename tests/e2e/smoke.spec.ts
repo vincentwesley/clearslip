@@ -176,6 +176,39 @@ test.describe("popup", () => {
     await p.close();
   });
 
+  test("about:blank shows the unsupported state with no errors", async () => {
+    const errors: string[] = [];
+    const p = await ctx.newPage();
+    p.on("console", (m) => m.type() === "error" && errors.push(m.text()));
+    p.on("pageerror", (e) => errors.push(String(e)));
+    await p.goto(`chrome-extension://${extId}/popup.html?url=about:blank`);
+    await expect(p.locator("#unsupported")).toBeVisible();
+    await expect(p.locator("#host")).toHaveText("This page");
+    await expect(p.locator("#controls")).toBeHidden();
+    await expect(p.getByRole("switch")).toBeHidden();
+    expect(errors).toEqual([]);
+    await p.close();
+  });
+
+  test("at the 1,000-site limit, pausing a new site shows the message and the switch reverts", async () => {
+    const seeded = Array.from({ length: 1000 }, (_, i) => `seed${String(i).padStart(4, "0")}.example`);
+    await sw.evaluate((off) => chrome.storage.local.set({ off }), seeded);
+    try {
+      const p = await ctx.newPage();
+      await p.goto(`chrome-extension://${extId}/popup.html?url=${encodeURIComponent(origin)}`);
+      const sw_ = p.getByRole("switch");
+      await expect(sw_).toHaveAttribute("aria-checked", "false");
+      await sw_.click();
+      await expect(p.locator("#error")).toContainText("Too many sites are switched off");
+      await expect(sw_).toHaveAttribute("aria-checked", "false");
+      await expect(p.locator("#state")).toHaveText("Hush is on");
+      expect(await sw.evaluate(async () => (await chrome.storage.local.get("off")).off)).toEqual(seeded);
+      await p.close();
+    } finally {
+      await sw.evaluate(() => chrome.storage.local.set({ off: [] }));
+    }
+  });
+
   test("ignores invalid messages", async () => {
     expect(await send({ type: "setSiteOff", host: "bad host/..", off: true })).toBeUndefined();
     expect((await send({ type: "getState" }))?.ok).toBe(true);
