@@ -1,7 +1,5 @@
 # Clearslip
 
-Formerly developed under the working name Hush.
-
 Clearslip is a Chrome extension that blocks ads and trackers and shows you what it blocked. Click the toolbar icon to see how many requests were blocked on the current page, which tracker hosts they came from, and which list (EasyList or EasyPrivacy) blocked them. A "Pause on this site" switch pauses Clearslip (network blocking and element hiding) on the current site and its subdomains, for sites that refuse visitors with an ad blocker; the tab reloads so it applies at once.
 
 ## Hide something yourself
