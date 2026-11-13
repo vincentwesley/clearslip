@@ -1,6 +1,6 @@
 > Update at the end of any session that changed state. Keep it lean.
 
-Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no remote yet, not published).
+Continue work on **Hush** (folder `C:\Coding Projects\hush`, public repo github.com/vincentwesley/hush, pushed 2026-11-13; not yet in the Chrome Web Store).
 
 ## Before anything
 1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md`.
@@ -26,5 +26,4 @@ Continue work on **Hush** (folder `C:\Coding Projects\hush`, local repo only, no
 4. Items marked unverified in `docs/RESEARCH.md`; store category to confirm in the dashboard.
 
 ## Owner steps
-1. OK to create the public GitHub repo `hush` and push (makes the privacy-policy URL live).
-2. Upload `extension.zip` in the Chrome Web Store dashboard and paste `docs/STORE-LISTING.md`; add `docs/store/*.png`.
+1. Upload `extension.zip` in the Chrome Web Store dashboard and paste `docs/STORE-LISTING.md`; add `docs/store/*.png`.
