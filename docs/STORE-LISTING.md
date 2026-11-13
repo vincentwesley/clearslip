@@ -27,7 +27,7 @@ Limits
 - YouTube in-video ads are not handled.
 - Filter features that Chrome's declarativeNetRequest cannot express are skipped.
 
-Benchmark (measured 2026-11-12, headless Chromium 158, Hush 0.1.0, default settings for every extension, one machine, one network, 3 runs per site, 10 news and general sites): across the 10 sites, requests went from 3049 with no blocker to 1080 with Hush, and summed page load time from 59.4 s to 21.0 s. Small differences between blockers are within noise. Method, per-site numbers and where Hush is behind: https://github.com/vincentwesley/hush/blob/main/docs/benchmark/README.md
+Benchmark (measured 2026-11-13, headless Chromium 158, Hush 1.0.0, default settings for every extension, one machine, one network, 3 runs per site, 9 news and general sites): across the 9 sites, requests went from 2421 with no blocker to 903 with Hush, and summed page load time from 47.8 s to 23.1 s. Small differences between blockers are within noise. Method, per-site numbers and where Hush is behind: https://github.com/vincentwesley/hush/blob/main/docs/benchmark/README.md
 
 Filter lists: The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Hush's code is MIT licensed.
 
