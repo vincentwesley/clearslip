@@ -49,21 +49,7 @@ test("store screenshots", async () => {
     await panel.waitForTimeout(2500);
     await panel.addStyleTag({ content: frame(460, 760) });
     await panel.screenshot({ path: path.join(out, "2-receipt.png") });
-
-    // Picker: start it the way the popup does, hover a big element, click it.
-    await site.bringToFront();
-    await site.setViewportSize(VIEW);
-    await popup.evaluate((t) => chrome.runtime.sendMessage({ type: "startPicker", tabId: t }), tabId);
-    await site.mouse.move(630, 630);
-    await site.mouse.move(640, 640);
-    await site.mouse.click(640, 640);
-    // The bar lives in a closed shadow root, so step Up a fixed number of times to reach a card-sized element.
-    for (let i = 0; i < 1; i++) {
-      await site.keyboard.press("ArrowUp");
-      await site.waitForTimeout(300);
-    }
-    await site.waitForTimeout(500);
-    await site.screenshot({ path: path.join(out, "3-hide-something.png") });
+    // No screenshot of the site itself: its photos, logo and people are third-party content, not ours to publish.
   } finally {
     await ctx.close();
     fs.rmSync(dir, { recursive: true, force: true });

@@ -1,6 +1,6 @@
 # Chrome Web Store listing (paste-ready)
 
-Version 1.0.0. Screenshots (1280x800) in `docs/store/`: `1-popup.png`, `2-receipt.png`, `3-hide-something.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only).
+Version 1.0.0. Screenshots (1280x800) in `docs/store/`: `1-popup.png`, `2-receipt.png` (Hush's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish). Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only).
 
 ## Name
 Hush
