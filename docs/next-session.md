@@ -1,6 +1,6 @@
 > Update at the end of any session that changed state. Keep it lean.
 
-Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`, public repo github.com/vincentwesley/clearslip, pushed 2026-11-13; not yet in the Chrome Web Store).
+Continue work on **Clearslip** (folder `C:\Coding Projects\hush`, rename it to `clearslip` when nothing has it open; formerly "Hush", renamed 2026-11-13 because another ad blocker uses that name; public repo github.com/vincentwesley/clearslip, pushed 2026-11-13; not yet in the Chrome Web Store).
 
 ## Before anything
 1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md`.
