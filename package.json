@@ -28,14 +28,14 @@
     "@eslint/js": "^10.0.1",
     "@ghostery/adblocker": "2.20.3",
     "@playwright/test": "1.65.0",
-    "@types/chrome": "^0.3.5",
+    "@types/chrome": "^0.3.7",
     "@types/node": "^24.19.2",
     "esbuild": "^0.28.2",
-    "eslint": "^10.12.0",
+    "eslint": "^10.14.0",
     "fflate": "^0.8.3",
-    "knip": "^6.41.0",
+    "knip": "^6.45.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.71.2",
-    "vitest": "^5.0.5"
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.1.0"
   }
 }
