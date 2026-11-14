@@ -18,8 +18,9 @@ let extId: string;
 let dir: string;
 
 test.beforeAll(async () => {
-  server = http.createServer((_req, res) => {
+  server = http.createServer((req, res) => {
     res.writeHead(200, { "content-type": "text/html" });
+    if (req.url === "/b") return void res.end(`<!doctype html><title>b</title><body>b<script src="https://${TRACKER}/b.js"></script></body>`);
     res.end(
       `<!doctype html><title>t</title><body>hello` +
         `<script src="https://${AD}/a/b.js?uid=SECRET1#frag"></script>` +
@@ -112,4 +113,32 @@ test("empty state when nothing was blocked", async () => {
   await p.goto(`chrome-extension://${extId}/sidepanel.html?tabId=99999`);
   await expect(p.locator("#r-note")).toContainText(/does not run|Nothing blocked/);
   await p.close();
+});
+
+test("a same-host back/forward-cache restore does not keep the other page's receipt", async () => {
+  // Playwright disables bfcache by default; this context turns it back on.
+  const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-bfcache-"));
+  const c2 = await chromium.launchPersistentContext(dir2, {
+    channel: "chromium",
+    ignoreDefaultArgs: ["--disable-back-forward-cache"],
+    args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, `--host-resolver-rules=MAP ${AD} 127.0.0.1, MAP ${TRACKER} 127.0.0.1`],
+  });
+  try {
+    const sw2 = c2.serviceWorkers()[0] ?? (await c2.waitForEvent("serviceworker"));
+    await expect.poll(() => sw2.evaluate(async () => (await chrome.storage.local.get("mode")).mode), { timeout: 60000 }).toBeTruthy();
+    const rec = () => sw2.evaluate(async () => Object.values(((await chrome.storage.session.get("receipts")).receipts ?? {}) as Record<string, { blocked: number; restored?: true; hosts: Record<string, unknown> }>)[0]);
+    const page = await c2.newPage();
+    await page.goto(origin); // A: ads + tracker blocked
+    await expect.poll(async () => (await rec())?.blocked).toBe(3);
+    await page.goto(`${origin}b`); // B: tracker only
+    await expect.poll(async () => (await rec())?.blocked).toBe(1);
+    await page.evaluate(() => history.back()); // A comes back from the bfcache: no request, no new page load (goBack() would wait for a load event that never fires)
+    await expect.poll(async () => (await rec())?.restored).toBe(true);
+    const r = await rec();
+    expect(r.blocked).toBe(0);
+    expect(Object.keys(r.hosts)).toEqual([]);
+  } finally {
+    await c2.close();
+    fs.rmSync(dir2, { recursive: true, force: true });
+  }
 });

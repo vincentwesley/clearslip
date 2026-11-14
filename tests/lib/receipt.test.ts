@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { beginPage, commitsPage, listIndex, MAX_HOSTS, MAX_PATHS, MAX_TABS, receiptText, recordBlock, sections, splitUrl, type Receipts } from "../../src/lib/receipt";
+import { beginPage, commitsPage, listIndex, MAX_HOSTS, MAX_PATHS, MAX_TABS, receiptText, recordBlock, restorePage, sections, splitUrl, type Receipts } from "../../src/lib/receipt";
 
 const req = (url: string, type = "script") => ({ url, type });
 
@@ -137,5 +137,15 @@ describe("receipt view", () => {
       { compact: [null, [0, 5, "||merged.example^"], [1, 1, "@@||allowed.example^"]] },
     );
     expect(i.size).toBe(0);
+  });
+});
+
+describe("restorePage", () => {
+  it("starts an empty flagged receipt for the restored site, dropping the previous page's data", () => {
+    const r: Receipts = {};
+    beginPage(r, 1, "a.test", 1);
+    recordBlock(r, 1, req("https://x.example/"), 2, false);
+    restorePage(r, 1, "a.test", 3);
+    expect(r[1]).toMatchObject({ site: "a.test", blocked: 0, hosts: {}, restored: true });
   });
 });

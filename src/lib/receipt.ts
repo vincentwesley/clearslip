@@ -19,6 +19,7 @@ export interface TabReceipt {
   touched: number;
   blocked: number;
   skip?: true; // incognito: nothing is recorded
+  restored?: true; // restored from the back/forward cache: blocks made before the restore are not listed
   hosts: Record<string, HostEntry>;
 }
 export type Receipts = Record<string, TabReceipt>;
@@ -45,7 +46,7 @@ const noHash = (u: string): string => u.split("#")[0];
  * really committed. Requests that never commit (204, downloads, aborted) leave a stale entry that never
  * matches a later URL; pushState and #fragment changes have no request, so they never match either.
  * Fallback for pages swapped in without a request (prerender activation): no receipt yet, or the host changed.
- * Known limitation: a same-host back/forward-cache navigation has no request, so it keeps the previous page's receipt.
+ * A same-host back/forward-cache restore has no request and no tabs.onUpdated, so the content script's pageshow(persisted) message resets it via restorePage.
  */
 export function commitsPage(pending: Map<number, string>, rec: TabReceipt | undefined, tabId: number, url: string): boolean {
   const want = pending.get(tabId);
@@ -64,6 +65,12 @@ export function beginPage(r: Receipts, tabId: number, site: string, now: number,
     const oldest = ids.reduce((a, b) => (r[a].touched <= r[b].touched ? a : b));
     delete r[oldest];
   }
+}
+
+/** A bfcache restore starts an empty receipt, flagged so the UI can say earlier blocks are missing. */
+export function restorePage(r: Receipts, tabId: number, site: string, now: number, skip = false): void {
+  beginPage(r, tabId, site, now, skip);
+  r[tabId].restored = true;
 }
 
 /** Count one blocked request. False when nothing was recorded (no page, incognito, paused, unusable URL). */
@@ -112,7 +119,7 @@ export interface Section {
   title: string;
   rows: Row[];
 }
-const TITLES = { ads: "Ads", trackers: "Trackers", sg: "Singapore list", other: "Other" } as const;
+const TITLES = { ads: "Ads", trackers: "Trackers", sg: "Singapore list", other: "Not matched to a Clearslip filter (may be another blocker)" } as const;
 
 /** Rows grouped by the list that blocks the host (EasyList = Ads, EasyPrivacy = Trackers, Clearslip Singapore list = Singapore list), busiest first. Empty sections are omitted. */
 export function sections(tab: TabReceipt, index: Map<string, ListInfo>): Section[] {

@@ -164,7 +164,8 @@ async function refresh(): Promise<void> {
   if (mine !== seq) return;
   if (state?.ok && siteIsOff(state.off ?? [], host)) return render(`Paused on ${host}, nothing is blocked here.`, host);
   const rec = (stored.receipts as Receipts | undefined)?.[tab.id];
-  if (!rec || rec.skip || rec.site !== host || rec.blocked === 0) return render("Nothing blocked on this page yet.", host);
+  if (!rec || rec.skip || rec.site !== host || rec.blocked === 0)
+    return render(rec?.restored && !rec.skip && rec.site === host ? "This page was restored from history; requests blocked before it was restored are not listed." : "Nothing blocked on this page yet.", host);
   await resolveLists(tab.id, rec, `${tab.id}:${rec.loadedAt}`);
   if (mine === seq) render(null, host, rec);
 }

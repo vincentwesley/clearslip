@@ -21,15 +21,18 @@ Source unless noted: https://developer.chrome.com/docs/extensions/reference/api/
 - Remote code is banned; remote data without logic is allowed (https://developer.chrome.com/docs/webstore/program-policies/mv3-requirements).
 - Single purpose (https://developer.chrome.com/docs/webstore/program-policies/quality-guidelines).
 - Updates that change only files listed in `rule_resources`, without adding or removing rulesets, can skip review and go live in minutes (https://developer.chrome.com/docs/webstore/skip-review).
-- **Unverified:** current wording of the broad-host-permission justification and privacy disclosure form. Check at release with `release-extension`.
+- Privacy tab fields (checked 2026-11-14): single purpose, permission justifications, remote code, data usage (https://developer.chrome.com/docs/webstore/cws-dashboard-privacy). Exact form wording is only visible in the dashboard; answers are in `STORE-LISTING.md`.
+- Images (checked 2026-11-14, https://developer.chrome.com/docs/webstore/images): 128x128 icon and 1-5 screenshots (1280x800) required; 440x280 small promo tile optional, but items without one rank behind those with one, so we ship it.
+- Categories (checked 2026-11-14, https://developer.chrome.com/docs/webstore/best-practices): "Privacy & Security" exists; we use it.
+- Skip review also requires `declarativeNetRequest` as a required permission, no listing edits, and a bumped `version`.
 
 ## Filter lists
 - https://easylist.to/easylist/easylist.txt and https://easylist.to/easylist/easyprivacy.txt
 - Licence: GPLv3 or later, or CC BY-SA 3.0 or later, at the user's choice; credit "The EasyList authors (https://easylist.to/)" (https://easylist.to/pages/licence.html). We take CC BY-SA 3.0 for the list data and keep code MIT. Not legal advice.
-- **Unverified:** list sizes and that roughly half of EasyList is cosmetic. The compiler report gives the real numbers.
+- List sizes: superseded by the compiler report (`dist/rulesets/report.json`, written by `npm run build`), which gives the real numbers.
 - No Singapore-specific list was found (https://github.com/uBlockOrigin/uBlock-issues/wiki/Dashboard:-Filter-lists, https://www.petsymposium.org/popets/2025/popets-2025-0063.pdf).
 
-## Prior art (**unverified** licences and details; study, do not copy)
+## Prior art (licences as each repo states them; studied only, no code or fixtures copied, so they impose nothing on us)
 - uBlock Origin Lite: https://github.com/uBlockOrigin/uBOL-home (GPLv3). Build-time conversion, no background filtering.
 - AdGuard: https://github.com/AdguardTeam/AdGuardBrowserExtension, https://github.com/AdguardTeam/tsurlfilter (GPL-3.0). Converter keeps a source map from rules to filters, the idea behind our `map-*.json`.
 - Ghostery adblocker: https://github.com/ghostery/adblocker (MPL-2.0, confirmed from npm). Used as the test oracle, devDependency only.
@@ -44,7 +47,7 @@ Source unless noted: https://developer.chrome.com/docs/extensions/reference/api/
 
 ## Testing and benchmark
 - Playwright loads MV3 extensions headless with `launchPersistentContext`, `channel: 'chromium'`, `--disable-extensions-except` and `--load-extension`; branded Chrome no longer accepts side-loading flags (https://playwright.dev/docs/chrome-extensions).
-- Ghostery's performance study as a methodology reference (**unverified**): https://whotracks.me/blog/adblockers_performance_study.html
+- Ghostery's old performance study link (whotracks.me/blog/adblockers_performance_study.html) is dead as of 2026-11-14; our method is in `docs/benchmark/README.md`.
 
 ## Tooling
 Nothing new to install: `modern-web-guidance:chrome-extensions`, context7, Playwright MCP, typescript-lsp and the `vin-workflow` plugin cover it.

@@ -3,7 +3,7 @@ import { DETAIL_IDS, RULESET_IDS, type Report } from "./compiler/types.ts";
 import { toCss, type Specific } from "./compiler/cosmetic.ts";
 import { planCosmetic } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
-import { beginPage, commitsPage, recordBlock, type Receipts } from "./lib/receipt";
+import { beginPage, commitsPage, recordBlock, restorePage, type Receipts } from "./lib/receipt";
 import { hostFromUrl, isValidHost, siteIsOff, siteRules, withSite } from "./lib/site";
 import { addZap, cleanZaps, removeZap, validSelector, zapCss, zapsFor, type Zaps } from "./lib/zaps";
 
@@ -186,6 +186,16 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
   // The content script: trust only `sender`, never the message body.
   if ((msg as { type?: unknown } | null)?.type === "cosmetic") {
     if (sender.tab && sender.id === chrome.runtime.id) void injectCosmetic(sender).catch(() => undefined);
+    return false;
+  }
+  // bfcache restore: top frame only, and the claimed URL must be on the tab's own site.
+  if ((msg as { type?: unknown } | null)?.type === "bfcacheRestore") {
+    const tab = sender.tab;
+    const url = (msg as { url?: unknown }).url;
+    const site = typeof url === "string" ? hostFromUrl(url) : null;
+    if (tab?.id === undefined || sender.frameId !== 0 || sender.id !== chrome.runtime.id || !site || site !== hostFromUrl(tab.url)) return false;
+    const tabId = tab.id;
+    record(async (r) => restorePage(r, tabId, site, Date.now(), tab.incognito));
     return false;
   }
   // The element picker (injected on an explicit click): top frame of a tab only, selector re-validated here.

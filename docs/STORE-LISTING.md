@@ -1,6 +1,6 @@
 # Chrome Web Store listing (paste-ready)
 
-Version 1.0.0. Screenshots (1280x800) in `docs/store/`: `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish). Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only).
+Version 1.0.1. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish) and small promo tile (440x280) `promo-440x280.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only; `--grep promo` for the tile alone).
 
 ## Name
 Clearslip
@@ -32,7 +32,7 @@ Benchmark (measured 2026-11-13, headless Chromium 158, Clearslip 1.0.0, default 
 Filter lists: The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clearslip's code is MIT licensed.
 
 ## Category
-Suggested: "Privacy & Security" (alternative: "Tools"). Confirm in the dashboard; current category names could not be verified offline.
+Privacy & Security (listed in https://developer.chrome.com/docs/webstore/best-practices, checked 2026-11-14).
 
 ## Single purpose
 Block ads and trackers on web pages and show the user what was blocked.
@@ -55,4 +55,4 @@ No. All code, filter rules and lists are bundled in the package; nothing is down
 - Certify: I do not sell or transfer user data to third parties outside the approved use cases; I do not use or transfer user data for purposes unrelated to the item's single purpose; I do not use or transfer user data to determine creditworthiness or for lending purposes.
 
 ## Privacy policy URL
-https://github.com/vincentwesley/clearslip/blob/main/docs/PRIVACY.md (works once the repo is public; text is in `docs/PRIVACY.md`)
+https://github.com/vincentwesley/clearslip/blob/main/docs/PRIVACY.md

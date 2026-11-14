@@ -1,6 +1,6 @@
 # Clearslip privacy policy
 
-Date: 2026-11-13. Applies to the Clearslip Chrome extension, version 1.0.0.
+Date: 2026-11-14. Applies to the Clearslip Chrome extension, version 1.0.1.
 
 ## Summary
 Clearslip collects no personal data. It sends nothing anywhere: it makes no network requests of its own, has no analytics, no accounts and no remote code or rules. Nothing is sold or shared.

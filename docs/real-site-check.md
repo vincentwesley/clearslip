@@ -1,18 +1,18 @@
 # Real-site check
 
-Headless Chromium 158.0.8127.18, unpacked `dist` build, Clearslip commit a2994d9, 2026-11-12. Each site: one fresh profile without the extension, one with Clearslip; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with `npm run test:real` (live network, local only, never CI).
+Headless Chromium 158.0.8127.18, unpacked `dist` build, Clearslip commit 3eb6256, 2026-11-14. Each site: one fresh profile without the extension, one with Clearslip; load, then 5 s settle. Single run per condition: **timing and request counts are indicative only** (ads, A/B tests and CDN choice vary per load). Reproduce with `npm run test:real` (live network, local only, never CI).
 
 "Selectors matched" = how many of the generic cosmetic selectors match at least one element on the settled page (Clearslip run). "Page OK" = HTTP status below 400, non-empty title, body text over 500 characters. "Errors" = uncaught page errors, plain -> Clearslip.
 
 | Site | Requests | Blocked | Transferred | Load event | Selectors matched | Page OK | Errors |
 |---|---|---|---|---|---|---|---|
-| www.theguardian.com/international | 115 -> 116 | 12 | 1264 kB -> 1263 kB | 1821 -> 1710 ms | 12 | yes | 0 -> 11 |
-| www.bbc.com/news | 384 -> 116 | 21 | 3175 kB -> 1789 kB | 4460 -> 2011 ms | 1 | yes | 1 -> 0 |
-| www.straitstimes.com | unreachable without Clearslip (page.goto: Timeout 20000ms exceeded.) | | | | | | |
-| www.channelnewsasia.com | 418 -> 165 | 30 | 7818 kB -> 3598 kB | 11089 -> 3887 ms | 3 | yes | 2 -> 2 |
-| mothership.sg | 192 -> 67 | 11 | 32525 kB -> 28764 kB | 3537 -> 3136 ms | 0 | yes | 4 -> 0 |
-| www.speedtest.net | 56 -> 39 | 6 | 2846 kB -> 2175 kB | 1760 -> 1706 ms | 4 | yes | 0 -> 0 |
-| en.wikipedia.org/wiki/Ad_blocking | 38 -> 38 | 1 | 492 kB -> 491 kB | 567 -> 441 ms | 0 | yes | 0 -> 0 |
+| www.theguardian.com/international | 107 -> 118 | 12 | 1257 kB -> 1306 kB | 1202 -> 1358 ms | 12 | yes | 0 -> 11 |
+| www.bbc.com/news | 363 -> 116 | 21 | 3239 kB -> 1855 kB | 4024 -> 2097 ms | 1 | yes | 1 -> 0 |
+| www.straitstimes.com | 524 -> 143 | 28 | 8154 kB -> 4992 kB | 11542 -> 2798 ms | 3 | yes | 0 -> 2 |
+| www.channelnewsasia.com | 406 -> 164 | 29 | 8122 kB -> 3570 kB | 11426 -> 3534 ms | 3 | yes | 1 -> 2 |
+| mothership.sg | 189 -> 67 | 11 | 24710 kB -> 22177 kB | 2636 -> 2358 ms | 0 | yes | 4 -> 0 |
+| www.speedtest.net | 56 -> 35 | 6 | 2896 kB -> 1701 kB | 3605 -> 4260 ms | 4 | yes | 0 -> 0 |
+| en.wikipedia.org/wiki/Ad_blocking | 38 -> 38 | 1 | 493 kB -> 495 kB | 937 -> 2072 ms | 0 | yes | 0 -> 0 |
 
 ## Problems seen
 
