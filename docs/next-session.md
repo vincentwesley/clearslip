@@ -5,6 +5,7 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 ## Before anything
 1. Read `CLAUDE.md`, `docs/PLAN.md`, `docs/COMPILER-SPEC.md`.
 2. `npm ci --ignore-scripts`, then `npm run check && npm run build`.
+3. Shipping a new version: follow `docs/RELEASING.md`.
 
 ## How to work here
 - Orchestrate; builders (`vin-workflow:builder`) implement, the main model reviews diffs.
