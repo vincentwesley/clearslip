@@ -9,27 +9,30 @@ Clearslip
 Ad and tracker blocker that shows what it blocked.
 
 ## Detailed description
-Clearslip blocks ads and trackers, and shows you exactly what it blocked.
+Clearslip is an ad blocker and tracker blocker for Chrome. It stops ads and tracking scripts from loading on the websites you visit, so pages are cleaner, load faster and fewer companies can follow you around the web. It also shows you exactly what it blocked on each page.
 
-Install it and it works: no account, no sign-in, no setup.
+It works as soon as you install it. There is no account, no sign-in and nothing to set up.
 
-What it does
-- Blocks requests to ad and tracker hosts using the EasyList and EasyPrivacy filter lists plus a small Singapore list, compiled into Chrome's built-in declarativeNetRequest rules.
-- Privacy receipt: click the toolbar icon to see how many requests were blocked on this page and which hosts they came from. "Full receipt" opens the detail in Chrome's side panel. Counts are measured by Chrome, never estimated.
-- Pause on this site: one switch for sites that refuse visitors with an ad blocker. Clearslip turns off on that site and its subdomains, and the tab reloads.
-- Hide something: click "Hide something on this page", click the box you want gone, and Clearslip remembers it for that site. Undo any time from the side panel.
-- Hides leftover empty ad boxes with the plain-CSS element-hiding rules from EasyList.
+HOW TO USE IT
+1. Install Clearslip. Ads and trackers are blocked on every website straight away.
+2. Click the Clearslip icon in the toolbar to see how many requests were blocked on the page you are on, and which ad and tracker companies' servers they came from.
+3. Click "Full receipt" to open a detailed list in Chrome's side panel.
+4. If a website refuses to work with an ad blocker, use the "Pause on this site" switch. Clearslip turns off for that site only and the page reloads.
+5. To remove an annoying box that is still showing, click "Hide something on this page" and then click the box. Clearslip remembers it for that site. You can undo it in the side panel.
 
-Privacy
-Clearslip collects no data and makes no network requests of its own. No analytics, no remote rules, no remote code. Your paused sites and hide rules are stored on your device. The receipt lives in memory and is cleared when you close the browser.
+WHAT IT BLOCKS
+- Ads: requests to advertising servers, using the EasyList filter list.
+- Trackers: analytics and tracking scripts, using the EasyPrivacy filter list.
+- A small extra list for Singapore websites.
+- Empty ad boxes left behind on the page are hidden.
 
-Limits
-- YouTube in-video ads are not handled.
-- Filter features that Chrome's declarativeNetRequest cannot express are skipped.
+PRIVACY
+Clearslip does not collect, send or sell any data. It makes no network requests of its own and has no analytics. Your paused sites and hidden boxes are saved only on your own device. The list of blocked requests is kept in memory and cleared when you close the browser.
 
-Benchmark (measured 2026-11-13, headless Chromium 158, Clearslip 1.0.0, default settings for every extension, one machine, one network, 3 runs per site, 9 news and general sites): across the 9 sites, requests went from 2421 with no blocker to 903 with Clearslip, and summed page load time from 47.8 s to 23.1 s. Small differences between blockers are within noise. Method, per-site numbers and where Clearslip is behind: https://github.com/vincentwesley/clearslip/blob/main/docs/benchmark/README.md
+LIMITS
+- Ads inside YouTube videos are not blocked.
 
-Filter lists: The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clearslip's code is MIT licensed.
+Filter lists by The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clearslip is open source (MIT): https://github.com/vincentwesley/clearslip
 
 ## Category
 Privacy & Security (listed in https://developer.chrome.com/docs/webstore/best-practices, checked 2026-11-14).
