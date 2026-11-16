@@ -5,7 +5,7 @@
   "description": "Manifest V3 ad and tracker blocker for Chrome that shows what it blocked",
   "type": "module",
   "license": "MIT",
-  "author": "Vincent Wesley",
+  "author": "Vin, Vin's Atelier (https://vwesley.dev)",
   "repository": "github:vincentwesley/clearslip",
   "engines": {
     "node": ">=24"

@@ -43,6 +43,9 @@ npm run test:e2e   # builds, then headless Playwright against the unpacked exten
 node scripts/render-icons.mjs   # re-render icon PNGs from static/icons/icon.svg
 ```
 
+## Credits
+Designed and built by Vin, Vin's Atelier (https://vwesley.dev). Logo by @portus_workstation / @wason25_pz (Instagram); the logo is all rights reserved (see NOTICE.md), not covered by the MIT licence.
+
 ## Licences
 - Code: MIT, Copyright (c) 2026 Vincent Wesley.
 - Filter rules: EasyList and EasyPrivacy, CC BY-SA 3.0. Credit: The EasyList authors (https://easylist.to/). Compiled rulesets are derived data under the same licence as a whole. `lists/clearslip-sg.txt` (Clearslip's own Singapore list) is MIT, Copyright (c) 2026 Vincent Wesley.

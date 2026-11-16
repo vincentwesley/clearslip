@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Clearslip",
+  "author": "Vin, Vin's Atelier",
   "version": "1.0.1",
   "description": "Ad and tracker blocker that shows what it blocked.",
   "minimum_chrome_version": "121",

@@ -1,4 +1,5 @@
 import "./credits/credits.js";
+import "./brand/logo-resize";
 import { nextTheme, type Theme } from "./theme";
 
 const root = document.documentElement;

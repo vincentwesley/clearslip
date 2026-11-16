@@ -21,6 +21,8 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 - Benchmark at 03f01ce (`docs/benchmark/`, measured on 1.0.0): requests none 2421 / Clearslip 903 / uBOL 969 / AdGuard 1232.
 - Release package: `extension.zip` (rebuild with `npm run zip`, also attached to the GitHub release), `docs/STORE-LISTING.md`, `docs/PRIVACY.md`, `docs/store/` (2 screenshots + 440x280 promo tile).
 
+- 2026-11-16: Vin's Atelier draggable logo + sign-off at the bottom of the side panel (`src/brand/`, `static/logo-init.js`, `tests/e2e/logo.spec.ts`).
+
 ## Known gaps
 1. `webRequest` receipt not yet seen in the store-signed build: check once it is live.
 2. Empty right-hand ad columns on CNA and Mothership stay as white space: hiding them does not reclaim space (CNA) or would hide real content and reflow the page (Mothership). Checked 2026-11-14.
