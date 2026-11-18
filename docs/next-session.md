@@ -30,3 +30,4 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 ## Owner steps
 1. Upload `extension.zip` at https://chrome.google.com/webstore/devconsole, paste `docs/STORE-LISTING.md`, add `docs/store/*.png`.
 - 2026-11-17: logo spec waits for the --logo-x transition before measuring (15s polls).
+- 2026-11-17: re-copied kit tokens.css per UPGRADING.md (credits.css still older kit; needs markup change).
