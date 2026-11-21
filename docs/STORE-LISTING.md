@@ -39,7 +39,7 @@ Filter lists by The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clear
 Privacy & Security (listed in https://developer.chrome.com/docs/webstore/best-practices, checked 2026-11-14).
 
 ## Single purpose
-Block ads and trackers on web pages and show the user what was blocked.
+Block ads and trackers on web pages, including YouTube's own ads, and show the user what was blocked.
 
 ## Permission justifications
 - `declarativeNetRequest`: blocks ad and tracker requests with the bundled rules and applies the per-site pause.
@@ -49,7 +49,7 @@ Block ads and trackers on web pages and show the user what was blocked.
 - `activeTab`: when you open the popup, reads the current tab's address to show its hostname and to pause Clearslip for that site.
 - `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, the element picker, which runs only after you click "Hide something on this page", and, on YouTube only, a script that removes ads from YouTube's page and player data before they are shown.
 - `webRequest`: observe-only; lists the requests Clearslip blocked on the page for the privacy receipt. Clearslip does not change, delay or send anything with it.
-- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit; it sends nothing anywhere.
+- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit, and run its ad-removal script on YouTube; it sends nothing anywhere.
 
 ## Remote code
 No. All code, filter rules and lists are bundled in the package; nothing is downloaded or evaluated at run time.
