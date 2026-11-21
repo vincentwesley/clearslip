@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isYoutubeApi, mightHaveAds, pruneAds, videoAdScript } from "../../src/lib/ytads";
+import { isAdItem, isYoutubeApi, mightHaveAds, pruneAds, videoAdScript } from "../../src/lib/ytads";
 
 describe("pruneAds", () => {
   it("removes the ad schedule at the top level and keeps the video", () => {
@@ -26,11 +26,54 @@ describe("pruneAds", () => {
   });
 });
 
+describe("page ads", () => {
+  it("drops ad tiles from the home feed and keeps videos", () => {
+    const grid = {
+      contents: [
+        { richItemRenderer: { content: { videoRenderer: { videoId: "a" } } } },
+        { richItemRenderer: { content: { adSlotRenderer: { fulfillmentContent: {} } } } },
+        { richSectionRenderer: { content: { statementBannerRenderer: {} } } },
+        { richItemRenderer: { content: { videoRenderer: { videoId: "b" } } } },
+      ],
+      masthead: { bannerPromoRenderer: { title: "Try YouTube Premium" } },
+    };
+    expect(pruneAds(grid)).toBe(3);
+    expect(grid).toEqual({
+      contents: [
+        { richItemRenderer: { content: { videoRenderer: { videoId: "a" } } } },
+        { richItemRenderer: { content: { videoRenderer: { videoId: "b" } } } },
+      ],
+    });
+  });
+  it("drops search, sidebar, Shorts and side-panel ads and the Premium pop-up", () => {
+    const r = {
+      search: [{ searchPyvRenderer: {} }, { videoRenderer: {} }],
+      sidebar: [{ adSlotRenderer: {} }, { compactVideoRenderer: {} }, { compactPromotedVideoRenderer: {} }],
+      shorts: [{ command: { reelWatchEndpoint: { adClientParams: { isAd: true } } } }, { command: { reelWatchEndpoint: { videoId: "s" } } }],
+      engagementPanels: [{ engagementPanelSectionListRenderer: { panelIdentifier: "engagement-panel-ads" } }, { engagementPanelSectionListRenderer: { panelIdentifier: "comment-item-section" } }],
+      overlay: { mealbarPromoRenderer: {} },
+    };
+    expect(pruneAds(r)).toBe(6);
+    expect(r).toEqual({
+      search: [{ videoRenderer: {} }],
+      sidebar: [{ compactVideoRenderer: {} }],
+      shorts: [{ command: { reelWatchEndpoint: { videoId: "s" } } }],
+      engagementPanels: [{ engagementPanelSectionListRenderer: { panelIdentifier: "comment-item-section" } }],
+    });
+  });
+  it("does not treat ordinary items as ads", () => {
+    expect(isAdItem({ videoRenderer: { title: "adSlotRenderer" } })).toBe(false);
+    expect(isAdItem({ command: { reelWatchEndpoint: { adClientParams: { isAd: false } } } })).toBe(false);
+    expect(isAdItem("adSlotRenderer")).toBe(false);
+  });
+});
+
 describe("mightHaveAds", () => {
   it("only matches the keys as JSON keys", () => {
     expect(mightHaveAds('{"adPlacements":[]}')).toBe(true);
     expect(mightHaveAds('{"title":"playerAds explained"}')).toBe(false);
     expect(mightHaveAds('{"videoDetails":{}}')).toBe(false);
+    expect(mightHaveAds('{"contents":[{"adSlotRenderer":{}}]}')).toBe(true);
   });
 });
 

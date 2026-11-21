@@ -11,9 +11,11 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const dist = path.join(root, "dist");
 const WATCH = "https://www.youtube.com/watch?v=clearslip";
 const PLAYER = JSON.stringify({ videoDetails: { videoId: "clearslip" }, adPlacements: [{ kind: "preroll" }], playerAds: [{}], adSlots: [{}] });
+const FEED = JSON.stringify({ contents: [{ richItemRenderer: { content: { adSlotRenderer: {} } } }, { richItemRenderer: { content: { videoRenderer: { videoId: "v" } } } }], overlay: { mealbarPromoRenderer: {} } });
 const PAGE = `<!doctype html><title>yt</title><body><script>
 var ytInitialPlayerResponse = ${PLAYER};
-window.result = { initial: ytInitialPlayerResponse };
+var ytInitialData = ${FEED};
+window.result = { initial: ytInitialPlayerResponse, feed: ytInitialData };
 fetch("/youtubei/v1/player").then((r) => r.json()).then((v) => (window.result.json = v));
 fetch("/youtubei/v1/next").then((r) => r.text()).then((t) => (window.result.parsed = JSON.parse(t)));
 fetch("/other.json").then((r) => r.json()).then((v) => (window.result.other = v));
@@ -69,6 +71,7 @@ test("video ad schedules are removed and the video data is kept", async () => {
   for (const v of [r.initial, r.json, r.parsed.playerResponse as Record<string, unknown>]) {
     expect(v).toEqual({ videoDetails: { videoId: "clearslip" } });
   }
+  expect(r.feed).toEqual({ contents: [{ richItemRenderer: { content: { videoRenderer: { videoId: "v" } } } }] });
   expect(r.other).toHaveProperty("adPlacements"); // not a /youtubei/ call and never JSON.parse'd: untouched
   expect(await page.evaluate(() => String(JSON.parse))).toContain("[native code]");
   await page.close();
@@ -78,6 +81,7 @@ test("switching YouTube off leaves its ads alone, switching it back on removes t
   await send({ type: "setSiteOff", host: "www.youtube.com", off: true });
   let { page, r } = await results();
   expect(r.initial).toHaveProperty("adPlacements");
+  expect(r.feed).toHaveProperty("overlay");
   expect(r.json).toHaveProperty("playerAds");
   await page.close();
 

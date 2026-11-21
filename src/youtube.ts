@@ -1,7 +1,8 @@
 // Runs inside YouTube's own pages (MAIN world), registered by the service worker on youtube.com and
 // youtube-nocookie.com unless the user switched the site off. It removes the ad schedule from the
 // player's data before the player reads it, so YouTube's own pre-roll and mid-roll ads are never
-// scheduled. It never touches the DOM, stores nothing and sends nothing anywhere.
+// scheduled, and drops feed, search, sidebar, Shorts and masthead ads and the YouTube Premium
+// pop-up and banners from the page data before YouTube draws them. It never touches the DOM, stores nothing and sends nothing anywhere.
 // Ads a creator records into the video itself, and ads YouTube stitches into the video stream, cannot be removed this way.
 import { isYoutubeApi, mightHaveAds, pruneAds } from "./lib/ytads";
 
@@ -21,14 +22,17 @@ Response.prototype.json = new Proxy(Response.prototype.json, {
   },
 });
 
-// The first video's data arrives in the page as `var ytInitialPlayerResponse = {...}`; a global var
-// assignment goes through this setter, so the ads are gone before the player starts.
-let initial: unknown;
-Object.defineProperty(window, "ytInitialPlayerResponse", {
-  configurable: true,
-  get: () => initial,
-  set: (v: unknown) => {
-    pruneAds(v);
-    initial = v;
-  },
-});
+// The first page's data arrives as `var ytInitialPlayerResponse = {...}` (the video) and
+// `var ytInitialData = {...}` (feed, sidebar, search). A global var assignment goes through these
+// setters, so the ads are gone before YouTube reads them.
+for (const name of ["ytInitialPlayerResponse", "ytInitialData"]) {
+  let held: unknown;
+  Object.defineProperty(window, name, {
+    configurable: true,
+    get: () => held,
+    set: (v: unknown) => {
+      pruneAds(v);
+      held = v;
+    },
+  });
+}

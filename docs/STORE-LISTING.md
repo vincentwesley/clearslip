@@ -25,7 +25,7 @@ WHAT IT BLOCKS
 - Trackers: analytics and tracking scripts, using the EasyPrivacy filter list.
 - A small extra list for Singapore websites.
 - Empty ad boxes left behind on the page are hidden.
-- YouTube's own video ads (before and during videos) are removed.
+- YouTube's own ads are removed: video ads before and during videos, ads in the feed, search, sidebar and Shorts, and the YouTube Premium pop-ups and banners.
 
 PRIVACY
 Clearslip does not collect, send or sell any data. It makes no network requests of its own and has no analytics. Your paused sites and hidden boxes are saved only on your own device. The list of blocked requests is kept in memory and cleared when you close the browser.
@@ -47,7 +47,7 @@ Block ads and trackers on web pages and show the user what was blocked.
 - `storage`: remembers the sites you paused Clearslip on, your hide rules and the active ruleset mode, on your device only; keeps the in-memory privacy receipt.
 - `sidePanel`: opens the privacy receipt and credits in Chrome's side panel.
 - `activeTab`: when you open the popup, reads the current tab's address to show its hostname and to pause Clearslip for that site.
-- `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, the element picker, which runs only after you click "Hide something on this page", and, on YouTube only, a script that removes the video-ad schedule from the player's data before it plays.
+- `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, the element picker, which runs only after you click "Hide something on this page", and, on YouTube only, a script that removes ads from YouTube's page and player data before they are shown.
 - `webRequest`: observe-only; lists the requests Clearslip blocked on the page for the privacy receipt. Clearslip does not change, delay or send anything with it.
 - Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit; it sends nothing anywhere.
 
