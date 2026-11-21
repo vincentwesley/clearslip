@@ -1,6 +1,6 @@
 # Chrome Web Store listing (paste-ready)
 
-Version 1.0.1. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish) and small promo tile (440x280) `promo-440x280.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only; `--grep promo` for the tile alone).
+Version 1.1.0. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish) and small promo tile (440x280) `promo-440x280.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only; `--grep promo` for the tile alone).
 
 ## Name
 Clearslip
