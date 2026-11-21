@@ -5,11 +5,11 @@ Version 1.1.0. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2
 ## Name
 Clearslip
 
-## Short description (50 chars, limit 132)
-Ad and tracker blocker that shows what it blocked.
+## Short description (76 chars, limit 132)
+Blocks ads, trackers and YouTube ads, and shows you exactly what it blocked.
 
 ## Detailed description
-Clearslip is an ad blocker and tracker blocker for Chrome. It stops ads and tracking scripts from loading on the websites you visit, so pages are cleaner, load faster and fewer companies can follow you around the web. It also shows you exactly what it blocked on each page.
+Clearslip is an ad blocker and tracker blocker. It stops ads and tracking scripts from loading on the websites you visit, removes YouTube's own video ads, and shows you exactly what it blocked on each page. Pages are cleaner, load faster, and fewer companies can follow you around the web.
 
 It works as soon as you install it. There is no account, no sign-in and nothing to set up.
 
