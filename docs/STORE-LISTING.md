@@ -5,7 +5,7 @@ Version 1.1.0. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2
 ## Name
 Clearslip
 
-## Short description (76 chars, limit 132)
+## Short description (76 chars, limit 132; comes from the `description` in `static/manifest.json`, keep them the same)
 Blocks ads, trackers and YouTube ads, and shows you exactly what it blocked.
 
 ## Detailed description
