@@ -11,7 +11,7 @@ Clearslip collects no personal data. It sends nothing anywhere: it makes no netw
 - **In the extension's own `localStorage`:** your light or dark theme choice.
 
 ## What Clearslip reads
-Clearslip sees the address of blocked requests so it can count them and show them to you. It reads the address of the current tab to show the site name and to apply per-site pause and hide rules. It does not read page content, browsing history, form data or cookies. The element picker runs on a page only after you click "Hide something on this page". On YouTube, a small script inside the page removes ads from YouTube's page and video player data before they are shown; it keeps nothing and sends nothing.
+Clearslip sees the address of blocked requests so it can count them and show them to you. It reads the address of the current tab to show the site name and to apply per-site pause and hide rules. It does not read page content (other than the YouTube ad data described below), browsing history, form data or cookies. The element picker runs on a page only after you click "Hide something on this page". On YouTube, a small script inside the page removes ads from YouTube's page and video player data before they are shown; it keeps nothing and sends nothing.
 
 ## Network
 Clearslip makes no network requests. Its filter lists (EasyList, EasyPrivacy, a small Singapore list) are bundled into the extension at build time and updated only by publishing a new version.

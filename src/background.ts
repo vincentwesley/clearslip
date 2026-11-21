@@ -79,10 +79,12 @@ const serial = <T>(fn: () => Promise<T>): Promise<T> => {
 
 async function init(): Promise<void> {
   await chrome.declarativeNetRequest.setExtensionActionOptions({ displayActionCountAsBadgeText: true });
-  const [mode, off] = await Promise.all([chooseMode(), readOff()]);
+  const off = await readOff();
+  const video = syncVideoAds(off); // independent of the rulesets, so a ruleset failure cannot leave YouTube unregistered
+  const mode = await chooseMode();
   await chrome.storage.local.set({ mode, off });
   await reconcile(off);
-  await syncVideoAds(off);
+  await video;
 }
 
 chrome.runtime.onInstalled.addListener(() => void serial(init).catch(console.error));
@@ -277,7 +279,7 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
       if (r.limit) return sendResponse({ ok: false, reason: "limit" });
       await chrome.storage.local.set({ off: r.off });
       await reconcile(r.off);
-      await syncVideoAds(r.off).catch(console.error);
+      await syncVideoAds(r.off);
       sendResponse({ ok: true, off: r.off });
     }).catch(() => sendResponse({ ok: false }));
     return true;

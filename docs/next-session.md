@@ -25,6 +25,8 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 
 - 2026-11-21: v1.1.0: YouTube video ads (owner asked). `src/youtube.ts` runs in the MAIN world on youtube.com and youtube-nocookie.com, registered by `syncVideoAds` in `src/background.ts` (excluded for paused YouTube hosts), and deletes `adPlacements`/`adSlots`/`playerAds`/`adBreakHeartbeatParams` plus ad renderers (feed/search/sidebar/Shorts/masthead ads, Premium mealbar and banners, ads side panel) via `ytInitialPlayerResponse` and `ytInitialData` setters, `JSON.parse` and `Response.json` on `/youtubei/`. Pure helpers in `src/lib/ytads.ts`. Tested against a stand-in page only (`tests/e2e/youtube.spec.ts`): YouTube serves automated browsers a captcha. Needs a real check in the owner's Chrome, then a store upload (normal review, not skip-review).
 
+- 2026-11-21: lists refreshed (EasyList/EasyPrivacy 21 Nov 2026; compact 13,150 rules, cut 0). Code review of the YouTube change done; fixes: pause reports failure if the script update fails, script registers even if ruleset setup fails, privacy/README wording. E2E smoke/receipt pause tests flake intermittently in the cloud container on the old code too (not caused by 1.1.0).
+
 ## Known gaps
 0. YouTube video ads: not yet confirmed on real YouTube. Expect breakage when YouTube changes its player data; fixes need a store review.
 1. `webRequest` receipt not yet seen in the store-signed build: check once it is live.
