@@ -32,7 +32,7 @@ test.beforeAll(async () => {
   origin = `http://127.0.0.1:${(server.address() as { port: number }).port}/`;
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-receipt-"));
   ctx = await chromium.launchPersistentContext(dir, {
-    channel: "chromium",
+    channel: process.env.E2E_CHANNEL ?? "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, `--host-resolver-rules=MAP ${AD} 127.0.0.1, MAP ${TRACKER} 127.0.0.1`],
   });
   sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));
@@ -119,7 +119,7 @@ test("a same-host back/forward-cache restore does not keep the other page's rece
   // Playwright disables bfcache by default; this context turns it back on.
   const dir2 = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-bfcache-"));
   const c2 = await chromium.launchPersistentContext(dir2, {
-    channel: "chromium",
+    channel: process.env.E2E_CHANNEL ?? "chromium",
     ignoreDefaultArgs: ["--disable-back-forward-cache"],
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`, `--host-resolver-rules=MAP ${AD} 127.0.0.1, MAP ${TRACKER} 127.0.0.1`],
   });

@@ -34,7 +34,7 @@ The one content script declared in the manifest only asks the extension to add t
 npm ci --ignore-scripts
 npm run build      # compiles the rulesets, bundles into dist/
 ```
-Open `chrome://extensions`, enable Developer mode, choose "Load unpacked" and select `dist/`. Requires Chrome 121 or newer.
+Open `chrome://extensions`, enable Developer mode, choose "Load unpacked" and select `dist/`. Requires Chrome 121 or newer. Works the same in Microsoft Edge 121 or newer: open `edge://extensions`, enable Developer mode, choose "Load unpacked" and select `dist/`.
 
 ## Development
 ```bash

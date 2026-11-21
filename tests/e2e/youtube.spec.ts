@@ -34,7 +34,7 @@ let dir: string;
 test.beforeAll(async () => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-e2e-"));
   ctx = await chromium.launchPersistentContext(dir, {
-    channel: "chromium",
+    channel: process.env.E2E_CHANNEL ?? "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],
   });
   await ctx.route("https://www.youtube.com/**", (route) => {

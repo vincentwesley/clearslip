@@ -27,6 +27,8 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 
 - 2026-11-21: lists refreshed (EasyList/EasyPrivacy 21 Nov 2026; compact 13,150 rules, cut 0). Code review of the YouTube change done; fixes: pause reports failure if the script update fails, script registers even if ruleset setup fails, privacy/README wording. E2E smoke/receipt pause tests flake intermittently in the cloud container on the old code too (not caused by 1.1.0).
 
+- 2026-11-21: Edge: `npm run test:e2e:edge` (38/38) and real sites 7/7 pass on Edge 158 with the 1.1.0 build; tests take `E2E_CHANNEL` (default chromium). Edge Add-ons listing steps in `docs/RELEASING.md`.
+
 ## Known gaps
 0. YouTube video ads: not yet confirmed on real YouTube. Expect breakage when YouTube changes its player data; fixes need a store review.
 1. `webRequest` receipt not yet seen in the store-signed build: check once it is live.

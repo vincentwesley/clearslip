@@ -28,7 +28,7 @@ test.beforeAll(async () => {
   origin = `http://127.0.0.1:${(server.address() as { port: number }).port}/`;
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-cos-"));
   ctx = await chromium.launchPersistentContext(dir, {
-    channel: "chromium",
+    channel: process.env.E2E_CHANNEL ?? "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],
   });
   const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));

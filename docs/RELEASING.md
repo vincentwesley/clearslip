@@ -20,6 +20,9 @@ Every release ends with the same owner step: in the Chrome Web Store dashboard, 
 - Retake the store screenshots if the UI changed. Run them with `tests/store/`.
 - The store reviews these normally, which usually takes hours to a few days.
 
+## Microsoft Edge
+The same `extension.zip` runs unchanged in Edge (tested on Edge 158: `npm run test:e2e:edge`, and `E2E_CHANNEL=msedge npm run test:real`; both need Edge installed). Edge users can install from the Chrome Web Store after allowing extensions from other stores. To list Clearslip in Edge Add-ons as well: in Microsoft Partner Center (https://partner.microsoft.com/dashboard/microsoftedge/overview), create a new extension, upload `extension.zip`, and reuse `docs/STORE-LISTING.md`, the screenshots and the privacy policy URL. Each later release is uploaded to both stores.
+
 ## Rules that keep updates safe
 - **The version always goes up.** The store rejects an upload whose version is equal to or lower than the one already published.
 - **No new permission or host access without the owner's explicit OK.** Chrome disables the extension for existing users until each user approves the new permission.

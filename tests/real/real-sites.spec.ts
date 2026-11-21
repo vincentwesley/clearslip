@@ -45,7 +45,7 @@ let chromiumVersion = "";
 async function measure(url: string, withClearslip: boolean): Promise<Run> {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-real-"));
   const args = withClearslip ? [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`] : [];
-  const ctx: BrowserContext = await chromium.launchPersistentContext(dir, { channel: "chromium", args });
+  const ctx: BrowserContext = await chromium.launchPersistentContext(dir, { channel: process.env.E2E_CHANNEL ?? "chromium", args });
   try {
     if (withClearslip) {
       const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));
