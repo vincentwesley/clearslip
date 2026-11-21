@@ -67,7 +67,7 @@ async function launch(cond: Cond, notes: Record<string, unknown>): Promise<{ ctx
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-bench-"));
   const ext = path.resolve(root, extDir(cond));
   const args = cond === "none" ? [] : [`--disable-extensions-except=${ext}`, `--load-extension=${ext}`];
-  const ctx = await chromium.launchPersistentContext(dir, { channel: "chromium", args });
+  const ctx = await chromium.launchPersistentContext(dir, { channel: process.env.E2E_CHANNEL ?? "chromium", args });
   if (cond === "none") return { ctx, dir };
   const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker", { timeout: 30000 }));
   const deadline = Date.now() + (cond === "clearslip" ? 60000 : 15000);

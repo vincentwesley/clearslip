@@ -1,15 +1,15 @@
 # Chrome Web Store listing (paste-ready)
 
-Version 1.0.1. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish) and small promo tile (440x280) `promo-440x280.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only; `--grep promo` for the tile alone).
+Version 1.1.0. Images in `docs/store/`: screenshots (1280x800) `1-popup.png`, `2-receipt.png` (Clearslip's own UI only; no screenshots of third-party sites, whose photos and logos are not ours to publish) and small promo tile (440x280) `promo-440x280.png`. Regenerate with `npm run build && npx playwright test -c tests/store/playwright.store.config.ts` (live network, local only; `--grep promo` for the tile alone).
 
 ## Name
 Clearslip
 
-## Short description (50 chars, limit 132)
-Ad and tracker blocker that shows what it blocked.
+## Short description (76 chars, limit 132; comes from the `description` in `static/manifest.json`, keep them the same)
+Blocks ads, trackers and YouTube ads, and shows you exactly what it blocked.
 
 ## Detailed description
-Clearslip is an ad blocker and tracker blocker for Chrome. It stops ads and tracking scripts from loading on the websites you visit, so pages are cleaner, load faster and fewer companies can follow you around the web. It also shows you exactly what it blocked on each page.
+Clearslip is an ad blocker and tracker blocker. It stops ads and tracking scripts from loading on the websites you visit, removes YouTube's own video ads, and shows you exactly what it blocked on each page. Pages are cleaner, load faster, and fewer companies can follow you around the web.
 
 It works as soon as you install it. There is no account, no sign-in and nothing to set up.
 
@@ -25,12 +25,13 @@ WHAT IT BLOCKS
 - Trackers: analytics and tracking scripts, using the EasyPrivacy filter list.
 - A small extra list for Singapore websites.
 - Empty ad boxes left behind on the page are hidden.
+- YouTube's own ads are removed: video ads before and during videos, ads in the feed, search, sidebar and Shorts, and the YouTube Premium pop-ups and banners.
 
 PRIVACY
 Clearslip does not collect, send or sell any data. It makes no network requests of its own and has no analytics. Your paused sites and hidden boxes are saved only on your own device. The list of blocked requests is kept in memory and cleared when you close the browser.
 
 LIMITS
-- Ads inside YouTube videos are not blocked.
+- Sponsor segments that creators record into their YouTube videos are not removed. YouTube changes its ads often, so some may get through until Clearslip is updated.
 
 Filter lists by The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clearslip is open source (MIT): https://github.com/vincentwesley/clearslip
 
@@ -38,7 +39,7 @@ Filter lists by The EasyList authors (https://easylist.to/), CC BY-SA 3.0. Clear
 Privacy & Security (listed in https://developer.chrome.com/docs/webstore/best-practices, checked 2026-11-14).
 
 ## Single purpose
-Block ads and trackers on web pages and show the user what was blocked.
+Block ads and trackers on web pages, including YouTube's own ads, and show the user what was blocked.
 
 ## Permission justifications
 - `declarativeNetRequest`: blocks ad and tracker requests with the bundled rules and applies the per-site pause.
@@ -46,9 +47,9 @@ Block ads and trackers on web pages and show the user what was blocked.
 - `storage`: remembers the sites you paused Clearslip on, your hide rules and the active ruleset mode, on your device only; keeps the in-memory privacy receipt.
 - `sidePanel`: opens the privacy receipt and credits in Chrome's side panel.
 - `activeTab`: when you open the popup, reads the current tab's address to show its hostname and to pause Clearslip for that site.
-- `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, and the element picker, which runs only after you click "Hide something on this page".
+- `scripting`: injects the cosmetic stylesheet that hides leftover ad boxes and your hide rules, the element picker, which runs only after you click "Hide something on this page", and, on YouTube only, a script that removes ads from YouTube's page and player data before they are shown.
 - `webRequest`: observe-only; lists the requests Clearslip blocked on the page for the privacy receipt. Clearslip does not change, delay or send anything with it.
-- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit; it reads no page content and sends nothing anywhere.
+- Host access `<all_urls>`: ad boxes and trackers can be on any site, so Clearslip must add its hiding stylesheet and block requests on every site you visit, and run its ad-removal script on YouTube; it sends nothing anywhere.
 
 ## Remote code
 No. All code, filter rules and lists are bundled in the package; nothing is downloaded or evaluated at run time.

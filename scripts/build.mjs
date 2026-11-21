@@ -15,8 +15,8 @@ await build({
   loader: { ".woff2": "file", ".webp": "file" },
   assetNames: "assets/[name]-[hash]",
 });
-// Injected with executeScript({ files }), so a classic script, not a module.
-await build({ entryPoints: ["src/picker.ts"], outdir: "dist", bundle: true, format: "iife", target: "chrome121", minify: true });
+// Injected with executeScript({ files }) or registerContentScripts, so classic scripts, not modules.
+await build({ entryPoints: ["src/picker.ts", "src/youtube.ts"], outdir: "dist", bundle: true, format: "iife", target: "chrome121", minify: true });
 cpSync("static", "dist", { recursive: true }); // static/ has no rulesets/, so compile output is untouched
 
 if (existsSync("scripts/compile.ts")) {

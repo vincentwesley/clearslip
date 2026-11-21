@@ -35,7 +35,7 @@ Clearslip is your own Manifest V3 ad and tracker blocker for Chrome, built from 
 
 ## Safety
 - No remote code, no remote rules, no analytics, no network calls from the extension; README says so and names what is stored (per-site switches and your own filters, in `chrome.storage.local`).
-- YouTube in-video ads excluded and stated in the README.
+- YouTube's own video ads (pre-roll, mid-roll) removed by a MAIN-world script on YouTube that deletes the ad schedule from the player data (owner, 2026-11-21; reverses the earlier exclusion). Creator sponsor segments and server-stitched ads stay out of scope.
 - Benchmark crawls are small, rate-limited and respect robots.txt.
 - `security-review` before every push that touches permissions or content scripts; pre-public gate before the first push.
 

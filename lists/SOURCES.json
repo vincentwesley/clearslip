@@ -2,22 +2,22 @@
   {
     "id": "easylist",
     "url": "https://easylist.to/easylist/easylist.txt",
-    "fetchedAt": "2026-11-11T13:22:06.939Z",
-    "sha256": "95d18fd7bb2bddcab3b7e748c8e3a2ed190e86d3549c8106383d7f49e09d0667",
-    "lines": 77129
+    "fetchedAt": "2026-11-21T16:06:52.015Z",
+    "sha256": "be0271569438ef58a36fab867eb469418144e673d0a35a1485fb0c19191756d3",
+    "lines": 78997
   },
   {
     "id": "easyprivacy",
     "url": "https://easylist.to/easylist/easyprivacy.txt",
-    "fetchedAt": "2026-11-11T13:22:08.010Z",
-    "sha256": "02027c18c4fff5df070b5ce804c2e1fe74df06030e984c23cf9b99bb30c51210",
-    "lines": 57381
+    "fetchedAt": "2026-11-21T16:06:52.291Z",
+    "sha256": "e6128f866723a437f6aee1fd74134ddf60fa5b53397227d7ed3ce8c1951d8633",
+    "lines": 57549
   },
   {
     "id": "clearslip-sg",
     "url": "local: lists/clearslip-sg.txt (own list, not downloaded)",
-    "fetchedAt": "2026-11-12T00:00:00.000Z",
-    "sha256": "63fdab72b122c565e07f10df2cff1374d4da88590f30ec99896de12489596b78",
+    "fetchedAt": "2026-11-21T16:06:52.295Z",
+    "sha256": "b475e7a598a7b2c18e52cb07d7c55f056de6cad80d8c2cd2b078f2898ff2b13b",
     "lines": 15
   }
 ]

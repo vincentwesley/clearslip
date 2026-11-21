@@ -30,7 +30,7 @@ test.beforeAll(async () => {
   origin = `http://${HOST}:${(server.address() as { port: number }).port}/`;
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "clearslip-zap-"));
   ctx = await chromium.launchPersistentContext(dir, {
-    channel: "chromium",
+    channel: process.env.E2E_CHANNEL ?? "chromium",
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],
   });
   sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));

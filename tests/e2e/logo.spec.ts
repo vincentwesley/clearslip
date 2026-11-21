@@ -20,7 +20,7 @@ let extId: string;
 test.beforeAll(async () => {
   dir = fs.mkdtempSync(path.join(os.tmpdir(), "logo-e2e-"));
   ctx = await chromium.launchPersistentContext(dir, {
-    channel: "chromium", // new headless mode, required for extensions
+    channel: process.env.E2E_CHANNEL ?? "chromium", // new headless mode, required for extensions
     args: [`--disable-extensions-except=${dist}`, `--load-extension=${dist}`],
   });
   const sw = ctx.serviceWorkers()[0] ?? (await ctx.waitForEvent("serviceworker"));
