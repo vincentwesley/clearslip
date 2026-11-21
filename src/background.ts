@@ -5,6 +5,7 @@ import { planCosmetic } from "./lib/cosmetic";
 import { pickMode, type Mode } from "./lib/mode";
 import { beginPage, commitsPage, recordBlock, restorePage, type Receipts } from "./lib/receipt";
 import { hostFromUrl, isValidHost, siteIsOff, siteRules, withSite } from "./lib/site";
+import { VIDEO_SCRIPT_ID, videoAdScript } from "./lib/ytads";
 import { addZap, cleanZaps, removeZap, validSelector, zapCss, zapsFor, type Zaps } from "./lib/zaps";
 
 const DETAIL: string[] = [...DETAIL_IDS];
@@ -61,6 +62,14 @@ async function reconcile(off: string[]): Promise<void> {
     addRules: want as chrome.declarativeNetRequest.Rule[],
   });
 }
+// Keep the YouTube video-ad script registered everywhere except the YouTube hosts the user switched off.
+async function syncVideoAds(off: string[]): Promise<void> {
+  const want = videoAdScript(off);
+  const have = await chrome.scripting.getRegisteredContentScripts({ ids: [VIDEO_SCRIPT_ID] });
+  if (have.length) await chrome.scripting.updateContentScripts([{ excludeMatches: [], ...want }]);
+  else await chrome.scripting.registerContentScripts([want]);
+}
+
 let queue: Promise<unknown> = Promise.resolve();
 const serial = <T>(fn: () => Promise<T>): Promise<T> => {
   const run = queue.then(fn, fn);
@@ -73,6 +82,7 @@ async function init(): Promise<void> {
   const [mode, off] = await Promise.all([chooseMode(), readOff()]);
   await chrome.storage.local.set({ mode, off });
   await reconcile(off);
+  await syncVideoAds(off);
 }
 
 chrome.runtime.onInstalled.addListener(() => void serial(init).catch(console.error));
@@ -267,6 +277,7 @@ chrome.runtime.onMessage.addListener((msg: unknown, sender, sendResponse) => {
       if (r.limit) return sendResponse({ ok: false, reason: "limit" });
       await chrome.storage.local.set({ off: r.off });
       await reconcile(r.off);
+      await syncVideoAds(r.off).catch(console.error);
       sendResponse({ ok: true, off: r.off });
     }).catch(() => sendResponse({ ok: false }));
     return true;

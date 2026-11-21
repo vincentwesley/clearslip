@@ -10,7 +10,7 @@ Click the toolbar icon, then "Hide something on this page". Move the pointer ove
 - Counts shown are real, measured by Chrome. Nothing is estimated.
 - Hides leftover ad boxes with CSS from the EasyList element-hiding rules (plain CSS selectors only; rules needing scripts or text matching are skipped). Hidden elements are not counted in the popup.
 - Does not rewrite, redirect or strip URL parameters.
-- **YouTube in-video ads are deliberately out of scope.**
+- Removes YouTube's own video ads (the pre-roll and mid-roll ads with the yellow progress bar) on youtube.com and youtube-nocookie.com: a small script in the page deletes the ad schedule from the player's data before the player reads it. It changes no other part of the page, stores nothing and sends nothing. YouTube changes its ad delivery often, so ads can come back until an update ships. It cannot remove sponsor segments a creator records into the video, or ads YouTube stitches into the video stream itself. Removed video ads are not counted in the popup. "Pause on this site" on YouTube turns it off there.
 - Filter features that declarativeNetRequest cannot express are skipped at build time; the build report lists every skip with a reason.
 
 ## Privacy
@@ -23,11 +23,11 @@ Full policy: [docs/PRIVACY.md](docs/PRIVACY.md). Store listing text: [docs/STORE
 - `declarativeNetRequestFeedback`: lets the popup read which rules matched on the current tab so it can show what was blocked.
 - `storage`: remembers the sites you paused Clearslip on and the active ruleset mode, on your device only.
 - `sidePanel`: opens the privacy receipt and credits in Chrome's side panel.
-- `scripting` and access to all sites: needed to hide leftover ad boxes by adding a stylesheet to the pages you visit. Clearslip reads no page content and sends nothing anywhere.
+- `scripting` and access to all sites: needed to hide leftover ad boxes by adding a stylesheet to the pages you visit, and to run the YouTube video-ad script on YouTube. Clearslip sends nothing anywhere.
 - `webRequest`: to list the requests Clearslip blocked on the page; observed locally, never sent anywhere. Clearslip does not change or delay any request with it.
 - `activeTab`: when you open the popup, Chrome lets Clearslip read the address of the current tab to show its hostname and pause Clearslip for that site. Gives no access to page content and shows no install warning.
 
-The one content script only asks the extension to add the stylesheet; it never reads or changes the page itself. The element picker is not a content script: it is injected with `scripting` into the current tab only after you click "Hide something on this page", and needs no extra permission.
+The one content script declared in the manifest only asks the extension to add the stylesheet; it never reads or changes the page itself. The YouTube video-ad script (`src/youtube.ts`) is registered with `scripting` on YouTube only, runs in the page's own context so it can see the player's data, and removes only the ad-schedule fields from it; it never touches the page's elements. The element picker is not a content script: it is injected with `scripting` into the current tab only after you click "Hide something on this page", and needs no extra permission.
 
 ## Load unpacked
 ```bash

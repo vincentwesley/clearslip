@@ -23,7 +23,10 @@ Continue work on **Clearslip** (folder `C:\Coding Projects\clearslip`; public re
 
 - 2026-11-16: Vin's Atelier draggable logo + sign-off at the bottom of the side panel (`src/brand/`, `static/logo-init.js`, `tests/e2e/logo.spec.ts`).
 
+- 2026-11-21: v1.1.0: YouTube video ads (owner asked). `src/youtube.ts` runs in the MAIN world on youtube.com and youtube-nocookie.com, registered by `syncVideoAds` in `src/background.ts` (excluded for paused YouTube hosts), and deletes `adPlacements`/`adSlots`/`playerAds`/`adBreakHeartbeatParams` via a `ytInitialPlayerResponse` setter, `JSON.parse` and `Response.json` on `/youtubei/`. Pure helpers in `src/lib/ytads.ts`. Tested against a stand-in page only (`tests/e2e/youtube.spec.ts`): YouTube serves automated browsers a captcha. Needs a real check in the owner's Chrome, then a store upload (normal review, not skip-review).
+
 ## Known gaps
+0. YouTube video ads: not yet confirmed on real YouTube. Expect breakage when YouTube changes its player data; fixes need a store review.
 1. `webRequest` receipt not yet seen in the store-signed build: check once it is live.
 2. Empty right-hand ad columns on CNA and Mothership stay as white space: hiding them does not reclaim space (CNA) or would hide real content and reflow the page (Mothership). Checked 2026-11-14.
 
