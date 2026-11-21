@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const dist = path.join(root, "dist");
 const WATCH = "https://www.youtube.com/watch?v=clearslip";
-const PLAYER = JSON.stringify({ videoDetails: { videoId: "clearslip" }, adPlacements: [{ kind: "preroll" }], playerAds: [{}], adSlots: [{}] });
+const PLAYER = JSON.stringify({ videoDetails: { videoId: "clearslip" }, adPlacements: [{ kind: "preroll" }], playerAds: [{}], adSlots: [{}], auxiliaryUi: { messageRenderers: { enforcementMessageViewModel: {} } } });
 const FEED = JSON.stringify({ contents: [{ richItemRenderer: { content: { adSlotRenderer: {} } } }, { richItemRenderer: { content: { videoRenderer: { videoId: "v" } } } }], overlay: { mealbarPromoRenderer: {} } });
 const PAGE = `<!doctype html><title>yt</title><body><script>
 var ytInitialPlayerResponse = ${PLAYER};
@@ -18,6 +18,11 @@ var ytInitialData = ${FEED};
 window.result = { initial: ytInitialPlayerResponse, feed: ytInitialData };
 fetch("/youtubei/v1/player").then((r) => r.json()).then((v) => (window.result.json = v));
 fetch("/youtubei/v1/next").then((r) => r.text()).then((t) => (window.result.parsed = JSON.parse(t)));
+const x = new XMLHttpRequest();
+x.open("GET", "/youtubei/v1/browse");
+x.responseType = "json";
+x.onload = () => (window.result.xhr = x.response);
+x.send();
 fetch("/other.json").then((r) => r.json()).then((v) => (window.result.other = v));
 </script></body>`;
 
@@ -52,7 +57,7 @@ async function results(): Promise<{ page: Page; r: Record<string, Record<string,
   await page.goto(WATCH);
   await page.waitForFunction(() => {
     const r = (window as unknown as { result?: Record<string, unknown> }).result;
-    return r?.json && r?.parsed && r?.other;
+    return r?.json && r?.parsed && r?.other && r?.xhr;
   });
   const r = await page.evaluate(() => (window as unknown as { result: Record<string, Record<string, unknown>> }).result);
   return { page, r };
@@ -68,8 +73,8 @@ async function send(msg: object) {
 
 test("video ad schedules are removed and the video data is kept", async () => {
   const { page, r } = await results();
-  for (const v of [r.initial, r.json, r.parsed.playerResponse as Record<string, unknown>]) {
-    expect(v).toEqual({ videoDetails: { videoId: "clearslip" } });
+  for (const v of [r.initial, r.json, r.xhr, r.parsed.playerResponse as Record<string, unknown>]) {
+    expect(v).toEqual({ videoDetails: { videoId: "clearslip" }, auxiliaryUi: { messageRenderers: {} } });
   }
   expect(r.feed).toEqual({ contents: [{ richItemRenderer: { content: { videoRenderer: { videoId: "v" } } } }] });
   expect(r.other).toHaveProperty("adPlacements"); // not a /youtubei/ call and never JSON.parse'd: untouched

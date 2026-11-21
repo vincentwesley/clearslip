@@ -1,7 +1,10 @@
 // Pure helpers for YouTube video ads. No chrome.* or DOM here so they are unit-testable.
 
-/** Keys YouTube uses for a video's ad schedule (pre-roll, mid-roll, the ad slots and their tracking). */
-const AD_KEYS: readonly string[] = ["adPlacements", "adSlots", "playerAds", "adBreakHeartbeatParams"];
+/**
+ * Keys YouTube uses for a video's ad schedule (pre-roll, mid-roll, the ad slots and their tracking),
+ * and for the "Ad blockers are not allowed on YouTube" warning it shows when the schedule is missing.
+ */
+const AD_KEYS: readonly string[] = ["adPlacements", "adSlots", "playerAds", "adBreakHeartbeatParams", "enforcementMessageViewModel"];
 
 /** Sites where the video-ad script runs. Subdomains included. */
 const VIDEO_SITES: readonly string[] = ["youtube.com", "youtube-nocookie.com"];

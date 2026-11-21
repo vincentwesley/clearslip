@@ -22,6 +22,25 @@ Response.prototype.json = new Proxy(Response.prototype.json, {
   },
 });
 
+// Same for XMLHttpRequest with responseType "json"; responseText is covered by JSON.parse.
+const xhrResponse = Object.getOwnPropertyDescriptor(XMLHttpRequest.prototype, "response");
+const pruned = new WeakSet<object>();
+if (xhrResponse?.get) {
+  Object.defineProperty(XMLHttpRequest.prototype, "response", {
+    ...xhrResponse,
+    get: new Proxy(xhrResponse.get, {
+      apply(target, self: XMLHttpRequest, args: []) {
+        const v: unknown = Reflect.apply(target, self, args);
+        if (typeof v === "object" && v !== null && !pruned.has(v) && self.responseType === "json" && isYoutubeApi(self.responseURL)) {
+          pruned.add(v);
+          pruneAds(v);
+        }
+        return v;
+      },
+    }),
+  });
+}
+
 // The first page's data arrives as `var ytInitialPlayerResponse = {...}` (the video) and
 // `var ytInitialData = {...}` (feed, sidebar, search). A global var assignment goes through these
 // setters, so the ads are gone before YouTube reads them.

@@ -12,6 +12,12 @@ describe("pruneAds", () => {
     expect(pruneAds(r)).toBe(2);
     expect(r).toEqual([{ playerResponse: { videoDetails: {} } }, { response: { contents: [{}] } }]);
   });
+  it("removes the ad-blocker warning and keeps other player messages", () => {
+    const r = { auxiliaryUi: { messageRenderers: { enforcementMessageViewModel: { title: "Ad blockers are not allowed" }, other: {} } } };
+    expect(pruneAds(r)).toBe(1);
+    expect(r).toEqual({ auxiliaryUi: { messageRenderers: { other: {} } } });
+    expect(mightHaveAds(JSON.stringify(r) + '"enforcementMessageViewModel"')).toBe(true);
+  });
   it("ignores non-objects and survives cycles", () => {
     expect(pruneAds(null)).toBe(0);
     expect(pruneAds("adPlacements")).toBe(0);
